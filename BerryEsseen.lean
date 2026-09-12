@@ -16,3 +16,11 @@ public import BerryEsseen.Symmetrization
 public import BerryEsseen.GaussianCosine
 public import BerryEsseen.ClassicalError
 public import BerryEsseen.FullModulus
+public import BerryEsseen.GaussianPolynomial
+public import BerryEsseen.SumBounds
+public import BerryEsseen.ScalarRemainders
+public import BerryEsseen.Numerics.IntervalSoundness
+public import BerryEsseen.Numerics.InverseJet
+public import BerryEsseen.Numerics.ExponentialJet
+public import BerryEsseen.Numerics.TrigonometricJet
+public import BerryEsseen.Numerics.SquareRootJet

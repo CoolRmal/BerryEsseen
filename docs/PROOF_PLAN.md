@@ -22,13 +22,15 @@ be used; every additional analytic input must be formally proved.
 - Proved: E|X-X'|³ <= 2 beta+2 and the symmetrized global modulus bound
   |f(t)| <= exp(-t² h((beta+1)|t|)). The weighted Jensen step integrates a supporting line.
 - Proved: the finite geometric power comparison and coordinate-to-modulus estimates.
-- Proved: the exact Gaussian/cosine integral identity and the discrepancy bound u⁴/12
-  on [0,pi]. The sharper polynomial used in the numerical certificate remains pending.
+- Proved: the exact Gaussian/cosine integral identity, the discrepancy bound u⁴/12,
+  and the sharper degree-eighteen polynomial u⁴ Q(u²) on [0,pi].
 - Proved: the classical complex Taylor remainder, giving
   |f(t)-exp(-t²/2)| <= beta |t|³/6+t⁴/8.
 - Proved: independent product sums have characteristic function f(t/sqrt(n))^n,
   mean zero, and variance one.
 - Proved: the global cosine inequality cos(x)-1+x²/2 <= |x|³/10.
+- Proved: all-frequency majorants for normalized sums, combining the geometric power
+  comparison with the magnitude bound. The one-summand bounds increase with beta.
 
 ## 3. Fourier smoothing and extreme parameter regions
 
@@ -40,7 +42,17 @@ be used; every additional analytic input must be formally proved.
 ## 4. Numerical soundness and uniform coverage
 
 - Prove the real-variable meaning of the fixed-point interval operations and Taylor tables.
+- Proved: the scale-2³² interval operations preserve real enclosures, including signed
+  multiplication, integer rounding, positive integer division, reciprocal guards, and
+  square-root witnesses. These match the executable core of the finite certificate.
+- Proved: the degree-four jet operations enclose the actual factorial-normalized
+  derivatives of constants, sums, products, reciprocals, square roots, exponentials,
+  sine, and cosine. Exponential and trigonometric scalar seeds remain explicit premises
+  to be discharged by the scalar remainder bounds and exact certificate data.
 - Prove the positive integration and Taylor-panel rules, including error signs.
+- Proved: the signed fourth-order midpoint integration bound, with the fourth derivative
+  controlled over the whole panel. Proved: explicit scalar Taylor remainder bounds for
+  exponential, sine, and cosine, to justify rational scalar enclosures.
 - Reuse the previous exact certificates only after connecting each premise to its analytic meaning.
 - Cover beta>=2 uniformly in n, and beta in [1,2] uniformly for n>=20.
 - Assemble the remaining n=1,...,19 certificate.

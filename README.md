@@ -54,6 +54,8 @@ completed analytic estimates and links them to their Lean proofs. It uses a sing
 integral identity for both the real and imaginary estimates.
 The [global modulus argument](docs/GLOBAL_MODULUS.md) gives the convex minorant and
 explains how symmetrization and one supporting line produce an exponential bound.
+The [numerical proof notes](docs/NUMERICAL_PROOF.md) distinguish the completed
+integration and interval soundness proofs from the remaining certificate assembly.
 
 ## Comparator
 
