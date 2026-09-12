@@ -72,7 +72,11 @@ be used; every additional analytic input must be formally proved.
   controlled over the whole panel. Proved: explicit scalar Taylor remainder bounds for
   exponential, sine, and cosine, to justify rational scalar enclosures.
 - Reuse the previous exact certificates only after connecting each premise to its analytic meaning.
-- Cover beta>=2 uniformly in n, and beta in [1,2] uniformly for n>=20.
+- Proved: substituting the scalar and vector caps gives explicit, integrable smoothing
+  bounds independent of the unknown distribution. A bound `C*a` at the lower fraction
+  endpoint proves the normalized bound `C` throughout the cell, while its analytic
+  majorant uses the upper endpoint `b`.
+- Apply the certificates to cover beta>=2 uniformly in n, and beta in [1,2] for n>=20.
 - Assemble the remaining n=1,...,19 certificate.
 - The recorded rational maxima are all below 293/625=0.4688; these comparisons are already
   formalized in `CertificateMargins.lean`. They alone are not a probability theorem.

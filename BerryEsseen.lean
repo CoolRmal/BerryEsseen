@@ -33,3 +33,4 @@ public import BerryEsseen.PrawitzFourier
 public import BerryEsseen.SmoothingAlgebra
 public import BerryEsseen.SmoothingSplit
 public import BerryEsseen.SmoothingMajorants
+public import BerryEsseen.ParameterCellBounds

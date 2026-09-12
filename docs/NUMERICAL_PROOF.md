@@ -65,6 +65,22 @@ sin, and cos by rational polynomials with an explicit error interval.
 
 These soundness results still need to be applied to all saved numerical data, including
 scalar seeds, panel boundaries, branch choices, and the coverage of the unbounded
-sample-size parameter. The Prawitz smoothing theorem and the separate small-fraction
-analytic remainder also remain to be formalized. Only after those connections and
+sample-size parameter. The separate small-fraction analytic remainder also remains
+to be formalized. Only after those connections and
 the final assembly are checked can the comparator accept the bound 0.4688.
+
+
+## The completed connection to probability
+
+`CompressedSmoothing.lean` substitutes the scalar and vector characteristic-function
+bounds into the full Prawitz inequality and proves that their integrals exist. For a
+Lyapunov-fraction interval `[a,b]`, the analytic majorant uses the upper endpoint `b`.
+The numerical certificate must establish that its integral is at most `C*a`.
+Then every actual fraction `ell` in that interval satisfies
+
+`CDF error <= C*a <= C*ell`,
+
+so its normalized error is at most `C`. `ParameterCellBounds.lean` proves this implication
+for the large-moment region and for the four moment bands with sample size at least 20.
+Thus the remaining numerical statements have explicit real-integral conclusions;
+no claim that a list of passing integer checks alone proves the probability bound is made.
