@@ -43,8 +43,10 @@ be used; every additional analytic input must be formally proved.
 - Proved: the pointwise Prawitz majorant, including kernel integrability, the shift recurrence,
   its limiting value via Riemann–Lebesgue, measurability, and the first-moment growth bound.
 - Proved: averaging the majorant bounds the CDF from both sides, including atoms.
-- Remaining in Prawitz smoothing: interchange the integrals, identify the characteristic
-  function, prove the normal CDF Fourier representation, and split the resulting bound.
+- Proved: the normal CDF Fourier representation on the full line and positive half-line,
+  including frequency rescaling. The proof integrates the Gaussian cosine transform by Fubini.
+- Remaining in Prawitz smoothing: interchange the majorant integrals, identify the
+  characteristic function, and split the resulting bound against the normal representation.
 - Formalize the small-Lyapunov-fraction remainder estimate and its 47 rational consequences.
 - Proved: the elementary large-fraction Cantelli argument, including the universal CDF
   bound 11/20 and the target upper bound whenever beta/sqrt(n)>=6/5.

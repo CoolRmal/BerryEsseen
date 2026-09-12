@@ -28,3 +28,4 @@ public import BerryEsseen.GeometricDamping
 public import BerryEsseen.VectorCompression
 public import BerryEsseen.ParameterCaps
 public import BerryEsseen.PrawitzProbability
+public import BerryEsseen.GaussianInversion

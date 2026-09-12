@@ -2,7 +2,8 @@
 
 This note proves the pointwise majorant and its probability bounds. These results are
 formalized in Lean. The subsequent conversion to the four-term Fourier smoothing bound,
-including the Gaussian correction, remains to be formalized.
+remains to be formalized. The normal CDF representation used in that conversion is now
+proved separately in [GaussianInversion.lean](../BerryEsseen/GaussianInversion.lean).
 
 The useful mechanism is a shift recurrence. Its sign becomes transparent after adding
 one elementary correction term.
@@ -155,3 +156,25 @@ majorant proved here.
 - [PrawitzMajorant.lean](../BerryEsseen/PrawitzMajorant.lean): integer values, limit, pointwise majorant,
   measurability, and growth bound.
 - [PrawitzProbability.lean](../BerryEsseen/PrawitzProbability.lean): both probability bounds under a finite first moment.
+
+## The normal CDF representation
+
+Fubini's theorem integrates the Gaussian cosine transform once:
+
+\[
+\int \frac{\sin(xt)}t\,d\gamma(t)
+=\int_0^x\left(\int\cos(ut)\,d\gamma(t)\right)du
+=\int_0^x e^{-u^2/2}\,du,
+\]
+
+where `γ` is the standard Gaussian probability measure. The product integrand is bounded
+by one, so the exchange is justified on every finite interval. The exceptional frequency
+`t=0` is a Gaussian null set. Substituting the Gaussian density and then using evenness gives
+
+\[
+\Phi(x)-\frac12=\frac1\pi\int_0^\infty
+ e^{-t^2/2}\frac{\sin(xt)}t\,dt.
+\]
+
+The integral is absolutely convergent because `|sin(xt)/t| ≤ |x|`. The formal proof also
+includes the substitution `t=Ts` for every `T>0`, as used in the smoothing inequality.
