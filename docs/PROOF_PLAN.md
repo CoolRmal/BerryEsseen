@@ -11,12 +11,12 @@ be used; every additional analytic input must be formally proved.
 - Proved: supremum introduction and upper-bound characterization.
 - Proved: E[(|X|-1)²(2|X|+1)] = 2(E|X|³-1).
 - Proved: E|X|³ >= 1, positivity, and |X|=1 almost surely in the equality case.
-- Pending: weighted Cauchy–Schwarz estimates for E[|X| |X²-1|] and E[|X| ||X|-1|].
+- Proved: weighted Cauchy–Schwarz estimates for E[|X| |X²-1|] and E[|X| ||X|-1|].
 
 ## 2. Characteristic-function estimates
 
-- Prove the cosine reference bound with coefficient (beta-1)/6.
-- Prove the imaginary estimates using sin(uX)-X sin(u).
+- Proved: the cosine reference bound with coefficient (beta-1)/6.
+- Proved: all three imaginary estimates using sin(uX)-X sin(u).
 - Prove the elementary convex minorant and its symmetrized global modulus bound.
 - Prove the Gaussian/cosine discrepancy and finite geometric power comparison.
 - Connect independent product sums with powers of the characteristic function.

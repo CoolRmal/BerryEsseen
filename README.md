@@ -11,7 +11,8 @@ theorem berry_esseen_constant_bounds :
 
 **Status: formalization in progress. The headline theorem is not yet proved, and the
 solution is not yet expected to pass the comparator.** The supporting library currently
-contains checked definitions, elementary moment lemmas, and rational certificate margins.
+contains checked definitions, moment inequalities, improved real- and imaginary-part
+characteristic-function bounds, and rational certificate margins.
 A successful supporting-library build does not establish the headline bound.
 
 ## Meaning of the constant
@@ -46,6 +47,10 @@ rational margins strong enough for `0.4688`. The remaining work is to formalize 
 inequalities, the meaning of the numerical certificates, and the final universal assembly.
 The proposed elementary lower-bound witness uses six standardized Bernoulli variables with
 success probability `2/5`.
+
+The human-readable [characteristic-function argument](docs/ANCHORS.md) explains the
+completed analytic estimates and links them to their Lean proofs. It uses a single sine
+integral identity for both the real and imaginary estimates.
 
 ## Comparator
 
