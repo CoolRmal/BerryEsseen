@@ -71,9 +71,35 @@ panel records may select either branch independently. The complete low-frequency
 sum theorem, `generalLowPanels_sound`, requires a passing record at every index
 and proves that the grid covers exactly the interval from zero to the split.
 
+## Complete cell soundness
+
+`HighGrid.lean` proves that the high-frequency grid starts at the split and ends
+at one. `CellPanelSums.lean` assembles all three complete panel lists and the
+infinite Gaussian tail into one bound for the four-term smoothing expression.
+
+`CellCertificate.lean` sums the stored natural-number contributions into `S`.
+The rational budget check is
+
+```
+S / 2^64 ≤ C * a,
+```
+
+where `a` is the cell's lower Lyapunov-fraction endpoint. Its soundness theorem
+`generalCell_certificate_normalizedError` proves the actual normalized
+Berry–Esseen error is at most `C` for **every** admissible iid law in the cell.
+The hypotheses on that law are precisely its sample-size lower bound, moment
+range, and Lyapunov-fraction range. The moment upper bound is required only when
+the cell enables the anchor. Cutoff validity, the sample-size caps, and the
+anchor's frequency restriction follow from the checked cell data.
+
+Thus no analytic premise remains to be supplied for this general cell checker:
+passing cell data, complete passing panel records, and a passing rational budget
+give the stated probability bound. Global coverage and the separate certificate
+formats listed below remain necessary for the universal theorem.
+
 ## Remaining assembly
 
-The saved records must be imported and connected to all four complete panel sums,
-and the cells must cover the required parameter ranges. The separate small-fraction
+The saved records must be imported and instantiated with the complete cell
+soundness theorem, and the cells must cover the required parameter ranges. The separate small-fraction
 argument and the finite-sample certificate also remain in the final proof plan.
 The completed theorems above do not yet establish the universal upper constant.

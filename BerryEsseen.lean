@@ -43,4 +43,4 @@ public import BerryEsseen.Numerics.GeometricWitness
 public import BerryEsseen.Numerics.TailCertificate
 public import BerryEsseen.Numerics.NormalCertificate
 public import BerryEsseen.Numerics.HighCertificate
-public import BerryEsseen.Numerics.LowCertificate
+public import BerryEsseen.Numerics.CellCertificate

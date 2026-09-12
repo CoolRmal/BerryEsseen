@@ -89,8 +89,12 @@ be used; every additional analytic input must be formally proved.
   including all rounded factors. The pointwise minimum of the two envelopes remains
   a valid smoothing majorant, and every complete indexed low-panel list bounds the
   integral from zero to the exact split point.
-- Remaining: the complete saved-data imports and four-term panel sums, the
-  finite-sample certificate, and coverage of every parameter region.
+- Proved: all four complete panel sums bound the cell's smoothing expression.
+  The full general-cell soundness theorem converts a passing rational sum budget
+  to the normalized error bound for every admissible iid law in that cell; all
+  sample-size caps and anchor frequency restrictions follow from its checked data.
+- Remaining: instantiate the complete saved data, connect the parameter coverage,
+  and complete the separate finite-sample and small-fraction arguments.
 - Reuse the previous exact certificates only after connecting each premise to its analytic meaning.
 - Proved: substituting the scalar and vector caps gives explicit, integrable smoothing
   bounds independent of the unknown distribution. A bound `C*a` at the lower fraction
