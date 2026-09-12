@@ -117,9 +117,10 @@ Consequently,
 \]
 
 where the lower comparison requires `A₋≥0` and the upper one requires `D₋>0`.
-These are exactly the positivity guards checked by the integer tables. All the
-real inequalities are proved in `CotangentPolynomials.lean`; interpreting the
-integer table checks remains a separate step.
+These are exactly the positivity guards checked by the integer tables. The real
+inequalities are proved in `CotangentPolynomials.lean`. `Numerics/CotangentTable.lean`
+now proves that the actual integer checks imply these real bounds, including the
+conversion from the rational bounds on π to the intended table argument.
 
 For the doubled Prawitz kernel, the exact identities are
 
@@ -132,3 +133,26 @@ They show that `|K(s)|` decreases on `(0,1)`. A correction-integral panel `[l,r]
 is bounded by `(1-l) sqrt(1+q(πr)²)`. A high-frequency panel uses the left endpoint
 of the decreasing kernel. `CotangentCorrection.lean` proves these panel inequalities,
 including the alternative left-half formula using a lower bound on `q` and on `π`.
+
+
+## Soundness of the four scalar table kinds
+
+`Numerics/ScalarTableCore.lean` contains the unchanged executable arithmetic from
+the saved scale-2⁶⁴ scalar certificate. `Numerics/ScalarTables.lean` proves the meaning
+of each of its four entry kinds: an upper bound for `exp(-k/1024)`, an upper bound
+for `cos(k/4096)`, and lower/upper bounds for `q(πk/4096)`.
+
+For the exponential entry, the integer polynomial is exactly the degree-24 Taylor
+polynomial for `exp(k/1024)` with cleared denominators. Every omitted term is positive.
+Taking reciprocals gives the required upper bound.
+
+For the cosine entry, the polynomial has degree 32. On `[0,7]`, group the absolutely
+convergent omitted cosine series into negative-positive pairs, starting at degrees
+34 and 36. Each pair is nonpositive because
+
+`x² <= (m+1)(m+2)` for `m>=34` and `0<=x<=7`.
+
+Thus the degree-32 polynomial is an upper bound throughout the table's argument range.
+The Lean proofs also cover the alternate table branch that uses the trivial bound `cos<=1`.
+These results establish the meaning of any passing entry; the panel contributions and
+finite coverage still need to be assembled before the final numerical theorem follows.

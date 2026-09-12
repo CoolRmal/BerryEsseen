@@ -74,6 +74,9 @@ be used; every additional analytic input must be formally proved.
 - Proved: the cotangent correction is nonnegative and increasing, its rational polynomial
   bounds follow from signed sine Taylor estimates, and the resulting endpoint kernel
   bounds dominate entire integration panels.
+- Proved: every passing scale-2⁶⁴ scalar table entry has its claimed real meaning
+  (exponential upper, cosine upper, cotangent lower and upper). This includes the
+  cleared-denominator polynomial identities and rounding bounds on pi.
 - Reuse the previous exact certificates only after connecting each premise to its analytic meaning.
 - Proved: substituting the scalar and vector caps gives explicit, integrable smoothing
   bounds independent of the unknown distribution. A bound `C*a` at the lower fraction

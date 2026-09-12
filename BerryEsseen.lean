@@ -35,3 +35,4 @@ public import BerryEsseen.SmoothingSplit
 public import BerryEsseen.SmoothingMajorants
 public import BerryEsseen.ParameterCellBounds
 public import BerryEsseen.CotangentPolynomials
+public import BerryEsseen.Numerics.ScalarTables
