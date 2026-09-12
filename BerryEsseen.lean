@@ -70,3 +70,4 @@ public import BerryEsseen.Certificates.FiniteHighPanels.Panel0_0
 public import BerryEsseen.Certificates.FiniteHighPanels.Panel0_1
 public import BerryEsseen.Certificates.FiniteHighPanels.Panel0_23
 public import BerryEsseen.Certificates.FiniteHighPanels.Panel173_30
+public import BerryEsseen.SmallFraction

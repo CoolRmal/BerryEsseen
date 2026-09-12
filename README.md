@@ -17,7 +17,9 @@ bound, classical Taylor estimates, uniform sample-size caps, the full Prawitz sm
 inequality, and rational certificate margins.
 A complete 467-cell covering now proves the `0.4688` upper bound whenever
 `β/√n ≥ 0.05` and either `n ≥ 20` or `β ≥ 2`, with all numerical data checked
-in Lean. The separate small-fraction and remaining small-sample regions are unfinished.
+in Lean. A direct analytic proof now gives `0.4575` whenever `β/√n ≤ 0.05`;
+see the [complete small-fraction argument](docs/SMALL_FRACTION.md).
+The remaining small-sample region is still being checked.
 A successful supporting-library build does not establish the headline bound.
 The analytic finite-sample reduction is also proved: smooth characteristic-function
 and kernel bounds, uniform comparison over sample-size intervals, and the normalized

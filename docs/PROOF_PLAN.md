@@ -59,7 +59,11 @@ be used; every additional analytic input must be formally proved.
 - Proved: the complete four-term Prawitz smoothing inequality, including every endpoint
   integrability argument, its application to the normalized iid law, and substitution
   of explicit characteristic-function majorants on the open frequency intervals.
-- Formalize the small-Lyapunov-fraction remainder estimate and its 47 rational consequences.
+- Proved: the small-fraction probability bound `183/400 = 0.4575` whenever
+  `beta/sqrt(n) <= 1/20`. This uses a direct cosine-anchor argument, elementary
+  kernel bounds, Gaussian moments, and rational exponential remainders. It
+  replaces the earlier plan to import an asymptotic remainder lemma and certify
+  47 scalar consequences; see [the proof](SMALL_FRACTION.md).
 - Proved: the elementary large-fraction Cantelli argument, including the universal CDF
   bound 11/20 and the target upper bound whenever beta/sqrt(n)>=6/5.
 
