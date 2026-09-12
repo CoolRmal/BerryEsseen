@@ -4,9 +4,9 @@ All 458 saved endpoint-Darboux panels now have Lean theorems bounding their
 actual characteristic-function integrals. This completes those panels, not the
 whole finite-sample or universal Berry–Esseen bound.
 
-Fix a centered variance-one law with third absolute moment at most (B),
-and integers (1\le N\le n). Write (T=c\sqrt n), with (c\ge0).
-On a panel (0<l\le s\le r\le1), suppose
+Fix a centered variance-one law with third absolute moment at most $B$,
+and integers $1\le N\le n$. Write $T=c\sqrt n$, with $c\ge0$.
+On a panel $0<l\le s\le r\le1$, suppose
 
 $$
 (B+1)cr\le\frac92.
@@ -27,13 +27,13 @@ $$
 
 ## Why only the two endpoints matter
 
-For (u\ge0), the derivative
+For $u\ge0$, the derivative
 
 $$
 P_B'(u)=\frac{u}{5}\bigl(3(B+1)u-10\bigr)
 $$
 
-is negative before (10/[3(B+1)]) and positive after it. Thus the interior
+is negative before $10/[3(B+1)]$ and positive after it. Thus the interior
 critical point is a minimum. Equivalently, the exact factorization
 
 $$
@@ -53,7 +53,7 @@ These statements are proved in
 
 ## Keep the affine factor of the kernel
 
-Put (q(x)=1/x-\cot x). The reflected Prawitz kernel satisfies
+Put $q(x)=1/x-\cot x$. The reflected Prawitz kernel satisfies
 
 $$
 |K(s)|=(1-s)\sqrt{1+q(\pi(1-s))^2},\qquad 0<s<1.
@@ -74,9 +74,9 @@ $$
 \ge\frac{2x^3}{3\pi}.
 $$
 
-Since (x\sin x\le x^2), division gives
+Since $x\sin x\le x^2$, division gives
 $q(x)\ge2x/(3\pi)$ on that half-period.
-For (s\le1/2), this implies
+For $s\le1/2$, this implies
 
 $$
 q(\pi s)\ge\frac{2s}{3}\ge\frac{s}{\pi(1-s)},
@@ -90,10 +90,10 @@ q(\pi(1-s))=\frac1{\pi s}+\frac1\pi
 +\frac{s}{\pi(1-s)}-q(\pi s)
 $$
 
-to obtain (1). For (s\ge1/2), monotonicity of (q) gives
+to obtain (1). For $s\ge1/2$, monotonicity of $q$ gives
 $q(\pi(1-s))\le q(\pi/2)=2/\pi\le(1+s)/(\pi s)$.
 
-The ratio ((1+s)/(\pi s)) decreases in (s>0). Consequently
+The ratio $(1+s)/(\pi s)$ decreases in $s>0$. Consequently
 
 $$
 |K(s)|\,|f_{S_n}(Ts)|
@@ -131,8 +131,8 @@ $$
 (r-l)\left(1-\frac{l+r}{2}\right)LM^N\le U.
 $$
 
-The result is a theorem that the actual integral is at most (U), uniformly
-for every admissible law with third moment at most (B) and every (n\ge N).
+The result is a theorem that the actual integral is at most $U$, uniformly
+for every admissible law with third moment at most $B$ and every $n\ge N$.
 The checker and its soundness proof are in
 [`DarbouxCertificate.lean`](../BerryEsseen/Numerics/DarbouxCertificate.lean).
 All 458 instances are collected in
@@ -146,5 +146,5 @@ python3 scripts/import_finite_darboux.py
 
 It reads the frozen search records in `data/finite20_coalesced.jsonl`.
 The records' reported numerical results are not assumptions in any theorem.
-The Taylor panels, their assembly, and the separate small-fraction region still
-need to be completed before the universal theorem can be claimed.
+The Taylor panels, their assembly, the separate small-fraction region, and the
+universal theorem have also passed Lean; see [the proof map](PROOF_OVERVIEW.md).
