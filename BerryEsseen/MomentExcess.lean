@@ -57,6 +57,17 @@ theorem one_le_thirdAbsMoment {μ : ProbabilityMeasure ℝ} (hμ : Admissible μ
 theorem thirdAbsMoment_pos {μ : ProbabilityMeasure ℝ} (hμ : Admissible μ) :
     0 < thirdAbsMoment μ := lt_of_lt_of_le zero_lt_one (one_le_thirdAbsMoment hμ)
 
+theorem integral_abs_le_one {μ : ProbabilityMeasure ℝ} (hμ : Admissible μ) :
+    (∫ x, |x| ∂(μ : Measure ℝ)) ≤ 1 := by
+  have hp : ∫ x, 2 * |x| ∂(μ : Measure ℝ) ≤ ∫ x, x ^ 2 + 1 ∂(μ : Measure ℝ) := by
+    apply integral_mono (hμ.integrable_id.abs.const_mul 2)
+      (hμ.integrable_sq.fun_add (integrable_const (1 : ℝ)))
+    intro x
+    nlinarith [sq_nonneg (|x| - 1), sq_abs x]
+  rw [integral_const_mul, integral_add hμ.integrable_sq (integrable_const (1 : ℝ))] at hp
+  simp only [hμ.second_moment_one, integral_const, probReal_univ, one_smul] at hp
+  linarith
+
 /-- Equality in the third-moment inequality forces unit absolute value almost surely. -/
 theorem ae_abs_eq_one_of_thirdAbsMoment_eq_one {μ : ProbabilityMeasure ℝ}
     (hμ : Admissible μ) (hβ : thirdAbsMoment μ = 1) :
