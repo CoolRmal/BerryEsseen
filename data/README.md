@@ -12,3 +12,17 @@ mathematical statements independently.
 
 See `docs/FINITE_DARBOUX.md` for the completed endpoint-panel interpretation and
 `docs/FINITE_SAMPLES.md` for the remaining Taylor-panel work.
+
+`finite_scalar_meanings.json` gives 693 exact scalar records and their 69,759
+occurrences in the finite Taylor formulas. It includes the frozen coefficient
+targets for all 3,576 Taylor panels. Its interval statements are proved by the
+generated `FiniteScalarConstants` Lean files; the producer and occurrence mapping
+do not replace the remaining full expression-composition proof.
+
+`Certificates/FiniteNormalPanels/manifest.json` records the 669 complete normal
+Taylor proofs, and `Certificates/FiniteNormalCells/manifest.json` records their
+174 adjacent covers. `Certificates/FiniteTails/manifest.json` records the 174
+Gaussian-tail bounds. These manifests live under `BerryEsseen/`.
+`Certificates/FiniteHighPanels/examples_manifest.json` has deliberately limited
+scope: seven complete examples, covering all branch/kernel combinations, rather
+than the full set of high-frequency Taylor panels.

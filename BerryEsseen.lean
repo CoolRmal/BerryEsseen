@@ -58,3 +58,15 @@ public import BerryEsseen.Certificates.FiniteExpSeeds.Complete
 public import BerryEsseen.Certificates.FiniteTrigSeeds.Complete
 public import BerryEsseen.Certificates.FiniteDarbouxPanels.Complete
 public import BerryEsseen.Certificates.FiniteRadicandRefinements.Complete
+public import BerryEsseen.Certificates.FiniteScalarConstants.Complete
+public import BerryEsseen.Certificates.FiniteNormalPanels.Complete
+public import BerryEsseen.Certificates.FiniteNormalCells.Complete
+public import BerryEsseen.Certificates.FiniteTails.Complete
+public import BerryEsseen.Numerics.JetPanelRange
+public import BerryEsseen.Certificates.FiniteHighPanels.Panel0_2
+public import BerryEsseen.Certificates.FiniteHighPanels.Panel0_7
+public import BerryEsseen.Certificates.FiniteHighPanels.Panel166_1
+public import BerryEsseen.Certificates.FiniteHighPanels.Panel0_0
+public import BerryEsseen.Certificates.FiniteHighPanels.Panel0_1
+public import BerryEsseen.Certificates.FiniteHighPanels.Panel0_23
+public import BerryEsseen.Certificates.FiniteHighPanels.Panel173_30

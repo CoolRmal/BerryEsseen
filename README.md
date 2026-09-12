@@ -28,6 +28,13 @@ and [trigonometric proof](docs/TRIGONOMETRIC_SEEDS.md).
 The [458 endpoint panels](docs/FINITE_DARBOUX.md) now bound their actual
 high-frequency integrals. All [2,884 radicand refinements](docs/RADICAND_REFINEMENTS.md)
 also have analytic certificates, ready for the remaining Taylor-program composition.
+The [693 scalar enclosures](docs/SCALAR_CONSTANTS.md) now record and prove the exact
+real meanings of the constants appearing in those programs.
+The [normal-correction construction](docs/NORMAL_PANELS.md) connects 669 Taylor
+panels to actual integrals and joins them into the 174 complete correction terms.
+All [174 Gaussian tails](docs/FINITE_TAILS.md) also have exact certificates.
+The remaining low- and high-frequency Taylor panels still need complete assembly;
+seven [high-frequency examples](docs/HIGH_TAYLOR_PANELS.md) currently cover all saved branch types.
 
 ## Meaning of the constant
 

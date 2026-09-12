@@ -31,7 +31,9 @@ def main():
     for folder, label in [('FiniteExpSeeds', 'exponential seed'),
                           ('FiniteTrigSeeds', 'trigonometric seed'),
                           ('FiniteDarbouxPanels', 'Darboux panel'),
-                          ('FiniteRadicandRefinements', 'radicand refinement')]:
+                          ('FiniteRadicandRefinements', 'radicand refinement'),
+                          ('FiniteScalarConstants', 'scalar constant'),
+                          ('FiniteTails', 'Gaussian tail')]:
         batches = sorted((root / f'BerryEsseen/Certificates/{folder}').glob('Batch*.lean'))
         for start in range(0, len(batches), args.batch_size):
             batch = batches[start:start + args.batch_size]
@@ -43,6 +45,24 @@ def main():
                 raise SystemExit(result.returncode)
             stop = start + len(batch)
             print(f'{stop}/{len(batches)} {label} batches checked', flush=True)
+    normals = sorted((root / 'BerryEsseen/Certificates/FiniteNormalPanels').glob('Panel*.lean'))
+    for start in range(0, len(normals), args.batch_size):
+        batch = normals[start:start + args.batch_size]
+        modules = [f'BerryEsseen.Certificates.FiniteNormalPanels.{path.stem}' for path in batch]
+        result = subprocess.run(['lake', 'build', *modules], cwd=root,
+                                capture_output=True, text=True)
+        if result.returncode:
+            print(result.stdout + result.stderr, flush=True)
+            raise SystemExit(result.returncode)
+        stop = start + len(batch)
+        if start // 32 != stop // 32 or stop == len(normals):
+            print(f'{stop}/{len(normals)} complete normal-panel proofs checked', flush=True)
+    cells = sorted((root / 'BerryEsseen/Certificates/FiniteNormalCells').glob('Cell*.lean'))
+    for start in range(0, len(cells), args.batch_size):
+        batch = cells[start:start + args.batch_size]
+        subprocess.run(['lake', 'build', *[
+            f'BerryEsseen.Certificates.FiniteNormalCells.{path.stem}' for path in batch]],
+            cwd=root, check=True)
     subprocess.run(['lake', 'build', 'BerryEsseen'], cwd=root, check=True)
 
 

@@ -1,0 +1,827 @@
+module
+
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel0_6
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel0_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel0_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel0_17
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel0_18
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel1_6
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel1_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel1_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel1_17
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel1_18
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel2_5
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel2_6
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel2_25
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel2_26
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel3_6
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel3_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel3_23
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel3_24
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel4_5
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel4_6
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel4_18
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel4_19
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel5_6
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel5_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel5_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel5_17
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel6_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel6_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel6_17
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel6_18
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel7_2
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel7_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel7_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel8_4
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel8_5
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel8_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel8_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel9_2
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel9_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel9_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel10_3
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel10_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel10_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel11_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel11_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel11_21
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel11_22
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel12_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel12_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel12_21
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel12_22
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel13_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel13_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel13_18
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel13_19
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel14_6
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel14_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel14_20
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel14_21
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel15_6
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel15_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel15_20
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel15_21
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel16_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel16_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel16_21
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel16_22
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel17_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel17_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel17_19
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel17_20
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel18_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel18_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel18_18
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel18_19
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel19_1
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel19_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel19_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel20_1
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel20_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel20_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel21_6
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel21_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel21_17
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel21_18
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel22_3
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel22_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel22_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel23_3
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel23_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel23_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel24_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel24_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel24_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel24_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel25_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel25_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel25_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel25_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel26_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel26_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel26_14
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel26_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel27_6
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel27_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel27_20
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel27_21
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel28_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel28_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel28_21
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel28_22
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel29_2
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel29_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel29_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel30_2
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel30_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel30_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel31_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel31_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel31_18
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel31_19
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel32_1
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel32_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel32_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel33_1
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel33_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel33_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel34_4
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel34_5
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel34_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel34_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel35_2
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel35_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel35_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel36_2
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel36_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel36_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel37_4
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel37_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel37_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel38_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel38_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel38_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel38_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel39_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel39_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel39_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel39_17
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel40_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel40_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel40_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel40_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel41_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel41_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel41_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel41_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel42_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel42_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel42_17
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel42_18
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel43_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel43_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel43_20
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel43_21
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel44_2
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel44_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel44_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel45_2
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel45_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel45_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel46_2
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel46_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel46_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel47_1
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel47_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel47_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel48_14
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel48_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel48_26
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel48_27
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel48_28
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel48_29
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel49_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel49_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel49_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel49_17
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel50_2
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel50_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel50_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel51_4
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel51_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel51_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel52_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel52_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel52_14
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel52_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel53_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel53_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel53_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel53_17
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel54_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel54_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel54_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel54_17
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel55_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel55_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel55_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel55_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel56_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel56_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel56_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel56_17
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel57_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel57_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel57_18
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel57_19
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel58_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel58_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel58_19
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel58_20
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel59_2
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel59_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel59_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel60_4
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel60_5
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel60_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel60_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel61_4
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel61_5
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel61_19
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel61_20
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel62_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel62_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel62_18
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel62_19
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel63_2
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel63_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel63_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel64_3
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel64_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel64_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel65_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel65_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel65_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel65_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel66_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel66_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel66_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel66_17
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel67_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel67_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel67_19
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel67_20
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel68_6
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel68_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel68_33
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel68_34
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel68_38
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel68_39
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel69_6
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel69_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel69_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel69_13
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel70_13
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel70_14
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel70_19
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel70_20
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel71_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel71_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel71_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel71_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel72_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel72_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel72_21
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel72_22
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel73_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel73_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel73_18
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel73_19
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel74_2
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel74_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel74_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel75_2
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel75_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel75_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel76_3
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel76_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel76_31
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel76_32
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel76_35
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel76_36
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel77_3
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel77_4
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel77_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel77_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel78_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel78_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel78_13
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel78_14
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel79_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel79_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel79_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel79_17
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel80_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel80_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel80_13
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel80_14
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel81_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel81_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel81_19
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel81_20
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel82_2
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel82_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel82_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel83_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel83_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel83_19
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel83_20
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel84_3
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel84_13
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel84_14
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel85_3
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel85_4
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel85_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel85_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel86_6
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel86_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel86_13
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel86_14
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel87_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel87_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel87_14
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel87_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel88_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel88_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel88_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel88_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel89_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel89_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel89_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel89_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel90_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel90_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel90_17
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel90_18
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel91_2
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel91_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel91_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel92_13
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel92_14
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel92_19
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel92_20
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel93_3
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel93_13
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel93_14
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel94_5
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel94_6
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel94_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel94_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel95_6
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel95_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel95_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel95_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel96_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel96_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel96_13
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel96_14
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel97_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel97_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel97_14
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel97_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel98_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel98_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel98_14
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel98_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel99_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel99_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel99_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel99_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel100_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel100_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel100_19
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel100_20
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel101_2
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel101_13
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel101_14
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel102_3
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel102_13
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel102_14
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel103_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel103_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel103_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel103_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel104_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel104_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel104_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel104_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel105_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel105_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel105_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel105_13
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel106_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel106_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel106_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel106_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel107_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel107_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel107_17
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel107_18
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel108_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel108_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel108_13
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel108_14
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel109_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel109_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel109_17
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel109_18
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel110_13
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel110_14
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel110_19
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel110_20
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel111_3
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel111_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel111_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel112_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel112_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel112_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel112_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel113_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel113_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel113_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel113_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel114_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel114_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel114_13
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel114_14
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel115_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel115_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel115_14
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel115_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel116_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel116_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel116_14
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel116_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel117_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel117_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel117_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel117_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel118_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel118_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel118_17
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel118_18
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel119_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel119_13
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel119_18
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel119_19
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel120_3
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel120_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel120_17
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel121_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel121_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel121_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel121_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel122_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel122_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel122_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel122_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel123_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel123_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel123_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel123_13
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel124_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel124_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel124_14
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel124_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel125_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel125_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel125_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel125_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel126_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel126_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel126_17
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel126_18
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel127_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel127_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel127_17
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel127_18
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel128_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel128_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel128_17
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel128_18
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel129_3
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel129_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel129_17
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel130_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel130_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel130_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel130_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel131_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel131_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel131_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel131_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel132_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel132_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel132_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel132_13
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel133_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel133_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel133_14
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel133_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel134_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel134_13
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel134_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel134_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel135_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel135_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel135_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel135_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel136_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel136_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel136_19
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel136_20
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel137_13
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel137_14
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel137_19
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel137_20
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel138_3
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel138_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel138_17
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel139_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel139_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel139_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel139_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel140_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel140_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel140_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel140_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel141_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel141_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel141_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel141_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel142_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel142_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel142_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel142_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel143_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel143_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel143_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel143_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel144_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel144_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel144_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel144_13
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel145_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel145_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel145_14
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel145_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel146_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel146_13
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel146_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel146_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel147_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel147_13
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel147_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel147_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel148_5
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel148_6
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel148_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel148_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel149_14
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel149_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel149_18
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel149_19
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel150_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel150_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel150_14
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel150_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel151_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel151_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel151_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel151_17
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel152_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel152_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel152_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel152_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel153_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel153_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel153_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel153_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel154_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel154_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel154_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel154_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel155_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel155_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel155_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel155_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel156_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel156_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel156_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel156_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel157_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel157_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel157_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel157_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel158_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel158_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel158_13
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel158_14
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel159_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel159_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel159_14
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel159_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel160_3
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel160_4
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel160_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel160_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel161_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel161_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel161_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel161_17
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel162_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel162_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel162_13
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel162_14
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel163_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel163_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel163_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel163_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel164_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel164_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel164_18
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel164_19
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel165_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel165_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel165_13
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel165_14
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel166_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel166_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel166_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel166_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel167_6
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel167_7
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel167_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel167_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel168_8
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel168_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel168_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel168_13
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel169_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel169_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel169_14
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel169_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel170_9
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel170_10
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel170_14
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel170_15
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel171_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel171_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel171_16
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel171_17
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel172_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel172_12
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel172_17
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel172_18
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel173_3
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel173_4
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel173_11
+public import BerryEsseen.Certificates.FiniteNormalPanels.Panel173_12
+
+@[expose] public section
+
+set_option maxRecDepth 100000
+set_option maxHeartbeats 0
+
+namespace FiniteNormalPanels
+
+open BerryEsseen Real MeasureTheory
+
+def allPanels : Array CertifiedNormalPanel := #[
+  FiniteNormalPanel0_6.certificate, FiniteNormalPanel0_11.certificate, FiniteNormalPanel0_12.certificate, FiniteNormalPanel0_17.certificate, FiniteNormalPanel0_18.certificate,
+  FiniteNormalPanel1_6.certificate, FiniteNormalPanel1_15.certificate, FiniteNormalPanel1_16.certificate, FiniteNormalPanel1_17.certificate, FiniteNormalPanel1_18.certificate,
+  FiniteNormalPanel2_5.certificate, FiniteNormalPanel2_6.certificate, FiniteNormalPanel2_25.certificate, FiniteNormalPanel2_26.certificate, FiniteNormalPanel3_6.certificate,
+  FiniteNormalPanel3_7.certificate, FiniteNormalPanel3_23.certificate, FiniteNormalPanel3_24.certificate, FiniteNormalPanel4_5.certificate, FiniteNormalPanel4_6.certificate,
+  FiniteNormalPanel4_18.certificate, FiniteNormalPanel4_19.certificate, FiniteNormalPanel5_6.certificate, FiniteNormalPanel5_7.certificate, FiniteNormalPanel5_16.certificate,
+  FiniteNormalPanel5_17.certificate, FiniteNormalPanel6_7.certificate, FiniteNormalPanel6_8.certificate, FiniteNormalPanel6_17.certificate, FiniteNormalPanel6_18.certificate,
+  FiniteNormalPanel7_2.certificate, FiniteNormalPanel7_7.certificate, FiniteNormalPanel7_8.certificate, FiniteNormalPanel8_4.certificate, FiniteNormalPanel8_5.certificate,
+  FiniteNormalPanel8_11.certificate, FiniteNormalPanel8_12.certificate, FiniteNormalPanel9_2.certificate, FiniteNormalPanel9_7.certificate, FiniteNormalPanel9_8.certificate,
+  FiniteNormalPanel10_3.certificate, FiniteNormalPanel10_8.certificate, FiniteNormalPanel10_9.certificate, FiniteNormalPanel11_7.certificate, FiniteNormalPanel11_8.certificate,
+  FiniteNormalPanel11_21.certificate, FiniteNormalPanel11_22.certificate, FiniteNormalPanel12_7.certificate, FiniteNormalPanel12_8.certificate, FiniteNormalPanel12_21.certificate,
+  FiniteNormalPanel12_22.certificate, FiniteNormalPanel13_7.certificate, FiniteNormalPanel13_8.certificate, FiniteNormalPanel13_18.certificate, FiniteNormalPanel13_19.certificate,
+  FiniteNormalPanel14_6.certificate, FiniteNormalPanel14_7.certificate, FiniteNormalPanel14_20.certificate, FiniteNormalPanel14_21.certificate, FiniteNormalPanel15_6.certificate,
+  FiniteNormalPanel15_7.certificate, FiniteNormalPanel15_20.certificate, FiniteNormalPanel15_21.certificate, FiniteNormalPanel16_7.certificate, FiniteNormalPanel16_8.certificate,
+  FiniteNormalPanel16_21.certificate, FiniteNormalPanel16_22.certificate, FiniteNormalPanel17_7.certificate, FiniteNormalPanel17_8.certificate, FiniteNormalPanel17_19.certificate,
+  FiniteNormalPanel17_20.certificate, FiniteNormalPanel18_7.certificate, FiniteNormalPanel18_8.certificate, FiniteNormalPanel18_18.certificate, FiniteNormalPanel18_19.certificate,
+  FiniteNormalPanel19_1.certificate, FiniteNormalPanel19_8.certificate, FiniteNormalPanel19_9.certificate, FiniteNormalPanel20_1.certificate, FiniteNormalPanel20_8.certificate,
+  FiniteNormalPanel20_9.certificate, FiniteNormalPanel21_6.certificate, FiniteNormalPanel21_7.certificate, FiniteNormalPanel21_17.certificate, FiniteNormalPanel21_18.certificate,
+  FiniteNormalPanel22_3.certificate, FiniteNormalPanel22_8.certificate, FiniteNormalPanel22_9.certificate, FiniteNormalPanel23_3.certificate, FiniteNormalPanel23_8.certificate,
+  FiniteNormalPanel23_9.certificate, FiniteNormalPanel24_9.certificate, FiniteNormalPanel24_10.certificate, FiniteNormalPanel24_15.certificate, FiniteNormalPanel24_16.certificate,
+  FiniteNormalPanel25_8.certificate, FiniteNormalPanel25_9.certificate, FiniteNormalPanel25_15.certificate, FiniteNormalPanel25_16.certificate, FiniteNormalPanel26_8.certificate,
+  FiniteNormalPanel26_9.certificate, FiniteNormalPanel26_14.certificate, FiniteNormalPanel26_15.certificate, FiniteNormalPanel27_6.certificate, FiniteNormalPanel27_7.certificate,
+  FiniteNormalPanel27_20.certificate, FiniteNormalPanel27_21.certificate, FiniteNormalPanel28_7.certificate, FiniteNormalPanel28_8.certificate, FiniteNormalPanel28_21.certificate,
+  FiniteNormalPanel28_22.certificate, FiniteNormalPanel29_2.certificate, FiniteNormalPanel29_8.certificate, FiniteNormalPanel29_9.certificate, FiniteNormalPanel30_2.certificate,
+  FiniteNormalPanel30_8.certificate, FiniteNormalPanel30_9.certificate, FiniteNormalPanel31_8.certificate, FiniteNormalPanel31_9.certificate, FiniteNormalPanel31_18.certificate,
+  FiniteNormalPanel31_19.certificate, FiniteNormalPanel32_1.certificate, FiniteNormalPanel32_8.certificate, FiniteNormalPanel32_9.certificate, FiniteNormalPanel33_1.certificate,
+  FiniteNormalPanel33_8.certificate, FiniteNormalPanel33_9.certificate, FiniteNormalPanel34_4.certificate, FiniteNormalPanel34_5.certificate, FiniteNormalPanel34_10.certificate,
+  FiniteNormalPanel34_11.certificate, FiniteNormalPanel35_2.certificate, FiniteNormalPanel35_7.certificate, FiniteNormalPanel35_8.certificate, FiniteNormalPanel36_2.certificate,
+  FiniteNormalPanel36_7.certificate, FiniteNormalPanel36_8.certificate, FiniteNormalPanel37_4.certificate, FiniteNormalPanel37_9.certificate, FiniteNormalPanel37_10.certificate,
+  FiniteNormalPanel38_10.certificate, FiniteNormalPanel38_11.certificate, FiniteNormalPanel38_15.certificate, FiniteNormalPanel38_16.certificate, FiniteNormalPanel39_10.certificate,
+  FiniteNormalPanel39_11.certificate, FiniteNormalPanel39_16.certificate, FiniteNormalPanel39_17.certificate, FiniteNormalPanel40_9.certificate, FiniteNormalPanel40_10.certificate,
+  FiniteNormalPanel40_15.certificate, FiniteNormalPanel40_16.certificate, FiniteNormalPanel41_8.certificate, FiniteNormalPanel41_9.certificate, FiniteNormalPanel41_15.certificate,
+  FiniteNormalPanel41_16.certificate, FiniteNormalPanel42_9.certificate, FiniteNormalPanel42_10.certificate, FiniteNormalPanel42_17.certificate, FiniteNormalPanel42_18.certificate,
+  FiniteNormalPanel43_8.certificate, FiniteNormalPanel43_9.certificate, FiniteNormalPanel43_20.certificate, FiniteNormalPanel43_21.certificate, FiniteNormalPanel44_2.certificate,
+  FiniteNormalPanel44_9.certificate, FiniteNormalPanel44_10.certificate, FiniteNormalPanel45_2.certificate, FiniteNormalPanel45_9.certificate, FiniteNormalPanel45_10.certificate,
+  FiniteNormalPanel46_2.certificate, FiniteNormalPanel46_10.certificate, FiniteNormalPanel46_11.certificate, FiniteNormalPanel47_1.certificate, FiniteNormalPanel47_8.certificate,
+  FiniteNormalPanel47_9.certificate, FiniteNormalPanel48_14.certificate, FiniteNormalPanel48_15.certificate, FiniteNormalPanel48_26.certificate, FiniteNormalPanel48_27.certificate,
+  FiniteNormalPanel48_28.certificate, FiniteNormalPanel48_29.certificate, FiniteNormalPanel49_8.certificate, FiniteNormalPanel49_9.certificate, FiniteNormalPanel49_16.certificate,
+  FiniteNormalPanel49_17.certificate, FiniteNormalPanel50_2.certificate, FiniteNormalPanel50_9.certificate, FiniteNormalPanel50_10.certificate, FiniteNormalPanel51_4.certificate,
+  FiniteNormalPanel51_9.certificate, FiniteNormalPanel51_10.certificate, FiniteNormalPanel52_10.certificate, FiniteNormalPanel52_11.certificate, FiniteNormalPanel52_14.certificate,
+  FiniteNormalPanel52_15.certificate, FiniteNormalPanel53_9.certificate, FiniteNormalPanel53_10.certificate, FiniteNormalPanel53_16.certificate, FiniteNormalPanel53_17.certificate,
+  FiniteNormalPanel54_10.certificate, FiniteNormalPanel54_11.certificate, FiniteNormalPanel54_16.certificate, FiniteNormalPanel54_17.certificate, FiniteNormalPanel55_9.certificate,
+  FiniteNormalPanel55_10.certificate, FiniteNormalPanel55_15.certificate, FiniteNormalPanel55_16.certificate, FiniteNormalPanel56_9.certificate, FiniteNormalPanel56_10.certificate,
+  FiniteNormalPanel56_16.certificate, FiniteNormalPanel56_17.certificate, FiniteNormalPanel57_10.certificate, FiniteNormalPanel57_11.certificate, FiniteNormalPanel57_18.certificate,
+  FiniteNormalPanel57_19.certificate, FiniteNormalPanel58_11.certificate, FiniteNormalPanel58_12.certificate, FiniteNormalPanel58_19.certificate, FiniteNormalPanel58_20.certificate,
+  FiniteNormalPanel59_2.certificate, FiniteNormalPanel59_11.certificate, FiniteNormalPanel59_12.certificate, FiniteNormalPanel60_4.certificate, FiniteNormalPanel60_5.certificate,
+  FiniteNormalPanel60_10.certificate, FiniteNormalPanel60_11.certificate, FiniteNormalPanel61_4.certificate, FiniteNormalPanel61_5.certificate, FiniteNormalPanel61_19.certificate,
+  FiniteNormalPanel61_20.certificate, FiniteNormalPanel62_8.certificate, FiniteNormalPanel62_9.certificate, FiniteNormalPanel62_18.certificate, FiniteNormalPanel62_19.certificate,
+  FiniteNormalPanel63_2.certificate, FiniteNormalPanel63_9.certificate, FiniteNormalPanel63_10.certificate, FiniteNormalPanel64_3.certificate, FiniteNormalPanel64_8.certificate,
+  FiniteNormalPanel64_9.certificate, FiniteNormalPanel65_7.certificate, FiniteNormalPanel65_8.certificate, FiniteNormalPanel65_15.certificate, FiniteNormalPanel65_16.certificate,
+  FiniteNormalPanel66_8.certificate, FiniteNormalPanel66_9.certificate, FiniteNormalPanel66_16.certificate, FiniteNormalPanel66_17.certificate, FiniteNormalPanel67_9.certificate,
+  FiniteNormalPanel67_10.certificate, FiniteNormalPanel67_19.certificate, FiniteNormalPanel67_20.certificate, FiniteNormalPanel68_6.certificate, FiniteNormalPanel68_7.certificate,
+  FiniteNormalPanel68_33.certificate, FiniteNormalPanel68_34.certificate, FiniteNormalPanel68_38.certificate, FiniteNormalPanel68_39.certificate, FiniteNormalPanel69_6.certificate,
+  FiniteNormalPanel69_7.certificate, FiniteNormalPanel69_12.certificate, FiniteNormalPanel69_13.certificate, FiniteNormalPanel70_13.certificate, FiniteNormalPanel70_14.certificate,
+  FiniteNormalPanel70_19.certificate, FiniteNormalPanel70_20.certificate, FiniteNormalPanel71_7.certificate, FiniteNormalPanel71_8.certificate, FiniteNormalPanel71_15.certificate,
+  FiniteNormalPanel71_16.certificate, FiniteNormalPanel72_8.certificate, FiniteNormalPanel72_9.certificate, FiniteNormalPanel72_21.certificate, FiniteNormalPanel72_22.certificate,
+  FiniteNormalPanel73_8.certificate, FiniteNormalPanel73_9.certificate, FiniteNormalPanel73_18.certificate, FiniteNormalPanel73_19.certificate, FiniteNormalPanel74_2.certificate,
+  FiniteNormalPanel74_11.certificate, FiniteNormalPanel74_12.certificate, FiniteNormalPanel75_2.certificate, FiniteNormalPanel75_7.certificate, FiniteNormalPanel75_8.certificate,
+  FiniteNormalPanel76_3.certificate, FiniteNormalPanel76_7.certificate, FiniteNormalPanel76_31.certificate, FiniteNormalPanel76_32.certificate, FiniteNormalPanel76_35.certificate,
+  FiniteNormalPanel76_36.certificate, FiniteNormalPanel77_3.certificate, FiniteNormalPanel77_4.certificate, FiniteNormalPanel77_9.certificate, FiniteNormalPanel77_10.certificate,
+  FiniteNormalPanel78_7.certificate, FiniteNormalPanel78_8.certificate, FiniteNormalPanel78_13.certificate, FiniteNormalPanel78_14.certificate, FiniteNormalPanel79_8.certificate,
+  FiniteNormalPanel79_9.certificate, FiniteNormalPanel79_16.certificate, FiniteNormalPanel79_17.certificate, FiniteNormalPanel80_8.certificate, FiniteNormalPanel80_9.certificate,
+  FiniteNormalPanel80_13.certificate, FiniteNormalPanel80_14.certificate, FiniteNormalPanel81_8.certificate, FiniteNormalPanel81_9.certificate, FiniteNormalPanel81_19.certificate,
+  FiniteNormalPanel81_20.certificate, FiniteNormalPanel82_2.certificate, FiniteNormalPanel82_11.certificate, FiniteNormalPanel82_12.certificate, FiniteNormalPanel83_11.certificate,
+  FiniteNormalPanel83_12.certificate, FiniteNormalPanel83_19.certificate, FiniteNormalPanel83_20.certificate, FiniteNormalPanel84_3.certificate, FiniteNormalPanel84_13.certificate,
+  FiniteNormalPanel84_14.certificate, FiniteNormalPanel85_3.certificate, FiniteNormalPanel85_4.certificate, FiniteNormalPanel85_8.certificate, FiniteNormalPanel85_9.certificate,
+  FiniteNormalPanel86_6.certificate, FiniteNormalPanel86_7.certificate, FiniteNormalPanel86_13.certificate, FiniteNormalPanel86_14.certificate, FiniteNormalPanel87_7.certificate,
+  FiniteNormalPanel87_8.certificate, FiniteNormalPanel87_14.certificate, FiniteNormalPanel87_15.certificate, FiniteNormalPanel88_8.certificate, FiniteNormalPanel88_9.certificate,
+  FiniteNormalPanel88_15.certificate, FiniteNormalPanel88_16.certificate, FiniteNormalPanel89_8.certificate, FiniteNormalPanel89_9.certificate, FiniteNormalPanel89_15.certificate,
+  FiniteNormalPanel89_16.certificate, FiniteNormalPanel90_7.certificate, FiniteNormalPanel90_8.certificate, FiniteNormalPanel90_17.certificate, FiniteNormalPanel90_18.certificate,
+  FiniteNormalPanel91_2.certificate, FiniteNormalPanel91_11.certificate, FiniteNormalPanel91_12.certificate, FiniteNormalPanel92_13.certificate, FiniteNormalPanel92_14.certificate,
+  FiniteNormalPanel92_19.certificate, FiniteNormalPanel92_20.certificate, FiniteNormalPanel93_3.certificate, FiniteNormalPanel93_13.certificate, FiniteNormalPanel93_14.certificate,
+  FiniteNormalPanel94_5.certificate, FiniteNormalPanel94_6.certificate, FiniteNormalPanel94_10.certificate, FiniteNormalPanel94_11.certificate, FiniteNormalPanel95_6.certificate,
+  FiniteNormalPanel95_7.certificate, FiniteNormalPanel95_10.certificate, FiniteNormalPanel95_11.certificate, FiniteNormalPanel96_8.certificate, FiniteNormalPanel96_9.certificate,
+  FiniteNormalPanel96_13.certificate, FiniteNormalPanel96_14.certificate, FiniteNormalPanel97_9.certificate, FiniteNormalPanel97_10.certificate, FiniteNormalPanel97_14.certificate,
+  FiniteNormalPanel97_15.certificate, FiniteNormalPanel98_8.certificate, FiniteNormalPanel98_9.certificate, FiniteNormalPanel98_14.certificate, FiniteNormalPanel98_15.certificate,
+  FiniteNormalPanel99_9.certificate, FiniteNormalPanel99_10.certificate, FiniteNormalPanel99_15.certificate, FiniteNormalPanel99_16.certificate, FiniteNormalPanel100_11.certificate,
+  FiniteNormalPanel100_12.certificate, FiniteNormalPanel100_19.certificate, FiniteNormalPanel100_20.certificate, FiniteNormalPanel101_2.certificate, FiniteNormalPanel101_13.certificate,
+  FiniteNormalPanel101_14.certificate, FiniteNormalPanel102_3.certificate, FiniteNormalPanel102_13.certificate, FiniteNormalPanel102_14.certificate, FiniteNormalPanel103_7.certificate,
+  FiniteNormalPanel103_8.certificate, FiniteNormalPanel103_9.certificate, FiniteNormalPanel103_10.certificate, FiniteNormalPanel104_8.certificate, FiniteNormalPanel104_9.certificate,
+  FiniteNormalPanel104_11.certificate, FiniteNormalPanel104_12.certificate, FiniteNormalPanel105_8.certificate, FiniteNormalPanel105_9.certificate, FiniteNormalPanel105_12.certificate,
+  FiniteNormalPanel105_13.certificate, FiniteNormalPanel106_9.certificate, FiniteNormalPanel106_10.certificate, FiniteNormalPanel106_15.certificate, FiniteNormalPanel106_16.certificate,
+  FiniteNormalPanel107_10.certificate, FiniteNormalPanel107_11.certificate, FiniteNormalPanel107_17.certificate, FiniteNormalPanel107_18.certificate, FiniteNormalPanel108_9.certificate,
+  FiniteNormalPanel108_10.certificate, FiniteNormalPanel108_13.certificate, FiniteNormalPanel108_14.certificate, FiniteNormalPanel109_10.certificate, FiniteNormalPanel109_11.certificate,
+  FiniteNormalPanel109_17.certificate, FiniteNormalPanel109_18.certificate, FiniteNormalPanel110_13.certificate, FiniteNormalPanel110_14.certificate, FiniteNormalPanel110_19.certificate,
+  FiniteNormalPanel110_20.certificate, FiniteNormalPanel111_3.certificate, FiniteNormalPanel111_15.certificate, FiniteNormalPanel111_16.certificate, FiniteNormalPanel112_7.certificate,
+  FiniteNormalPanel112_8.certificate, FiniteNormalPanel112_9.certificate, FiniteNormalPanel112_10.certificate, FiniteNormalPanel113_8.certificate, FiniteNormalPanel113_9.certificate,
+  FiniteNormalPanel113_11.certificate, FiniteNormalPanel113_12.certificate, FiniteNormalPanel114_9.certificate, FiniteNormalPanel114_10.certificate, FiniteNormalPanel114_13.certificate,
+  FiniteNormalPanel114_14.certificate, FiniteNormalPanel115_9.certificate, FiniteNormalPanel115_10.certificate, FiniteNormalPanel115_14.certificate, FiniteNormalPanel115_15.certificate,
+  FiniteNormalPanel116_10.certificate, FiniteNormalPanel116_11.certificate, FiniteNormalPanel116_14.certificate, FiniteNormalPanel116_15.certificate, FiniteNormalPanel117_11.certificate,
+  FiniteNormalPanel117_12.certificate, FiniteNormalPanel117_15.certificate, FiniteNormalPanel117_16.certificate, FiniteNormalPanel118_11.certificate, FiniteNormalPanel118_12.certificate,
+  FiniteNormalPanel118_17.certificate, FiniteNormalPanel118_18.certificate, FiniteNormalPanel119_12.certificate, FiniteNormalPanel119_13.certificate, FiniteNormalPanel119_18.certificate,
+  FiniteNormalPanel119_19.certificate, FiniteNormalPanel120_3.certificate, FiniteNormalPanel120_16.certificate, FiniteNormalPanel120_17.certificate, FiniteNormalPanel121_7.certificate,
+  FiniteNormalPanel121_8.certificate, FiniteNormalPanel121_9.certificate, FiniteNormalPanel121_10.certificate, FiniteNormalPanel122_7.certificate, FiniteNormalPanel122_8.certificate,
+  FiniteNormalPanel122_9.certificate, FiniteNormalPanel122_10.certificate, FiniteNormalPanel123_9.certificate, FiniteNormalPanel123_10.certificate, FiniteNormalPanel123_12.certificate,
+  FiniteNormalPanel123_13.certificate, FiniteNormalPanel124_11.certificate, FiniteNormalPanel124_12.certificate, FiniteNormalPanel124_14.certificate, FiniteNormalPanel124_15.certificate,
+  FiniteNormalPanel125_10.certificate, FiniteNormalPanel125_11.certificate, FiniteNormalPanel125_15.certificate, FiniteNormalPanel125_16.certificate, FiniteNormalPanel126_11.certificate,
+  FiniteNormalPanel126_12.certificate, FiniteNormalPanel126_17.certificate, FiniteNormalPanel126_18.certificate, FiniteNormalPanel127_11.certificate, FiniteNormalPanel127_12.certificate,
+  FiniteNormalPanel127_17.certificate, FiniteNormalPanel127_18.certificate, FiniteNormalPanel128_11.certificate, FiniteNormalPanel128_12.certificate, FiniteNormalPanel128_17.certificate,
+  FiniteNormalPanel128_18.certificate, FiniteNormalPanel129_3.certificate, FiniteNormalPanel129_16.certificate, FiniteNormalPanel129_17.certificate, FiniteNormalPanel130_7.certificate,
+  FiniteNormalPanel130_8.certificate, FiniteNormalPanel130_9.certificate, FiniteNormalPanel130_10.certificate, FiniteNormalPanel131_8.certificate, FiniteNormalPanel131_9.certificate,
+  FiniteNormalPanel131_10.certificate, FiniteNormalPanel131_11.certificate, FiniteNormalPanel132_9.certificate, FiniteNormalPanel132_10.certificate, FiniteNormalPanel132_12.certificate,
+  FiniteNormalPanel132_13.certificate, FiniteNormalPanel133_11.certificate, FiniteNormalPanel133_12.certificate, FiniteNormalPanel133_14.certificate, FiniteNormalPanel133_15.certificate,
+  FiniteNormalPanel134_12.certificate, FiniteNormalPanel134_13.certificate, FiniteNormalPanel134_15.certificate, FiniteNormalPanel134_16.certificate, FiniteNormalPanel135_11.certificate,
+  FiniteNormalPanel135_12.certificate, FiniteNormalPanel135_15.certificate, FiniteNormalPanel135_16.certificate, FiniteNormalPanel136_11.certificate, FiniteNormalPanel136_12.certificate,
+  FiniteNormalPanel136_19.certificate, FiniteNormalPanel136_20.certificate, FiniteNormalPanel137_13.certificate, FiniteNormalPanel137_14.certificate, FiniteNormalPanel137_19.certificate,
+  FiniteNormalPanel137_20.certificate, FiniteNormalPanel138_3.certificate, FiniteNormalPanel138_16.certificate, FiniteNormalPanel138_17.certificate, FiniteNormalPanel139_7.certificate,
+  FiniteNormalPanel139_8.certificate, FiniteNormalPanel139_9.certificate, FiniteNormalPanel139_10.certificate, FiniteNormalPanel140_7.certificate, FiniteNormalPanel140_8.certificate,
+  FiniteNormalPanel140_9.certificate, FiniteNormalPanel140_10.certificate, FiniteNormalPanel141_7.certificate, FiniteNormalPanel141_8.certificate, FiniteNormalPanel141_9.certificate,
+  FiniteNormalPanel141_10.certificate, FiniteNormalPanel142_7.certificate, FiniteNormalPanel142_8.certificate, FiniteNormalPanel142_9.certificate, FiniteNormalPanel142_10.certificate,
+  FiniteNormalPanel143_8.certificate, FiniteNormalPanel143_9.certificate, FiniteNormalPanel143_11.certificate, FiniteNormalPanel143_12.certificate, FiniteNormalPanel144_9.certificate,
+  FiniteNormalPanel144_10.certificate, FiniteNormalPanel144_12.certificate, FiniteNormalPanel144_13.certificate, FiniteNormalPanel145_10.certificate, FiniteNormalPanel145_11.certificate,
+  FiniteNormalPanel145_14.certificate, FiniteNormalPanel145_15.certificate, FiniteNormalPanel146_12.certificate, FiniteNormalPanel146_13.certificate, FiniteNormalPanel146_15.certificate,
+  FiniteNormalPanel146_16.certificate, FiniteNormalPanel147_12.certificate, FiniteNormalPanel147_13.certificate, FiniteNormalPanel147_15.certificate, FiniteNormalPanel147_16.certificate,
+  FiniteNormalPanel148_5.certificate, FiniteNormalPanel148_6.certificate, FiniteNormalPanel148_7.certificate, FiniteNormalPanel148_8.certificate, FiniteNormalPanel149_14.certificate,
+  FiniteNormalPanel149_15.certificate, FiniteNormalPanel149_18.certificate, FiniteNormalPanel149_19.certificate, FiniteNormalPanel150_8.certificate, FiniteNormalPanel150_9.certificate,
+  FiniteNormalPanel150_14.certificate, FiniteNormalPanel150_15.certificate, FiniteNormalPanel151_9.certificate, FiniteNormalPanel151_10.certificate, FiniteNormalPanel151_16.certificate,
+  FiniteNormalPanel151_17.certificate, FiniteNormalPanel152_8.certificate, FiniteNormalPanel152_9.certificate, FiniteNormalPanel152_15.certificate, FiniteNormalPanel152_16.certificate,
+  FiniteNormalPanel153_7.certificate, FiniteNormalPanel153_8.certificate, FiniteNormalPanel153_9.certificate, FiniteNormalPanel153_10.certificate, FiniteNormalPanel154_7.certificate,
+  FiniteNormalPanel154_8.certificate, FiniteNormalPanel154_9.certificate, FiniteNormalPanel154_10.certificate, FiniteNormalPanel155_8.certificate, FiniteNormalPanel155_9.certificate,
+  FiniteNormalPanel155_10.certificate, FiniteNormalPanel155_11.certificate, FiniteNormalPanel156_8.certificate, FiniteNormalPanel156_9.certificate, FiniteNormalPanel156_10.certificate,
+  FiniteNormalPanel156_11.certificate, FiniteNormalPanel157_9.certificate, FiniteNormalPanel157_10.certificate, FiniteNormalPanel157_11.certificate, FiniteNormalPanel157_12.certificate,
+  FiniteNormalPanel158_10.certificate, FiniteNormalPanel158_11.certificate, FiniteNormalPanel158_13.certificate, FiniteNormalPanel158_14.certificate, FiniteNormalPanel159_11.certificate,
+  FiniteNormalPanel159_12.certificate, FiniteNormalPanel159_14.certificate, FiniteNormalPanel159_15.certificate, FiniteNormalPanel160_3.certificate, FiniteNormalPanel160_4.certificate,
+  FiniteNormalPanel160_7.certificate, FiniteNormalPanel160_8.certificate, FiniteNormalPanel161_11.certificate, FiniteNormalPanel161_12.certificate, FiniteNormalPanel161_16.certificate,
+  FiniteNormalPanel161_17.certificate, FiniteNormalPanel162_9.certificate, FiniteNormalPanel162_10.certificate, FiniteNormalPanel162_13.certificate, FiniteNormalPanel162_14.certificate,
+  FiniteNormalPanel163_9.certificate, FiniteNormalPanel163_10.certificate, FiniteNormalPanel163_15.certificate, FiniteNormalPanel163_16.certificate, FiniteNormalPanel164_8.certificate,
+  FiniteNormalPanel164_9.certificate, FiniteNormalPanel164_18.certificate, FiniteNormalPanel164_19.certificate, FiniteNormalPanel165_8.certificate, FiniteNormalPanel165_9.certificate,
+  FiniteNormalPanel165_13.certificate, FiniteNormalPanel165_14.certificate, FiniteNormalPanel166_7.certificate, FiniteNormalPanel166_8.certificate, FiniteNormalPanel166_9.certificate,
+  FiniteNormalPanel166_10.certificate, FiniteNormalPanel167_6.certificate, FiniteNormalPanel167_7.certificate, FiniteNormalPanel167_10.certificate, FiniteNormalPanel167_11.certificate,
+  FiniteNormalPanel168_8.certificate, FiniteNormalPanel168_9.certificate, FiniteNormalPanel168_12.certificate, FiniteNormalPanel168_13.certificate, FiniteNormalPanel169_9.certificate,
+  FiniteNormalPanel169_10.certificate, FiniteNormalPanel169_14.certificate, FiniteNormalPanel169_15.certificate, FiniteNormalPanel170_9.certificate, FiniteNormalPanel170_10.certificate,
+  FiniteNormalPanel170_14.certificate, FiniteNormalPanel170_15.certificate, FiniteNormalPanel171_11.certificate, FiniteNormalPanel171_12.certificate, FiniteNormalPanel171_16.certificate,
+  FiniteNormalPanel171_17.certificate, FiniteNormalPanel172_11.certificate, FiniteNormalPanel172_12.certificate, FiniteNormalPanel172_17.certificate, FiniteNormalPanel172_18.certificate,
+  FiniteNormalPanel173_3.certificate, FiniteNormalPanel173_4.certificate, FiniteNormalPanel173_11.certificate, FiniteNormalPanel173_12.certificate
+]
+
+theorem allPanels_size : allPanels.size = 669 := by decide +kernel
+
+theorem allPanels_sound (i : Fin allPanels.size) {n : ℕ}
+    (hn : (allPanels[i]).samples ≤ n) :
+    (∫ s in ((allPanels[i]).left : ℝ)..(allPanels[i]).right,
+      prawitzNormalCorrection (((allPanels[i]).cutoff : ℝ) * sqrt n) s) ≤
+      (allPanels[i]).upper := (allPanels[i]).bound hn
+
+end FiniteNormalPanels

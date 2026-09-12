@@ -1,0 +1,28 @@
+{
+  "files": [
+    {
+      "name": "dyadic_interval.py",
+      "source": "experiments/dyadic_interval.py",
+      "sha256": "c39242cb20bd943890e01ca3c22d05fff2e06baf8c1fe99ff7d77148c229ca13"
+    },
+    {
+      "name": "dyadic_jet.py",
+      "source": "experiments/dyadic_jet.py",
+      "sha256": "8a205b04f2e1c669b6b0b1351e3f0e571d3acb058a711e5c35ea07aeabecb9c7"
+    },
+    {
+      "name": "finite_formulas.py",
+      "source": "experiments/taylor_cell.py",
+      "source_sha256": "bbcf434c6dffeccfca3aaafcb4c1c56794f5869ccc528057414853a0795e7c0c",
+      "sha256": "83b9e489676c77bbdac0d9633e3f2ebcf9da0ba93172a7742cf0afd03a3bd734",
+      "methods": [
+        "__init__",
+        "function",
+        "magnitude",
+        "powers_and_sum",
+        "qbound",
+        "scaled_low_kernel"
+      ]
+    }
+  ]
+}

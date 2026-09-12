@@ -127,6 +127,17 @@ be used; every additional analytic input must be formally proved.
 - Proved: the cubic critical-point range and the global cosine radicand range;
   all 2,884 frozen refinements have analytic certificates. Their original enclosures
   and expression identities remain explicit premises for the Taylor-program composition.
+- Proved: 693 scalar enclosures with exact real meanings, covering the 69,759
+  constant occurrences in the replayed finite Taylor programs. The full expression
+  semantics and their identification with the target integrands remain to be composed.
+- Proved: the complete normal-correction program semantics, actual panel integrals,
+  and adjacent-panel covering rules; all 669 panels and 174 normal-cell records
+  are independently checked. The Taylor rules carry regularity on the whole panel.
+- Proved: all 174 finite Gaussian-tail certificates, including the exact rational
+  exponential arguments and positive denominator comparisons.
+- Proved: seven complete high-frequency examples covering all saved branch/kernel
+  combinations, including both anchored cosine signs and their whole-panel guards.
+  Extend this composition to all remaining high and low panels.
 - Reuse the previous exact certificates only after connecting each premise to its analytic meaning.
 - Proved: substituting the scalar and vector caps gives explicit, integrable smoothing
   bounds independent of the unknown distribution. A bound `C*a` at the lower fraction

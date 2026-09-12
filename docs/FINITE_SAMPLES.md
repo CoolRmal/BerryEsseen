@@ -250,9 +250,17 @@ premises explicit; see [the refinement proof](RADICAND_REFINEMENTS.md).
 All 458 endpoint-Darboux panels already bound the actual high-frequency
 integrals; see [their proof](FINITE_DARBOUX.md).
 
-To finish the Taylor panels, the saved expressions still need the exact meanings
-of their constants and affine inputs, their branch guards, and their identification
-with these integrands. The numerical programs must then be composed using the
+All scalar constants also have exact real-valued enclosure proofs; see
+[their construction](SCALAR_CONSTANTS.md). To finish the Taylor panels, the
+programs must use those meanings together with their affine input rules and
+branch guards, and establish their identification with these integrands.
+The numerical programs must then be composed using the
 proved seed, refinement, arithmetic, and Taylor-integration rules. Finally their
 panel sums must be assembled over all the finite parameter cells. Those obligations,
 and the separate small-fraction argument, remain unfinished.
+
+The [normal-correction certificates](NORMAL_PANELS.md) now provide the complete
+normal term in each of the 174 saved cells, and the [Gaussian-tail certificates](FINITE_TAILS.md)
+provide every finite-cell tail. Initial high-frequency line and cosine panels
+also have actual integral proofs. Completing the remaining Taylor panels and
+combining all four budgets is still required for the finite-sample result.
