@@ -66,7 +66,7 @@ def endpoint_lean(cert):
     return f"⟨{ilit(cert['value'])}, {recipe}⟩"
 
 
-def extract(source):
+def extract(source, on_trig=None):
     manifest_path = source / "manifest.json"
     manifest = json.loads(manifest_path.read_text())
     sources, occurrences, entries, indices = [], [], [], {}
@@ -132,6 +132,8 @@ def extract(source):
                 if len(pairs) != 2:
                     raise ValueError("Malformed sine/cosine seed")
                 values[name] = tuple(pairs)
+                if on_trig is not None:
+                    on_trig(a, tuple(pairs), path.name, panel, name)
             elif op in {"exp", "sqrt"}:
                 if len(pairs) != 1:
                     raise ValueError("Malformed scalar seed")

@@ -76,8 +76,13 @@ be used; every additional analytic input must be formally proved.
 - Proved: the exact exponential seed checker, including rational Taylor bounds,
   repeated outward squaring, zero and underflow cases, and monotonicity between
   endpoints. All 3,514 exponential seeds in the frozen finite programs have checked
-  certificates and real soundness theorems. Trigonometric seeds and full panel
-  assembly remain; the jet input must still be identified with the certified interval.
+  certificates and real soundness theorems. The jet input must still be identified
+  with the certified interval in the full panel assembly.
+- Proved: the exact trigonometric seed checker, including the rounded rational
+  polynomial coefficients, signed Taylor remainders, quadrant reduction, global
+  range clipping, and whole-interval control by endpoints and critical points.
+  All 4,248 paired sine/cosine calls in the frozen finite programs have checked
+  certificates and real soundness theorems. Complete panel assembly remains.
 - Prove the positive integration and Taylor-panel rules, including error signs.
 - Proved: the signed fourth-order midpoint integration bound, with the fourth derivative
   controlled over the whole panel. Proved: explicit scalar Taylor remainder bounds for

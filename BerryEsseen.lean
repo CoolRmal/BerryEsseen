@@ -29,6 +29,7 @@ public import BerryEsseen.Numerics.InverseJet
 public import BerryEsseen.Numerics.ExponentialJet
 public import BerryEsseen.Numerics.CertifiedExponentialJet
 public import BerryEsseen.Numerics.TrigonometricJet
+public import BerryEsseen.Numerics.CertifiedTrigonometricJet
 public import BerryEsseen.Numerics.SquareRootJet
 public import BerryEsseen.Numerics.JetInputs
 public import BerryEsseen.Numerics.TaylorPanelSoundness
@@ -54,3 +55,4 @@ public import BerryEsseen.Numerics.HighCertificate
 public import BerryEsseen.Numerics.CellCertificate
 public import BerryEsseen.Certificates.ScalarFullH.MomentBands
 public import BerryEsseen.Certificates.FiniteExpSeeds.Complete
+public import BerryEsseen.Certificates.FiniteTrigSeeds.Complete

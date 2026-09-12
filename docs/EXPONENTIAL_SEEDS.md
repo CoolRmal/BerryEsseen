@@ -88,7 +88,8 @@ python3 scripts/import_finite_exp_seeds.py /path/to/finite20_dags
 python3 scripts/build_certificates.py
 ```
 
-This certifies the exponential seeds themselves. The remaining finite-panel work
-includes trigonometric seeds, analytic range refinements and branch guards, and
+This certifies the exponential seeds themselves. The [trigonometric seeds](TRIGONOMETRIC_SEEDS.md)
+are also certified separately. The remaining finite-panel work includes constant
+and input meanings, analytic range refinements and branch guards, and
 the complete connection from each expression to its panel integrand. Certifying
 one class of scalar operations does not establish the headline Berry–Esseen bound.

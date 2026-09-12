@@ -58,6 +58,9 @@ The [exponential seed certificates](EXPONENTIAL_SEEDS.md) now discharge that pre
 for all 3,514 exponential calls extracted from the frozen finite-sample programs.
 Their soundness covers every real input in each recorded interval. Connecting the
 computed jet input to that interval and assembling each complete panel remain.
+The [trigonometric seed certificates](TRIGONOMETRIC_SEEDS.md) likewise cover all
+4,248 paired sine/cosine calls, using proved endpoint Taylor bounds and critical
+points to control the full interval.
 
 ## From integers to real intervals
 

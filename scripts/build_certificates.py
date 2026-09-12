@@ -28,17 +28,18 @@ def main():
             raise SystemExit(result.returncode)
         if start // 32 != stop // 32 or stop == 467:
             print(f'{stop}/467 cell modules checked ({time.monotonic() - started:.1f}s)', flush=True)
-    exp_batches = sorted((root / 'BerryEsseen/Certificates/FiniteExpSeeds').glob('Batch*.lean'))
-    for start in range(0, len(exp_batches), args.batch_size):
-        batch = exp_batches[start:start + args.batch_size]
-        modules = [f'BerryEsseen.Certificates.FiniteExpSeeds.{path.stem}' for path in batch]
-        result = subprocess.run(['lake', 'build', *modules], cwd=root,
-                                capture_output=True, text=True)
-        if result.returncode:
-            print(result.stdout + result.stderr, flush=True)
-            raise SystemExit(result.returncode)
-        stop = start + len(batch)
-        print(f'{stop}/{len(exp_batches)} exponential seed batches checked', flush=True)
+    for folder, label in [('FiniteExpSeeds', 'exponential'), ('FiniteTrigSeeds', 'trigonometric')]:
+        batches = sorted((root / f'BerryEsseen/Certificates/{folder}').glob('Batch*.lean'))
+        for start in range(0, len(batches), args.batch_size):
+            batch = batches[start:start + args.batch_size]
+            modules = [f'BerryEsseen.Certificates.{folder}.{path.stem}' for path in batch]
+            result = subprocess.run(['lake', 'build', *modules], cwd=root,
+                                    capture_output=True, text=True)
+            if result.returncode:
+                print(result.stdout + result.stderr, flush=True)
+                raise SystemExit(result.returncode)
+            stop = start + len(batch)
+            print(f'{stop}/{len(batches)} {label} seed batches checked', flush=True)
     subprocess.run(['lake', 'build', 'BerryEsseen'], cwd=root, check=True)
 
 
