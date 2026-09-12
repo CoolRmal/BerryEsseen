@@ -20,13 +20,16 @@ be used; every additional analytic input must be formally proved.
 - Prove the elementary convex minorant and its symmetrized global modulus bound.
 - Proved: the finite geometric power comparison and coordinate-to-modulus estimates.
 - Pending: the Gaussian/cosine discrepancy.
-- Connect independent product sums with powers of the characteristic function.
+- Proved: independent product sums have characteristic function f(t/sqrt(n))^n,
+  mean zero, and variance one.
+- Proved: the global cosine inequality cos(x)-1+x²/2 <= |x|³/10.
 
 ## 3. Fourier smoothing and extreme parameter regions
 
 - Formalize the Prawitz smoothing inequality, including its kernel and limiting arguments.
 - Formalize the small-Lyapunov-fraction remainder estimate and its 47 rational consequences.
-- Formalize the elementary large-fraction Cantelli argument.
+- Proved: the elementary large-fraction Cantelli argument, including the universal CDF
+  bound 11/20 and the target upper bound whenever beta/sqrt(n)>=6/5.
 
 ## 4. Numerical soundness and uniform coverage
 
