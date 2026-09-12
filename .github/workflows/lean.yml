@@ -15,4 +15,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: leanprover/lean-action@v1
         with:
-          build-args: "BerryEsseen"
+          build: "false"
+      - name: Check certificates and supporting library
+        run: python3 scripts/build_certificates.py --batch-size 2

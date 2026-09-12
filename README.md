@@ -15,6 +15,9 @@ contains a complete proof of the `0.40` lower bound, moment inequalities, improv
 and imaginary-part characteristic-function bounds, the global convex-minorant modulus
 bound, classical Taylor estimates, uniform sample-size caps, the full Prawitz smoothing
 inequality, and rational certificate margins.
+A complete 467-cell covering now proves the `0.4688` upper bound whenever
+`β/√n ≥ 0.05` and either `n ≥ 20` or `β ≥ 2`, with all numerical data checked
+in Lean. The separate small-fraction and remaining small-sample regions are unfinished.
 A successful supporting-library build does not establish the headline bound.
 
 ## Meaning of the constant
@@ -35,7 +38,7 @@ The Lean version and mathlib commit are pinned in `lean-toolchain` and `lake-man
 
 ```sh
 lake exe cache get
-lake build
+python3 scripts/build_certificates.py
 ```
 
 `Challenge.lean` contains the comparator's intentional proof hole. `Solution.lean` currently
@@ -64,6 +67,8 @@ The [panel-bound proof](docs/PANEL_BOUNDS.md) explains how endpoint data control
 four smoothing terms, including intervals crossing the decay-profile splices.
 The [certificate soundness notes](docs/CERTIFICATE_SOUNDNESS.md) identify which saved
 integer record checks now imply bounds on the actual real integrals.
+The [completed scalar covering](docs/SCALAR_CERTIFICATES.md) explains how all 467
+checked cells yield the regional probability theorems and how to reproduce the build.
 The [numerical proof notes](docs/NUMERICAL_PROOF.md) distinguish the completed
 integration and interval soundness proofs from the remaining certificate assembly.
 

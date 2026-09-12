@@ -44,3 +44,4 @@ public import BerryEsseen.Numerics.TailCertificate
 public import BerryEsseen.Numerics.NormalCertificate
 public import BerryEsseen.Numerics.HighCertificate
 public import BerryEsseen.Numerics.CellCertificate
+public import BerryEsseen.Certificates.ScalarFullH.MomentBands

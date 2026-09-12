@@ -93,14 +93,18 @@ be used; every additional analytic input must be formally proved.
   The full general-cell soundness theorem converts a passing rational sum budget
   to the normalized error bound for every admissible iid law in that cell; all
   sample-size caps and anchor frequency restrictions follow from its checked data.
-- Remaining: instantiate the complete saved data, connect the parameter coverage,
-  and complete the separate finite-sample and small-fraction arguments.
+- Proved: all 467 saved cells pass their tightened `293/625` budget checks, and
+  their exact indexed lists have the real-integral meaning required by the cell
+  theorem. Adjacency gives continuous coverage of all five parameter ranges.
+- Proved: the target bound when `ell>=1/20` and either `n>=20` or `beta>=2`.
+- Remaining: complete the separate finite-sample and small-fraction arguments.
 - Reuse the previous exact certificates only after connecting each premise to its analytic meaning.
 - Proved: substituting the scalar and vector caps gives explicit, integrable smoothing
   bounds independent of the unknown distribution. A bound `C*a` at the lower fraction
   endpoint proves the normalized bound `C` throughout the cell, while its analytic
   majorant uses the upper endpoint `b`.
-- Apply the certificates to cover beta>=2 uniformly in n, and beta in [1,2] for n>=20.
+- Completed: the certificates cover beta>=2 uniformly in n, and beta in [1,2]
+  for n>=20, throughout the required non-small fraction ranges.
 - Assemble the remaining n=1,...,19 certificate.
 - The recorded rational maxima are all below 293/625=0.4688; these comparisons are already
   formalized in `CertificateMargins.lean`. They alone are not a probability theorem.

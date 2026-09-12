@@ -154,5 +154,7 @@ convergent omitted cosine series into negative-positive pairs, starting at degre
 
 Thus the degree-32 polynomial is an upper bound throughout the table's argument range.
 The Lean proofs also cover the alternate table branch that uses the trivial bound `cos<=1`.
-These results establish the meaning of any passing entry; the panel contributions and
-finite coverage still need to be assembled before the final numerical theorem follows.
+These results establish the meaning of any passing entry. The general-cell panel
+contributions, all 467 saved cells, and their real interval coverage have now been
+assembled into the [regional probability theorems](SCALAR_CERTIFICATES.md).
+The separate small-fraction and small-sample arguments remain unfinished.

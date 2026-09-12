@@ -99,7 +99,8 @@ formats listed below remain necessary for the universal theorem.
 
 ## Remaining assembly
 
-The saved records must be imported and instantiated with the complete cell
-soundness theorem, and the cells must cover the required parameter ranges. The separate small-fraction
-argument and the finite-sample certificate also remain in the final proof plan.
-The completed theorems above do not yet establish the universal upper constant.
+All 467 saved general-cell records have now been imported, checked at `0.4688`,
+and connected to the real interval coverage and probability theorems. See
+[the completed scalar covering](SCALAR_CERTIFICATES.md). The separate small-fraction
+argument and finite-sample certificate remain in the final proof plan.
+The completed regions do not yet establish the universal upper constant.
