@@ -1,0 +1,9 @@
+.lake/
+.DS_Store
+__pycache__/
+.venv/
+*.olean
+*.ilean
+*.trace
+comparator/tools/
+comparator/results/

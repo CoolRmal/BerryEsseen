@@ -1,0 +1,17 @@
+name = "berryEsseen"
+version = "0.1.0"
+defaultTargets = ["BerryEsseen"]
+
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4.git"
+rev = "141f6b6455959bfeb0b2a6b04118031191d62683"
+
+[[lean_lib]]
+name = "BerryEsseen"
+
+[[lean_lib]]
+name = "Challenge"
+
+[[lean_lib]]
+name = "Solution"
