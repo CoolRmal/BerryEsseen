@@ -1,7 +1,7 @@
 # Why the panel bounds control entire integrals
 
-These analytic panel bounds are proved in Lean. The remaining certificate work must
-apply them to every saved panel and verify the parameter covering.
+These analytic panel bounds are proved in Lean. Their applications to all saved
+panels and the complete parameter covering have also been checked.
 
 Let `K` be the doubled Prawitz kernel, `h` the proved convex minorant, and
 

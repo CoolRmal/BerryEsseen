@@ -1,19 +1,16 @@
 module
 
-public import BerryEsseen
+public import BerryEsseen.UniversalUpperBound
+public import BerryEsseen.LowerBound
 
 open scoped ENNReal
 
 /-!
-# Solution under development
-
-This proof is unfinished and is expected to fail the comparator until its proof hole is
-replaced. A successful build of the supporting library is not a solution to the challenge.
+# Bounds on the universal iid Berry–Esseen constant
 -/
 
 public theorem berry_esseen_constant_bounds :
     (0.40 : ℝ≥0∞) ≤ BerryEsseen.berryEsseenConstant ∧
-      BerryEsseen.berryEsseenConstant ≤ 0.4688 := by
-  constructor
-  · exact BerryEsseen.berryEsseenConstant_lower_bound
-  · sorry
+      BerryEsseen.berryEsseenConstant ≤ 0.4688 :=
+  ⟨BerryEsseen.berryEsseenConstant_lower_bound,
+    BerryEsseen.berryEsseenConstant_upper_bound⟩

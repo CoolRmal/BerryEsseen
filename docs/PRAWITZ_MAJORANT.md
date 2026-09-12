@@ -2,7 +2,7 @@
 
 This note proves the pointwise majorant, its probability bounds, and the four-term
 Fourier smoothing inequality. All these steps are formalized in Lean, including
-endpoint integrability. The numerical certificate assembly remains unfinished.
+endpoint integrability. The numerical certificate assembly is also complete; see [the proof map](PROOF_OVERVIEW.md).
 
 The useful mechanism is a shift recurrence. Its sign becomes transparent after adding
 one elementary correction term.
@@ -143,7 +143,7 @@ and `S` is measurable. The proof handles an atom at `a` explicitly; the upper po
 bound equals one at zero and the reflected lower bound equals zero there.
 
 The characteristic-function conversion and its comparison with the normal CDF are proved
-below. Assembling the numerical upper bound remains unfinished.
+below. The [complete certificate assembly](FINITE_CELLS.md) applies this inequality.
 
 ## Lean map
 

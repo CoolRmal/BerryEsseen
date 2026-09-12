@@ -69,7 +69,6 @@ python3 scripts/import_finite_normal_cells.py
 python3 scripts/build_certificates.py
 ```
 
-The normal correction is one term of the smoothing bound. Completing this term
-alone does not establish the finite-sample Berry–Esseen bound; the low-frequency
-and remaining high-frequency Taylor terms, the tail, and their combined budget
-must also be proved and assembled.
+The normal correction is one term of the smoothing bound. The low-frequency
+and high-frequency terms, the tail, and their combined budget are proved and
+assembled separately in the [complete finite cells](FINITE_CELLS.md).

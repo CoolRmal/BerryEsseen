@@ -56,8 +56,8 @@ needs a valid interval for its zeroth coefficient. That premise is explicit, not
 inferred merely because a saved interval was supplied.
 The [exponential seed certificates](EXPONENTIAL_SEEDS.md) now discharge that premise
 for all 3,514 exponential calls extracted from the frozen finite-sample programs.
-Their soundness covers every real input in each recorded interval. Connecting the
-computed jet input to that interval and assembling each complete panel remain.
+Their soundness covers every real input in each recorded interval. The completed
+panel assembly connects each computed jet input to its certified interval.
 The [trigonometric seed certificates](TRIGONOMETRIC_SEEDS.md) likewise cover all
 4,248 paired sine/cosine calls, using proved endpoint Taylor bounds and critical
 points to control the full interval.
@@ -75,15 +75,12 @@ witnesses are checked by squaring integers. Scalar Taylor remainder bounds in
 [ScalarRemainders.lean](../BerryEsseen/ScalarRemainders.lean) justify replacing exp,
 sin, and cos by rational polynomials with an explicit error interval.
 
-## What remains before the headline theorem follows
+## Verification status
 
-The scalar seeds, normal panels, tails, and coverage of the unbounded sample-size
-parameter are checked. The high- and low-frequency finite Taylor programs and
-their complete parameter covering have generated proofs whose full check is running.
-The separate [small-fraction argument](SMALL_FRACTION.md) is complete.
-Only after the remaining finite certificates and final assembly are checked can
-the comparator accept the bound 0.4688.
-
+All scalar seeds, high- and low-frequency Taylor programs, normal panels, tails,
+and complete parameter coverings have passed Lean. The separate
+[small-fraction argument](SMALL_FRACTION.md) and universal upper theorem have also
+passed. The final pinned Linux comparator check is pending.
 
 ## The completed connection to probability
 
@@ -97,7 +94,7 @@ Then every actual fraction `ell` in that interval satisfies
 
 so its normalized error is at most `C`. `ParameterCellBounds.lean` proves this implication
 for the large-moment region and for the four moment bands with sample size at least 20.
-Thus the remaining numerical statements have explicit real-integral conclusions;
+Thus the numerical statements have explicit real-integral conclusions;
 no claim that a list of passing integer checks alone proves the probability bound is made.
 
 For finite sample-size cells, [FINITE_SAMPLES.md](FINITE_SAMPLES.md) gives the separate
@@ -105,7 +102,7 @@ completed analytic reduction. `FiniteSmoothing.lean` bounds the actual CDF by th
 three smooth integrals evaluated by the finite records and an explicit Gaussian tail.
 `FiniteGeometricAverage.lean` justifies replacing sample sizes in `[N,H]` by the
 lower endpoint with the factor `H/N`. The cell budget uses `sqrt(H)/L`, where `L`
-is its lower third-moment endpoint. Numerical record instantiation is still required.
+is its lower third-moment endpoint. All saved numerical records have now been instantiated and checked.
 
 
 ## The cotangent entries in the kernel tables
@@ -179,5 +176,5 @@ The Lean proofs also cover the alternate table branch that uses the trivial boun
 These results establish the meaning of any passing entry. The general-cell panel
 contributions, all 467 saved cells, and their real interval coverage have now been
 assembled into the [regional probability theorems](SCALAR_CERTIFICATES.md).
-The separate small-fraction argument is complete; the remaining small-sample
-certificate assembly is being checked.
+The separate small-fraction argument and small-sample certificate assembly are
+also complete. See [the proof overview](PROOF_OVERVIEW.md).

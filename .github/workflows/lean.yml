@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Make room for the certificate outputs
+        run: bash scripts/prepare_linux_ci.sh
       - uses: leanprover/lean-action@v1
         with:
           build: "false"

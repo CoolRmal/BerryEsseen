@@ -118,8 +118,7 @@ python3 scripts/build_certificates.py
 ```
 
 Together with the 3,514 exponential certificates, these results certify the
-transcendental seeds explicitly present in the frozen jet programs. The complete
-finite-panel proof still needs its constant/input meanings, analytic refinements,
-branch guards, expression-to-integrand identification, and checked panel assembly.
-The small-fraction argument and final universal assembly also remain. The seed
-certificates alone are not a proof of the headline Berry–Esseen upper bound.
+transcendental seeds in the frozen jet programs. The complete
+[finite-panel assembly](FINITE_CELLS.md) connects their inputs and expressions to
+the actual integrands and has passed Lean. Seed checks alone would not suffice;
+the checked proof includes all these analytic connections.

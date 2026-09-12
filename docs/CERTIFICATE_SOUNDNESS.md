@@ -97,10 +97,10 @@ passing cell data, complete passing panel records, and a passing rational budget
 give the stated probability bound. Global coverage and the separate certificate
 formats listed below remain necessary for the universal theorem.
 
-## Remaining assembly
+## Complete assembly
 
 All 467 saved general-cell records have now been imported, checked at `0.4688`,
 and connected to the real interval coverage and probability theorems. See
-[the completed scalar covering](SCALAR_CERTIFICATES.md). The separate small-fraction
-argument and finite-sample certificate remain in the final proof plan.
-The completed regions do not yet establish the universal upper constant.
+[the completed scalar covering](SCALAR_CERTIFICATES.md). The separate
+[small-fraction argument](SMALL_FRACTION.md), [finite cells](FINITE_CELLS.md), and
+universal upper theorem have also passed Lean. The comparator check is pending.

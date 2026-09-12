@@ -75,6 +75,6 @@ lake build BerryEsseen.Certificates.FiniteScalarConstants.Complete
 ```
 
 No floating-point result, external interval library, or producer success flag
-is a premise of the Lean scalar theorems. The remaining composition must use
-these exact values to prove that the complete panel expressions have the intended
-integrand meanings, with all branch and derivative-domain conditions satisfied.
+is a premise of the Lean scalar theorems. The completed composition uses these
+exact values to identify the complete panel expressions with their intended
+integrands, including all branch and derivative-domain conditions.

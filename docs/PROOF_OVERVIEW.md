@@ -1,7 +1,7 @@
 # The upper-bound proof in one map
 
-The target is `0.40 ≤ C_iid ≤ 0.4688`. This note explains the complete design;
-the remaining finite certificates and final comparator are still being checked.
+The theorem is `0.40 ≤ C_iid ≤ 0.4688`. Its complete Lean proof, including all
+finite certificates, has built successfully. The separate comparator check is pending.
 See the repository README for verification status.
 
 For a centered, variance-one law, put

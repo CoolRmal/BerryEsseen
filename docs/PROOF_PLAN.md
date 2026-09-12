@@ -1,179 +1,55 @@
-# Formal proof plan
+# Formal proof map
 
-The goal is an unconditional theorem about the actual universal iid Berry–Esseen constant.
-No published numerical constant is imported as an assumption. Standard mathlib theorems may
-be used; every additional analytic input must be formally proved.
+The unconditional theorem about the universal iid Berry–Esseen constant has passed
+`lake build Solution BerryEsseen`. No published numerical Berry–Esseen bound is
+imported as an assumption. The separate pinned Linux comparator check is pending.
 
-## 1. Statement and foundational moments
+## Statement and moments
 
-- Defined: admissible probability laws, independent normalized sums, normal CDF, normalized
-  errors, and the supremum defining the universal constant.
-- Proved: supremum introduction and upper-bound characterization.
-- Proved: E[(|X|-1)²(2|X|+1)] = 2(E|X|³-1).
-- Proved: E|X|³ >= 1, positivity, and |X|=1 almost surely in the equality case.
-- Proved: weighted Cauchy–Schwarz estimates for E[|X| |X²-1|] and E[|X| ||X|-1|].
+[Defs.lean](../BerryEsseen/Defs.lean) defines the supremum over all centered,
+variance-one real probability laws with a finite third absolute moment, every
+positive sample size, and every real cutoff. The iid sample uses a product measure.
+[The proof overview](PROOF_OVERVIEW.md) explains the complete argument.
 
-## 2. Characteristic-function estimates
+## Analytic estimates
 
-- Proved: the cosine reference bound with coefficient (beta-1)/6.
-- Proved: all three imaginary estimates using sin(uX)-X sin(u).
-- Proved: the full three-piece convex minorant, including both joins, convexity,
-  monotonicity, and the pointwise comparison with (1-cos(x))/x².
-- Proved: E|X-X'|³ <= 2 beta+2 and the symmetrized global modulus bound
-  |f(t)| <= exp(-t² h((beta+1)|t|)). The weighted Jensen step integrates a supporting line.
-- Proved: the finite geometric power comparison and coordinate-to-modulus estimates.
-- Proved: the exact Gaussian/cosine integral identity, the discrepancy bound u⁴/12,
-  and the sharper degree-eighteen polynomial u⁴ Q(u²) on [0,pi].
-- Proved: the classical complex Taylor remainder, giving
-  |f(t)-exp(-t²/2)| <= beta |t|³/6+t⁴/8.
-- Proved: independent product sums have characteristic function f(t/sqrt(n))^n,
-  mean zero, and variance one.
-- Proved: the global cosine inequality cos(x)-1+x²/2 <= |x|³/10.
-- Proved: all-frequency majorants for normalized sums, combining the geometric power
-  comparison with the magnitude bound. The one-summand bounds increase with beta.
+The [cosine-anchor estimates](ANCHORS.md) retain the information that a third
+absolute moment near one forces proximity to the symmetric two-point law.
+The [global modulus bound](GLOBAL_MODULUS.md) supplies exponential damping.
+[Sample-size compression](SCALAR_COMPRESSION.md) compares powers uniformly.
+The [Prawitz proof](PRAWITZ_MAJORANT.md) converts characteristic-function estimates
+into four real integrals, with endpoints and atoms included.
 
-- Proved: the continuous geometric damping factor, its monotonicity in both arguments,
-  its polynomial upper bound, and the exact geometric-sum identity.
-- Proved: the scalar and vector characteristic-function bounds uniformly under moment
-  and sample-size caps, including the band coefficients and frequency guard.
-- Proved: the cap choices for beta>=2 and for n>=20, including the rational square-root bound.
-- Proved: the finite geometric sum divided by its length is an integral of powers of
-  convex combinations. Its monotonicity justifies the exact H/N comparison over
-  a finite sample-size interval [N,H].
-- Proved: all smooth finite-sample modulus branches and both factored error bounds,
-  with explicit branch domains; the cutoff c*sqrt(n) gives a common one-summand
-  frequency throughout the cell.
+## Complete parameter coverage
 
-## 3. Fourier smoothing and extreme parameter regions
+- [Small fractions](SMALL_FRACTION.md): a direct analytic proof gives `0.4575`
+  when `β/√n ≤ 1/20`.
+- [Scalar certificates](SCALAR_CERTIFICATES.md): 467 checked cells give `0.4688`
+  for the other fractions when `n ≥ 20` or `β ≥ 2`.
+- [Finite cells](FINITE_CELLS.md): 174 checked cells cover the necessary finite
+  sample-size and third-moment intervals. The [large-fraction argument](LARGE_FRACTION.md)
+  covers the complementary extreme fractions.
 
-- Proved: the pointwise Prawitz majorant, including kernel integrability, the shift recurrence,
-  its limiting value via Riemann–Lebesgue, measurability, and the first-moment growth bound.
-- Proved: averaging the majorant bounds the CDF from both sides, including atoms.
-- Proved: the normal CDF Fourier representation on the full line and positive half-line,
-  including frequency rescaling. The proof integrates the Gaussian cosine transform by Fubini.
-- Proved: Fubini for the majorant under a finite first moment, the translated
-  characteristic-function projection, and both finite-frequency Fourier bounds for the CDF.
-- Proved: the pointwise complex decomposition into characteristic-function error and
-  normal correction, equality of the upper/lower kernel norms, and an abstract integral
-  splitting bound with explicit integrability and almost-everywhere domination premises.
-- Proved: the complete four-term Prawitz smoothing inequality, including every endpoint
-  integrability argument, its application to the normalized iid law, and substitution
-  of explicit characteristic-function majorants on the open frequency intervals.
-- Proved: the small-fraction probability bound `183/400 = 0.4575` whenever
-  `beta/sqrt(n) <= 1/20`. This uses a direct cosine-anchor argument, elementary
-  kernel bounds, Gaussian moments, and rational exponential remainders. It
-  replaces the earlier plan to import an asymptotic remainder lemma and certify
-  47 scalar consequences; see [the proof](SMALL_FRACTION.md).
-- Proved: the elementary large-fraction Cantelli argument, including the universal CDF
-  bound 11/20 and the target upper bound whenever beta/sqrt(n)>=6/5.
+[UniversalUpperBound.lean](../BerryEsseen/UniversalUpperBound.lean) splits these
+cases and passes to the defining supremum.
 
-## 4. Numerical soundness and uniform coverage
+## Exact numerical proof
 
-- Prove the real-variable meaning of the fixed-point interval operations and Taylor tables.
-- Proved: the scale-2³² interval operations preserve real enclosures, including signed
-  multiplication, integer rounding, positive integer division, reciprocal guards, and
-  square-root witnesses. These match the executable core of the finite certificate.
-- Proved: the degree-four jet operations enclose the actual factorial-normalized
-  derivatives of constants, sums, products, reciprocals, square roots, exponentials,
-  sine, and cosine. Exponential and trigonometric scalar seeds remain explicit premises
-  to be discharged by the scalar remainder bounds and exact certificate data.
-- Proved: the exact exponential seed checker, including rational Taylor bounds,
-  repeated outward squaring, zero and underflow cases, and monotonicity between
-  endpoints. All 3,514 exponential seeds in the frozen finite programs have checked
-  certificates and real soundness theorems. The jet input must still be identified
-  with the certified interval in the full panel assembly.
-- Proved: the exact trigonometric seed checker, including the rounded rational
-  polynomial coefficients, signed Taylor remainders, quadrant reduction, global
-  range clipping, and whole-interval control by endpoints and critical points.
-  All 4,248 paired sine/cosine calls in the frozen finite programs have checked
-  certificates and real soundness theorems. Complete panel assembly remains.
-- Prove the positive integration and Taylor-panel rules, including error signs.
-- Proved: the signed fourth-order midpoint integration bound, with the fourth derivative
-  controlled over the whole panel. Proved: explicit scalar Taylor remainder bounds for
-  exponential, sine, and cosine, to justify rational scalar enclosures.
-- Proved: the normalized-jet integration rule 2*h*(c0+c2/3+c4/5), including the
-  change of variables, affine jet inputs, and refinements with a separate real-value
-  enclosure premise. Signed coefficients and zero panel width are included.
-- Proved: the cotangent correction is nonnegative and increasing, its rational polynomial
-  bounds follow from signed sine Taylor estimates, and the resulting endpoint kernel
-  bounds dominate entire integration panels.
-- Proved: every passing scale-2⁶⁴ scalar table entry has its claimed real meaning
-  (exponential upper, cosine upper, cotangent lower and upper). This includes the
-  cleared-denominator polynomial identities and rounding bounds on pi.
-- Proved: all scalar and vector low-frequency rectangle bounds, the high-frequency
-  and normal-correction rectangles, and the infinite Gaussian tail bound. The full
-  decay exponent has its minimum at a panel endpoint, including across splices.
-- Proved: all three decay-endpoint witness modes, the cleared-integer geometric-factor
-  guard, and assembly of adjacent panels with explicit first/last endpoint conditions.
-- Proved: checked general cells imply their real cutoff, grid, and decay facts. Every
-  passing saved endpoint-decay, tail, normal-panel, and high-panel record implies its
-  claimed real bound. Both high-frequency kernel branches are included.
-- Proved: both scalar and vector low-panel records imply their real integral bounds,
-  including all rounded factors. The pointwise minimum of the two envelopes remains
-  a valid smoothing majorant, and every complete indexed low-panel list bounds the
-  integral from zero to the exact split point.
-- Proved: all four complete panel sums bound the cell's smoothing expression.
-  The full general-cell soundness theorem converts a passing rational sum budget
-  to the normalized error bound for every admissible iid law in that cell; all
-  sample-size caps and anchor frequency restrictions follow from its checked data.
-- Proved: all 467 saved cells pass their tightened `293/625` budget checks, and
-  their exact indexed lists have the real-integral meaning required by the cell
-  theorem. Adjacency gives continuous coverage of all five parameter ranges.
-- Proved: the target bound when `ell>=1/20` and either `n>=20` or `beta>=2`.
-- Remaining: finish checking the separate finite-sample certificate assembly.
-- Proved: the finite-sample analytic reduction to its three smooth integrals and
-  explicit Gaussian tail. Polynomial kernel denominators are positive throughout
-  the required half-period. A budget normalized by sqrt(H)/L gives the actual
-  probability bound throughout [N,H] and [L,B]. The saved finite numerical records
-  still need to be connected to these theorems.
-- Proved: the endpoint-Darboux formula and all 458 actual saved endpoint panels,
-  including the branch domains, rational square-root majorants, and integral bounds.
-- Proved: the cubic critical-point range and the global cosine radicand range;
-  all 2,884 frozen refinements have analytic certificates. Their original enclosures
-  and expression identities remain explicit premises for the Taylor-program composition.
-- Proved: 693 scalar enclosures with exact real meanings, covering the 69,759
-  constant occurrences in the replayed finite Taylor programs. The full expression
-  semantics and their identification with the target integrands remain to be composed.
-- Proved: the complete normal-correction program semantics, actual panel integrals,
-  and adjacent-panel covering rules; all 669 panels and 174 normal-cell records
-  are independently checked. The Taylor rules carry regularity on the whole panel.
-- Proved: all 174 finite Gaussian-tail certificates, including the exact rational
-  exponential arguments and positive denominator comparisons.
-- Proved: seven complete high-frequency examples covering all saved branch/kernel
-  combinations, including both anchored cosine signs and their whole-panel guards.
-  Extend this composition to all remaining high and low panels.
-- Reuse the previous exact certificates only after connecting each premise to its analytic meaning.
-- Proved: substituting the scalar and vector caps gives explicit, integrable smoothing
-  bounds independent of the unknown distribution. A bound `C*a` at the lower fraction
-  endpoint proves the normalized bound `C` throughout the cell, while its analytic
-  majorant uses the upper endpoint `b`.
-- Completed: the certificates cover beta>=2 uniformly in n, and beta in [1,2]
-  for n>=20, throughout the required non-small fraction ranges.
-- Assemble the remaining n=1,...,19 certificate.
-- The recorded rational maxima are all below 293/625=0.4688; these comparisons are already
-  formalized in `CertificateMargins.lean`. They alone are not a probability theorem.
+The [numerical notes](NUMERICAL_PROOF.md) explain outward-rounded interval arithmetic,
+whole-panel derivative enclosures, signed Taylor integration, and rational budgets.
+All inputs are connected to their actual real meanings in Lean. The checked collection
+contains 1,806 high-frequency Taylor panels, 1,101 low-frequency Taylor panels,
+669 normal-correction Taylor panels, 458 endpoint panels, and 174 Gaussian tails.
+All 17 finite parameter blocks and their complete coverage have been checked.
 
-## 5. Lower-bound witness
+## Lower bound and final verification
 
-**Completed in Lean:** `BerryEsseen.berryEsseenConstant_lower_bound`. Its axiom closure
-contains only `propext`, `Classical.choice`, and `Quot.sound`.
+The [lower-bound proof](LOWER_BOUND.md) uses six standardized Bernoulli variables
+with success probability `2/5`. A rational estimate of one normal probability
+proves the lower bound `0.40`.
 
-Let B have Bernoulli parameter 2/5, and X=(B-2/5)/sqrt(6/25). For six iid copies,
-the event W_6<=-1/3 is the event that the binomial count is at most 2. Its probability is
-1701/3125, and sqrt(6)/E|X|³=30/13. Thus it is enough to prove
-
-`(30/13) * (1701/3125 - Phi(-1/3)) > 2/5`.
-
-The proof uses symmetry of the Gaussian density and the elementary inequality exp(-t²/2)>=1-t²/2
-on [0,1/3] to bound the normal CDF by rational arithmetic. This avoids an asymptotic
-Edgeworth expansion for the lower bound.
-
-## 6. Final gates
-
-- Replace the solution's proof hole by the lower and upper theorems.
-- Build all modules with no unfinished proof in the solution dependency closure.
-- Run the pinned comparator against `Challenge.lean`, with only the three standard axioms.
-- Publish the passing commit, comparator logs, and exact dependency revisions.
-
-The public development history will distinguish completed supporting results from the
-unfinished headline theorem. Arithmetic-only checks will never be presented as a full proof.
+[Solution.lean](../Solution.lean) combines the lower and upper theorems with no
+proof hole. The intended final gate is the [pinned comparator](../comparator/README.md),
+which compares the solution against the challenge, checks the axiom whitelist,
+and replays the proof in the Lean kernel in a Linux sandbox. This check is pending;
+the ordinary Lean build has passed.

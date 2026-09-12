@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Formal proof map · Berry–Esseen proof notes</title><link rel="stylesheet" href="assets/katex.min.css"><link rel="stylesheet" href="assets/notes.css"></head><body><main><nav><a href="index.html">All proof notes</a><a href="PROOF_OVERVIEW.html">Proof overview</a><a href="../PROOF_PLAN.md">Markdown source</a><a href="https://github.com/CoolRmal/BerryEsseen">GitHub project</a></nav><h1>Formal proof map</h1>
+<p>The unconditional theorem about the universal iid Berry–Esseen constant has passed
+<code>lake build Solution BerryEsseen</code>. No published numerical Berry–Esseen bound is
+imported as an assumption. The separate pinned Linux comparator check is pending.</p>
+<h2>Statement and moments</h2>
+<p><a href="../../BerryEsseen/Defs.lean">Defs.lean</a> defines the supremum over all centered,
+variance-one real probability laws with a finite third absolute moment, every
+positive sample size, and every real cutoff. The iid sample uses a product measure.
+<a href="PROOF_OVERVIEW.html">The proof overview</a> explains the complete argument.</p>
+<h2>Analytic estimates</h2>
+<p>The <a href="ANCHORS.html">cosine-anchor estimates</a> retain the information that a third
+absolute moment near one forces proximity to the symmetric two-point law.
+The <a href="GLOBAL_MODULUS.html">global modulus bound</a> supplies exponential damping.
+<a href="SCALAR_COMPRESSION.html">Sample-size compression</a> compares powers uniformly.
+The <a href="PRAWITZ_MAJORANT.html">Prawitz proof</a> converts characteristic-function estimates
+into four real integrals, with endpoints and atoms included.</p>
+<h2>Complete parameter coverage</h2>
+<ul>
+<li><a href="SMALL_FRACTION.html">Small fractions</a>: a direct analytic proof gives <code>0.4575</code>
+when <code>β/√n ≤ 1/20</code>.</li>
+<li><a href="SCALAR_CERTIFICATES.html">Scalar certificates</a>: 467 checked cells give <code>0.4688</code>
+for the other fractions when <code>n ≥ 20</code> or <code>β ≥ 2</code>.</li>
+<li><a href="FINITE_CELLS.html">Finite cells</a>: 174 checked cells cover the necessary finite
+sample-size and third-moment intervals. The <a href="LARGE_FRACTION.html">large-fraction argument</a>
+covers the complementary extreme fractions.</li>
+</ul>
+<p><a href="../../BerryEsseen/UniversalUpperBound.lean">UniversalUpperBound.lean</a> splits these
+cases and passes to the defining supremum.</p>
+<h2>Exact numerical proof</h2>
+<p>The <a href="NUMERICAL_PROOF.html">numerical notes</a> explain outward-rounded interval arithmetic,
+whole-panel derivative enclosures, signed Taylor integration, and rational budgets.
+All inputs are connected to their actual real meanings in Lean. The checked collection
+contains 1,806 high-frequency Taylor panels, 1,101 low-frequency Taylor panels,
+669 normal-correction Taylor panels, 458 endpoint panels, and 174 Gaussian tails.
+All 17 finite parameter blocks and their complete coverage have been checked.</p>
+<h2>Lower bound and final verification</h2>
+<p>The <a href="LOWER_BOUND.html">lower-bound proof</a> uses six standardized Bernoulli variables
+with success probability <code>2/5</code>. A rational estimate of one normal probability
+proves the lower bound <code>0.40</code>.</p>
+<p><a href="../../Solution.lean">Solution.lean</a> combines the lower and upper theorems with no
+proof hole. The intended final gate is the <a href="../../comparator/README.md">pinned comparator</a>,
+which compares the solution against the challenge, checks the axiom whitelist,
+and replays the proof in the Lean kernel in a Linux sandbox. This check is pending;
+the ordinary Lean build has passed.</p>
+</main></body></html>

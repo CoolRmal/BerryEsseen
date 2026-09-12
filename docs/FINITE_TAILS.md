@@ -29,6 +29,6 @@ is `Certificates/FiniteTails/Complete.lean`. Regenerate with
 `python3 scripts/import_finite_tails.py` and check with
 `lake build BerryEsseen.Certificates.FiniteTails.Complete`.
 
-These tail bounds are supporting results. The headline universal Berry–Esseen
-upper bound remains unfinished until all smoothing terms and parameter regions
-are assembled.
+These tail bounds are joined with the other three smoothing terms in the
+[complete finite cells](FINITE_CELLS.md). The universal upper theorem and the
+ordinary Lean build have passed; the separate comparator check is pending.

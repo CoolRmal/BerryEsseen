@@ -1,12 +1,12 @@
-# High-frequency Taylor panels: completed examples and remaining work
+# High-frequency Taylor panels
 
 The current compiler supports every branch occurring in the saved high-frequency
 Taylor panels: line, cosine, and the anchored cubic imaginary bound, on the
 applicable left or right kernel half. Seven checked examples are imported by the
 supporting library: `(row, panel) = (0,0), (0,1), (0,2), (0,7), (0,23), (166,1),
 (173,30)`. They cover all six branch/kernel combinations, both cosine signs, and
-sample-size floor 19. This is not yet a certificate for all 1,806 high-frequency
-Taylor panels.
+sample-size floor 19. The complete collection of all 1,806 high-frequency
+Taylor panels has now passed Lean. These examples illustrate the general construction.
 
 For a panel $[l,r]\subseteq[1/2,1]$, the smooth target function is
 
@@ -52,5 +52,5 @@ lake build BerryEsseen.Certificates.FiniteHighPanels.Panel0_7
 ```
 
 `FiniteHighPanels.lean` proves the generic real-integral comparisons. These
-examples demonstrate that the semantic composition works; the universal
-Berry–Esseen upper bound still requires all remaining panels and region coverage.
+examples illustrate the semantic composition used throughout the checked collection.
+The [complete cells and parameter coverage](FINITE_CELLS.md) join all its panels.

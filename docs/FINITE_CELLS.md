@@ -1,8 +1,8 @@
 # Joining the finite-sample certificates
 
-The complete finite-sample source is generated on this branch. The full build is
-being checked; this document does not assert that the universal theorem has
-passed. The separate small-fraction argument is complete.
+All 174 complete finite cells and all 17 parameter blocks have passed Lean.
+The universal upper theorem combines their coverage with the separate
+small-fraction and scalar-region proofs. The final comparator check is pending.
 
 Each saved parameter cell fixes a sample interval `[N,H]`, a third-moment interval
 `[L,B]`, a cutoff `T=c sqrt(n)`, and a smoothing split `tau`. Four independently

@@ -15,8 +15,8 @@ in each of these regions:
 The formal theorems state the same bound for every real `x`:
 `ScalarFullHAll.large_moment_normalizedError` and
 `ScalarFullHAll.large_sample_normalizedError`.
-The [small-fraction region](SMALL_FRACTION.md) is also complete. The remaining
-small-sample certificates are being checked before the universal assembly.
+The [small-fraction region](SMALL_FRACTION.md), [small-sample certificates](FINITE_CELLS.md),
+and universal upper theorem have also passed Lean.
 
 ## Why the finite covering suffices
 

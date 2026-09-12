@@ -1,8 +1,8 @@
 # The finite-sample argument
 
-The analytic reduction in this note is proved in Lean. Its application to all saved
-finite-sample numerical records is not yet complete. This distinction matters: the
-formulas below identify exactly what those records must prove.
+The analytic reduction in this note and its application to all saved finite-sample
+numerical records have passed Lean. The formulas below identify exactly what
+those records prove.
 
 Let `X` have mean zero, variance one, and third absolute moment `β`. Write
 `f(u) = E exp(iuX)`. A parameter cell specifies
@@ -250,18 +250,9 @@ premises explicit; see [the refinement proof](RADICAND_REFINEMENTS.md).
 All 458 endpoint-Darboux panels already bound the actual high-frequency
 integrals; see [their proof](FINITE_DARBOUX.md).
 
-All scalar constants also have exact real-valued enclosure proofs; see
-[their construction](SCALAR_CONSTANTS.md). To finish the Taylor panels, the
-programs must use those meanings together with their affine input rules and
-branch guards, and establish their identification with these integrands.
-The numerical programs must then be composed using the
-proved seed, refinement, arithmetic, and Taylor-integration rules. Finally their
-panel sums must be assembled over all the finite parameter cells. The generated
-proofs of these obligations are being checked. The separate
-[small-fraction argument](SMALL_FRACTION.md) is complete.
-
-The [normal-correction certificates](NORMAL_PANELS.md) now provide the complete
-normal term in each of the 174 saved cells, and the [Gaussian-tail certificates](FINITE_TAILS.md)
-provide every finite-cell tail. Initial high-frequency line and cosine panels
-also have actual integral proofs. Completing the remaining Taylor panels and
-combining all four budgets is still required for the finite-sample result.
+All scalar constants have exact real-valued enclosure proofs; see
+[their construction](SCALAR_CONSTANTS.md). The complete Taylor programs use those
+meanings, affine input rules, refinements, and branch guards to identify their
+expressions with the target integrands. Every panel proof and all 174 complete
+four-term budgets have passed Lean; see [the finite-cell assembly](FINITE_CELLS.md).
+The separate [small-fraction argument](SMALL_FRACTION.md) is also complete.

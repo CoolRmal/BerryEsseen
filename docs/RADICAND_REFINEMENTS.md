@@ -7,8 +7,8 @@ derivative coefficients unchanged. Every one now has an analytic certificate:
 
 This is a conditional composition result: the original interval must already
 contain the stated real radicand, and its argument must lie in the stated input
-interval. Connecting those premises to the entire panel expression remains
-part of the unfinished Taylor-program assembly.
+interval. The complete Taylor-program assembly now discharges these premises
+for every saved refinement, as part of the checked [finite cells](FINITE_CELLS.md).
 
 ## The cubic branch
 

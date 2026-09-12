@@ -1,7 +1,8 @@
 # Remembering the symmetric two-point distribution
 
 This is the completed characteristic-function part of the proof. It does not by itself
-establish the final Berry–Esseen constant; smoothing and the uniform certificates remain.
+establish the final Berry–Esseen constant; it feeds the smoothing and uniform
+certificates described in the [complete proof map](PROOF_OVERVIEW.md).
 
 Assume
 
@@ -152,5 +153,5 @@ Lean: [RealPart.lean](../BerryEsseen/RealPart.lean).
 The role of (D) and (E) in the remaining proof is to bound the two coordinates of
 $f(t)$ separately, combine them using the complex modulus, and then compare powers
 of $f(t/\sqrt n)$ with the normal characteristic function. Fourier smoothing turns
-that comparison into a CDF error bound. Uniform numerical certificates must still verify
+that comparison into a CDF error bound. The checked uniform numerical certificates verify
 that this final bound is at most $0.4688\,\beta/\sqrt n$.

@@ -9,36 +9,26 @@ theorem berry_esseen_constant_bounds :
       BerryEsseen.berryEsseenConstant ≤ 0.4688
 ```
 
-**Status: formalization in progress. The headline theorem is not yet proved, and the
-solution is not yet expected to pass the comparator.** The supporting library currently
-contains a complete proof of the `0.40` lower bound, moment inequalities, improved real-
-and imaginary-part characteristic-function bounds, the global convex-minorant modulus
-bound, classical Taylor estimates, uniform sample-size caps, the full Prawitz smoothing
-inequality, and rational certificate margins.
-A complete 467-cell covering now proves the `0.4688` upper bound whenever
-`β/√n ≥ 0.05` and either `n ≥ 20` or `β ≥ 2`, with all numerical data checked
-in Lean. A direct analytic proof now gives `0.4575` whenever `β/√n ≤ 0.05`;
-see the [complete small-fraction argument](docs/SMALL_FRACTION.md).
-The remaining small-sample region is still being checked.
-A successful supporting-library build does not establish the headline bound.
-The analytic finite-sample reduction is also proved: smooth characteristic-function
-and kernel bounds, uniform comparison over sample-size intervals, and the normalized
-Taylor-panel integration rule. Applying these to every finite-sample record remains.
-All 3,514 exponential seeds and 4,248 paired sine/cosine seeds in the finite programs
-now have separate exact certificates; see the [exponential proof](docs/EXPONENTIAL_SEEDS.md)
-and [trigonometric proof](docs/TRIGONOMETRIC_SEEDS.md).
-The [458 endpoint panels](docs/FINITE_DARBOUX.md) now bound their actual
-high-frequency integrals. All [2,884 radicand refinements](docs/RADICAND_REFINEMENTS.md)
-also have analytic certificates, ready for the remaining Taylor-program composition.
-The [693 scalar enclosures](docs/SCALAR_CONSTANTS.md) now record and prove the exact
-real meanings of the constants appearing in those programs.
-The [normal-correction construction](docs/NORMAL_PANELS.md) connects 669 Taylor
-panels to actual integrals and joins them into the 174 complete correction terms.
-All [174 Gaussian tails](docs/FINITE_TAILS.md) also have exact certificates.
-All 1,806 high-frequency and 1,101 low-frequency Taylor-panel proofs are now
-generated, together with the [174 complete cells and parameter covering](docs/FINITE_CELLS.md).
-Their full verification is running on this branch. The universal upper theorem and
-comparator result remain unfinished; generated source is not a substitute for a passing check.
+**Status: the complete theorem has passed Lean (`lake build Solution BerryEsseen`).
+The separate pinned, sandboxed Linux comparator check is pending.**
+
+Read the [proof overview](docs/PROOF_OVERVIEW.md) and the
+[small-fraction argument](docs/SMALL_FRACTION.md). For an offline browser version
+with rendered formulas, open [the proof-note index](docs/rendered/index.html)
+from a local checkout. All 23 notes include locally bundled mathematical fonts.
+
+The upper proof covers all parameter values using three checked components:
+
+- The analytic small-fraction bound `0.4575` when `β/√n ≤ 0.05`.
+- 467 certified parameter cells when `β/√n ≥ 0.05` and either `n ≥ 20` or `β ≥ 2`.
+- 174 complete finite-sample cells, together with the elementary large-fraction
+  estimate, for the remaining sample sizes and moments.
+
+All finite integral certificates have passed Lean: 1,806 high-frequency Taylor
+panels, 1,101 low-frequency Taylor panels, 669 normal-correction Taylor panels,
+458 endpoint panels, and 174 Gaussian tails. Their proofs connect exact rational
+arithmetic to the actual integrals and probability bounds over entire intervals.
+The explicit Bernoulli witness proves the lower bound `0.40`.
 
 ## Meaning of the constant
 
@@ -61,17 +51,17 @@ lake exe cache get
 python3 scripts/build_certificates.py
 ```
 
-`Challenge.lean` contains the comparator's intentional proof hole. `Solution.lean` currently
-contains a development hole as well; it must be eliminated before completion. No custom axiom
-or `sorryAx` is permitted in the final solution's dependency closure.
+`Challenge.lean` contains the comparator's intentional proof hole. `Solution.lean`
+proves the same statement from the completed lower and upper theorems. No custom
+axiom or `sorryAx` is permitted in the solution's dependency closure.
 
 ## Proof plan
 
 Start with [the proof overview](docs/PROOF_OVERVIEW.md) for the mechanisms and their
 connection to the final theorem; [docs/PROOF_PLAN.md](docs/PROOF_PLAN.md) tracks the
 formal components. The saved rational budgets have margins strong enough for `0.4688`.
-The remaining work is to finish checking the finite certificate composition, assemble
-the universal theorem, and pass the comparator.
+The finite certificate composition and universal theorem are checked. The final
+verification step is the sandboxed comparator.
 The completed elementary lower-bound proof uses six standardized Bernoulli variables with
 success probability `2/5`; see [the short proof](docs/LOWER_BOUND.md).
 
@@ -83,7 +73,7 @@ explains how symmetrization and one supporting line produce an exponential bound
 The [sample-size reduction](docs/SCALAR_COMPRESSION.md) explains the completed geometric
 damping argument and both scalar and vector error bounds for actual iid sums.
 The [finite-sample proof](docs/FINITE_SAMPLES.md) derives the precise integral and
-rational budget that each remaining small-sample cell must certify.
+rational budget that each small-sample cell certifies.
 The [Prawitz majorant proof](docs/PRAWITZ_MAJORANT.md) derives the pointwise inequality
 from a shift recurrence and Riemann–Lebesgue, then derives the four-term Fourier smoothing
 inequality, including endpoint integrability.
@@ -94,7 +84,7 @@ integer record checks now imply bounds on the actual real integrals.
 The [completed scalar covering](docs/SCALAR_CERTIFICATES.md) explains how all 467
 checked cells yield the regional probability theorems and how to reproduce the build.
 The [numerical proof notes](docs/NUMERICAL_PROOF.md) distinguish the completed
-integration and interval soundness proofs from the remaining certificate assembly.
+integration and interval soundness proofs and their completed certificate assembly.
 
 ## Comparator
 
@@ -108,6 +98,18 @@ The intended final verification is a fresh Linux comparator run with its sandbox
 Any local macOS development run using the upstream development adapter will be identified
 separately and will not be reported as a sandboxed verification.
 
-A development run has confirmed that the comparator rejects the unfinished solution with
-`Illegal axiom detected: 'sorryAx'`. The separate completed lower-bound theorem was checked
-to depend only on `propext`, `Quot.sound`, and `Classical.choice`.
+See [the comparator instructions](comparator/README.md) for the pinned tools and
+Linux verification workflow. A passing ordinary Lean build is reported separately
+from the comparator's statement comparison and kernel replay.
+
+## Render the proof notes
+
+The committed HTML pages work without a server or an internet connection. To regenerate:
+
+```sh
+npm ci --ignore-scripts --prefix docs/renderer
+npm run build --prefix docs/renderer
+```
+
+Open `docs/rendered/index.html` in a browser. The Markdown sources also use GitHub's
+supported math delimiters. KaTeX is bundled under its MIT license.
