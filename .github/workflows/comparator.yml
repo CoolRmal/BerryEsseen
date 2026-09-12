@@ -2,6 +2,12 @@ name: Final sandboxed comparator
 
 on:
   workflow_dispatch:
+    inputs:
+      proof-cache-tag:
+        description: Optional release tag containing compiled outputs for this exact commit
+        required: false
+        default: ""
+        type: string
 
 permissions:
   contents: read
@@ -22,6 +28,16 @@ jobs:
           path: .lake/build
           key: berry-proofs-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}
           restore-keys: berry-proofs-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
+      - name: Restore optional compiled proof cache
+        if: inputs.proof-cache-tag != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          CACHE_TAG: ${{ inputs.proof-cache-tag }}
+        run: |
+          [[ "$CACHE_TAG" =~ ^proof-cache-[0-9a-f]{12}$ ]]
+          gh release download "$CACHE_TAG" --pattern 'proof-cache.part-*' --pattern proof-cache.json --dir "$RUNNER_TEMP/berry-proof-cache"
+          python3 scripts/proof_cache.py restore "$RUNNER_TEMP/berry-proof-cache"
       - uses: actions/setup-go@v5
         with:
           go-version: stable
@@ -35,6 +51,12 @@ jobs:
           key: berry-proofs-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}
       - name: Verify source files remain unchanged
         run: git diff --exit-code
+      - name: Provide memory headroom for the complete proof replay
+        run: |
+          sudo fallocate -l 16G "$RUNNER_TEMP/berry-comparator.swap"
+          sudo chmod 600 "$RUNNER_TEMP/berry-comparator.swap"
+          sudo mkswap "$RUNNER_TEMP/berry-comparator.swap"
+          sudo swapon "$RUNNER_TEMP/berry-comparator.swap"
       - name: Enable the unprivileged user service manager
         run: |
           sudo loginctl enable-linger "$(id -un)"
