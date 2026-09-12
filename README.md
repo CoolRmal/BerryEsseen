@@ -12,7 +12,8 @@ theorem berry_esseen_constant_bounds :
 **Status: formalization in progress. The headline theorem is not yet proved, and the
 solution is not yet expected to pass the comparator.** The supporting library currently
 contains a complete proof of the `0.40` lower bound, moment inequalities, improved real-
-and imaginary-part characteristic-function bounds, and rational certificate margins.
+and imaginary-part characteristic-function bounds, the global convex-minorant modulus
+bound, classical Taylor estimates, and rational certificate margins.
 A successful supporting-library build does not establish the headline bound.
 
 ## Meaning of the constant
@@ -51,6 +52,8 @@ success probability `2/5`; see [the short proof](docs/LOWER_BOUND.md).
 The human-readable [characteristic-function argument](docs/ANCHORS.md) explains the
 completed analytic estimates and links them to their Lean proofs. It uses a single sine
 integral identity for both the real and imaginary estimates.
+The [global modulus argument](docs/GLOBAL_MODULUS.md) gives the convex minorant and
+explains how symmetrization and one supporting line produce an exponential bound.
 
 ## Comparator
 

@@ -12,3 +12,7 @@ public import BerryEsseen.PowerComparison
 public import BerryEsseen.LowerBound
 public import BerryEsseen.LargeFraction
 public import BerryEsseen.CosineMinorant
+public import BerryEsseen.Symmetrization
+public import BerryEsseen.GaussianCosine
+public import BerryEsseen.ClassicalError
+public import BerryEsseen.FullModulus

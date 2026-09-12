@@ -17,9 +17,15 @@ be used; every additional analytic input must be formally proved.
 
 - Proved: the cosine reference bound with coefficient (beta-1)/6.
 - Proved: all three imaginary estimates using sin(uX)-X sin(u).
-- Prove the elementary convex minorant and its symmetrized global modulus bound.
+- Proved: the full three-piece convex minorant, including both joins, convexity,
+  monotonicity, and the pointwise comparison with (1-cos(x))/x².
+- Proved: E|X-X'|³ <= 2 beta+2 and the symmetrized global modulus bound
+  |f(t)| <= exp(-t² h((beta+1)|t|)). The weighted Jensen step integrates a supporting line.
 - Proved: the finite geometric power comparison and coordinate-to-modulus estimates.
-- Pending: the Gaussian/cosine discrepancy.
+- Proved: the exact Gaussian/cosine integral identity and the discrepancy bound u⁴/12
+  on [0,pi]. The sharper polynomial used in the numerical certificate remains pending.
+- Proved: the classical complex Taylor remainder, giving
+  |f(t)-exp(-t²/2)| <= beta |t|³/6+t⁴/8.
 - Proved: independent product sums have characteristic function f(t/sqrt(n))^n,
   mean zero, and variance one.
 - Proved: the global cosine inequality cos(x)-1+x²/2 <= |x|³/10.
