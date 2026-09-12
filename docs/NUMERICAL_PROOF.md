@@ -9,10 +9,10 @@ and a finite covering of all parameters.
 
 On a panel [m-h,m+h], Taylor's theorem gives
 
-$$
+```math
 \int_{m-h}^{m+h}F(x)\,dx
 \le 2hU_0+\frac{h^3}{3}U_2+\frac{h^5}{60}U_4,
-$$
+```
 
 provided F(m)<=U0, F''(m)<=U2, and F''''(x)<=U4 **throughout the panel**.
 The bounds may be negative. The first and third Taylor terms integrate to zero;
@@ -32,9 +32,9 @@ to its real coefficient bounds.
 Store the five coefficients cj=F^(j)(x)/j!, for j=0,...,4, as intervals.
 Products then use ordinary convolution:
 
-$$
+```math
 (fg)_k=\sum_{j=0}^{k}f_jg_{k-j}.
-$$
+```
 
 The other recurrences come from simple identities:
 
@@ -109,31 +109,31 @@ is its lower third-moment endpoint. All saved numerical records have now been in
 
 Put `q(x)=1/x-cot(x)` for `0<x<π`. It is nonnegative and increasing:
 
-$$
+```math
 q'(x)=\frac1{\sin^2x}-\frac1{x^2}\ge0,
 \qquad
 \sin x-x\cos x=\int_0^x t\sin t\,dt\ge0.
-$$
+```
 
 The second identity also gives rational bounds. Define
 
-$$
+```math
 \begin{aligned}
 A_-(x)&=\frac13-\frac{x^2}{30}+\frac{x^4}{840}-\frac{x^6}{45360},\\
 A_+(x)&=A_-(x)+\frac{x^8}{3991680},\\
 D_+(x)&=1-\frac{x^2}{6}+\frac{x^4}{120}-\frac{x^6}{5040}+\frac{x^8}{362880},\\
 D_-(x)&=D_+(x)-\frac{x^{10}}{39916800}.
 \end{aligned}
-$$
+```
 
 The degree-seven and degree-nine sine bounds, integrated against `t`, sandwich
 `sin(x)-x cos(x)` between `x³ A₋(x)` and `x³ A₊(x)`. The degree-eleven and
 degree-nine sine bounds sandwich `sin(x)` between `x D₋(x)` and `x D₊(x)`.
 Consequently,
 
-$$
+```math
 \frac{xA_-(x)}{D_+(x)}\le q(x)\le\frac{xA_+(x)}{D_-(x)},
-$$
+```
 
 where the lower comparison requires `A₋≥0` and the upper one requires `D₋>0`.
 These are exactly the positivity guards checked by the integer tables. The real
@@ -143,10 +143,10 @@ conversion from the rational bounds on π to the intended table argument.
 
 For the doubled Prawitz kernel, the exact identities are
 
-$$
+```math
 \left|K(s)-\frac{i}{\pi s}\right|=(1-s)\sqrt{1+q(\pi s)^2},
 \qquad |K(s)|=(1-s)\sqrt{1+q(\pi(1-s))^2}.
-$$
+```
 
 They show that `|K(s)|` decreases on `(0,1)`. A correction-integral panel `[l,r]`
 is bounded by `(1-l) sqrt(1+q(πr)²)`. A high-frequency panel uses the left endpoint

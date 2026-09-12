@@ -8,23 +8,23 @@ supporting library: `(row, panel) = (0,0), (0,1), (0,2), (0,7), (0,23), (166,1),
 sample-size floor 19. The complete collection of all 1,806 high-frequency
 Taylor panels has now passed Lean. These examples illustrate the general construction.
 
-For a panel $[l,r]\subseteq[1/2,1]$, the smooth target function is
+For a panel $`[l,r]\subseteq[1/2,1]`$, the smooth target function is
 
-$$
+```math
 f(s)=K_R(s) M_B(cs)^N,
-$$
+```
 
-where $K_R$ is the proved rational right-kernel envelope and $M_B$ is
+where $`K_R`$ is the proved rational right-kernel envelope and $`M_B`$ is
 either the line or cosine modulus function. The generic integral comparison
 uses the actual iid characteristic function, monotonicity in the third moment,
-and the power bound for every sample size $n\ge N$.
+and the power bound for every sample size $`n\ge N`$.
 
-On a left-half panel, the kernel factor is instead $K_0(s)/s$, with
-$0<l\le r\le1/2$. Its denominator and sine-polynomial domain are checked
+On a left-half panel, the kernel factor is instead $`K_0(s)/s`$, with
+$`0<l\le r\le1/2`$. Its denominator and sine-polynomial domain are checked
 throughout the panel.
 
-The line branch checks $(B+1)cr\le9/2$. The cosine branch checks both
-$(B+1)cl\ge9/2$ and $(B+1)cr\le2\pi$. These inequalities establish
+The line branch checks $`(B+1)cr\le9/2`$. The cosine branch checks both
+$`(B+1)cl\ge9/2`$ and $`(B+1)cr\le2\pi`$. These inequalities establish
 validity throughout the interval. Continuity of the kernel envelope and modulus
 proves integrability of the target, including the endpoint at one.
 
@@ -35,7 +35,7 @@ The generated proof composes exact derivative enclosures, as in the
 - Every radicand refinement uses both its original enclosure and a separately
   proved analytic range. Lean verifies that the expression being refined really
   is the recorded line or cosine radicand at the recorded input function.
-- The final expression is identified with $K_R(s)M_B(cs)^N$ before its
+- The final expression is identified with $`K_R(s)M_B(cs)^N`$ before its
   Taylor integral estimate is transferred to the actual characteristic function.
 
 The anchored examples use their whole-panel cosine-sign and squared-modulus

@@ -6,10 +6,10 @@ See the repository README for verification status.
 
 For a centered, variance-one law, put
 
-$$
+```math
 \beta=\mathbb E|X|^3,\qquad \ell=\frac{\beta}{\sqrt n},\qquad
 \Delta_n=\sup_x|\mathbb P((X_1+\cdots+X_n)/\sqrt n\le x)-\Phi(x)|.
-$$
+```
 
 We must bound `Δ_n/ell` uniformly over every such law and every positive integer
 `n`. The proof removes the unknown law analytically, then checks upper bounds
@@ -19,9 +19,9 @@ on the resulting integrals over whole parameter intervals.
 
 The third moment is at least one. More precisely,
 
-$$
+```math
 \mathbb E[(|X|-1)^2(2|X|+1)]=2(\beta-1).
-$$
+```
 
 Thus `β=1` forces `|X|=1` almost surely. The zero mean then forces equal
 probabilities at `-1` and `1`, whose characteristic function is `cos(u)`.
@@ -30,15 +30,15 @@ information that the classical third-order Taylor bound loses.
 
 Writing `f(u)=E exp(iuX)`, the [anchor argument](ANCHORS.md) proves
 
-$$
+```math
 |\Re f(u)-\cos u|\le\frac{\beta-1}{6}|u|^3,
-$$
+```
 
-$$
+```math
 |\Im f(u)|\le
 \min\left\{\frac{|u|^3}{6}\sqrt{(\beta-1)(\beta+5/3)},
 \frac{u^2}{2}\sqrt{\beta-1},\frac{\beta|u|^3}{6}\right\}.
-$$
+```
 
 The first two imaginary bounds vanish at `β=1`. We combine the real and
 imaginary coordinates by their Euclidean norm. This improves both a bound
@@ -54,9 +54,9 @@ whole smoothing expression must satisfy that smaller budget uniformly.
 
 Independence gives `f_n(t)=f(t/sqrt(n))^n`. For complex numbers `z,w`,
 
-$$
+```math
 |z^n-w^n|\le |z-w|\sum_{j=0}^{n-1}|z|^j|w|^{n-1-j}.
-$$
+```
 
 The sum is evaluated or bounded as a geometric average. Retaining the
 different decay of its terms gives a sharper bound than replacing the sum
@@ -64,9 +64,9 @@ by `n` times its largest term.
 
 A separate [global modulus bound](GLOBAL_MODULUS.md) gives
 
-$$
+```math
 |f_n(t)|\le\exp\{-t^2h((\beta+1)|t|/\sqrt n)\}.
-$$
+```
 
 The explicitly proved convex minorant `h` decreases to zero at `2π`.
 The estimate is therefore valid at every frequency, including for lattice
@@ -78,16 +78,16 @@ assume Gaussian decay outside a small-frequency interval.
 For any admissible cutoff `T>0` and split `0<τ≤1`, the project's
 [Prawitz inequality](PRAWITZ_MAJORANT.md) gives
 
-$$
+```math
 \Delta_n\le
 \underbrace{\int_0^\tau |K(s)|\,|f_n(Ts)-e^{-T^2s^2/2}|\,ds}_{\text{low-frequency error}}
 +\underbrace{\int_\tau^1 |K(s)|\,|f_n(Ts)|\,ds}_{\text{high-frequency magnitude}}
-$$
-$$
+```
+```math
 \hspace{9mm}
 +\underbrace{\int_0^\tau |K(s)-i/(\pi s)|e^{-T^2s^2/2}\,ds}_{\text{normal correction}}
 +\underbrace{\frac1\pi\int_\tau^\infty\frac{e^{-T^2s^2/2}}s\,ds}_{\text{Gaussian tail}}.
-$$
+```
 
 Here `K` uses the doubled positive-frequency normalization in the source.
 This normalization is important: a kernel defined with an extra factor
@@ -131,26 +131,26 @@ See [FINITE_SAMPLES.md](FINITE_SAMPLES.md) and [FINITE_CELLS.md](FINITE_CELLS.md
 A finite cell supplies a rigorous upper bound `U` on the sum of all four
 smoothing terms and a nonnegative rational `a` with
 
-$$
+```math
 \sqrt H/L\le a,\qquad aU\le293/625.
-$$
+```
 
 Consequently, throughout that cell,
 
-$$
+```math
 \frac{\Delta_n}{\ell}=\frac{\sqrt n}{\beta}\Delta_n
 \le\frac{\sqrt H}{L}U\le aU\le\frac{293}{625}.
-$$
+```
 
 The finite integrals use signed fourth-order Taylor bounds. On a panel
 `[m-r,m+r]`, apply Taylor's theorem to `G(t)=F(m+rt)`. If `u0` and `u2`
 bound `G(0)` and `G''(0)/2`, and `u4` bounds `G''''(t)/24` for every
 `t∈[-1,1]`, then
 
-$$
+```math
 \int_{m-r}^{m+r}F(s)\,ds
 \le2r\left(u_0+\frac{u_2}{3}+\frac{u_4}{5}\right).
-$$
+```
 
 The fourth derivative is enclosed on the entire interval. Inverses and
 square roots have proved domain guards; exponential and trigonometric

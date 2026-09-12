@@ -13,9 +13,8 @@ theorem berry_esseen_constant_bounds :
 The separate pinned, sandboxed Linux comparator check is pending.**
 
 Read the [proof overview](docs/PROOF_OVERVIEW.md) and the
-[small-fraction argument](docs/SMALL_FRACTION.md). For an offline browser version
-with rendered formulas, open [the proof-note index](docs/rendered/index.html)
-from a local checkout. All 23 notes include locally bundled mathematical fonts.
+[small-fraction argument](docs/SMALL_FRACTION.md) directly on GitHub. All proof
+notes use GitHub's math blocks and protected inline math syntax.
 
 The upper proof covers all parameter values using three checked components:
 
@@ -102,14 +101,3 @@ See [the comparator instructions](comparator/README.md) for the pinned tools and
 Linux verification workflow. A passing ordinary Lean build is reported separately
 from the comparator's statement comparison and kernel replay.
 
-## Render the proof notes
-
-The committed HTML pages work without a server or an internet connection. To regenerate:
-
-```sh
-npm ci --ignore-scripts --prefix docs/renderer
-npm run build --prefix docs/renderer
-```
-
-Open `docs/rendered/index.html` in a browser. The Markdown sources also use GitHub's
-supported math delimiters. KaTeX is bundled under its MIT license.

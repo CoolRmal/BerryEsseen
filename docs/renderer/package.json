@@ -1,7 +1,0 @@
-{
-  "name": "berry-esseen-proof-notes",
-  "private": true,
-  "type": "module",
-  "scripts": { "build": "node render.mjs" },
-  "dependencies": { "katex": "0.18.7", "marked": "18.0.12" }
-}

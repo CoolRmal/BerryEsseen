@@ -1,21 +1,21 @@
 # Certified Gaussian tails in all finite cells
 
-For $n\ge N>0$, $c>0$, and $\tau>0$, the proved Gaussian tail estimate is
+For $`n\ge N>0`$, $`c>0`$, and $`\tau>0`$, the proved Gaussian tail estimate is
 
-$$
+```math
 \int_\tau^\infty \frac{e^{-c^2ns^2/2}}{\pi s}\,ds
 \le \frac{e^{-c^2N\tau^2/2}}{\pi c^2N\tau^2}.
-$$
+```
 
-Set $q=c^2N\tau^2$. In every saved cell this is a positive rational number.
-The argument of the exponential is therefore the exact rational $-q/2$.
-To certify a rational upper bound $U$, the checker verifies:
+Set $`q=c^2N\tau^2`$. In every saved cell this is a positive rational number.
+The argument of the exponential is therefore the exact rational $`-q/2`$.
+To certify a rational upper bound $`U`$, the checker verifies:
 
 1. The sample-size floor, cutoff, and split are positive.
-2. The exponential seed's input interval contains $-q/2$.
-3. Its certified output upper endpoint $E$ satisfies
-   $E/(\pi_{\rm low}q)\le U$, where
-   $\pi_{\rm low}=13493037704/2^{32}\le\pi$.
+2. The exponential seed's input interval contains $`-q/2`$.
+3. Its certified output upper endpoint $`E`$ satisfies
+   $`E/(\pi_{\rm low}q)\le U`$, where
+   $`\pi_{\rm low}=13493037704/2^{32}\le\pi`$.
 
 Monotonicity of the exponential and division by positive denominators proves
 the real tail bound. The seed is checked by rational Taylor arithmetic and

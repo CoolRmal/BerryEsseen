@@ -16,16 +16,16 @@ Let `S=2³²`. A stored integer interval `[a,b]` encloses a real number `y` when
 
 The fixed interval
 
-$$
+```math
 [13493037704,13493037705]
-$$
+```
 
 encloses `Sπ`. This follows from mathlib's proved decimal bounds on π. Choose a
 quadrant witness `k∈{0,1,2,3,4}` and use outward integer arithmetic to enclose
 
-$$
+```math
 z=x/S-k\pi/2.
-$$
+```
 
 The checker verifies that this interval lies in `[-1,1]`. It need not prove that
 `k` is the nearest quadrant: the inclusion and the trigonometric identities are
@@ -33,20 +33,20 @@ all that is needed.
 
 For the reduced argument, use
 
-$$
+```math
 C(z)=1-\frac{z^2}{2!}+\frac{z^4}{4!}-\cdots+\frac{z^{12}}{12!},
-$$
+```
 
-$$
+```math
 S(z)=z-\frac{z^3}{3!}+\frac{z^5}{5!}-\cdots+\frac{z^{13}}{13!}.
-$$
+```
 
 The next Taylor coefficient is zero in each case. Taylor's theorem therefore gives
 
-$$
+```math
 |\cos z-C(z)|\le\frac{|z|^{14}}{14!},\qquad
 |\sin z-S(z)|\le\frac{|z|^{15}}{15!}.
-$$
+```
 
 For `|z|≤1`, both bounds are smaller than `1/2³²`. The checker evaluates each
 polynomial by outward Horner arithmetic, then widens each endpoint by one integer

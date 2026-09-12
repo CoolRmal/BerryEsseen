@@ -3,9 +3,9 @@
 Write `β = E|X|³` and `ell = β/√n`. For every centered, variance-one iid law with
 finite third absolute moment, the Lean library now proves
 
-$$
+```math
 \frac{\sqrt n}{\beta}\sup_x |F_n(x)-\Phi(x)|\le 0.4688
-$$
+```
 
 in each of these regions:
 
@@ -23,9 +23,9 @@ and universal upper theorem have also passed Lean.
 A cell covers a closed fraction interval `[a,b]`. The analytic majorant uses `b`,
 so it dominates every law in the cell. The numerical budget uses `a`:
 
-$$
+```math
 \Delta_n\le S/2^{64}<0.4688\,a\le0.4688\,\ell.
-$$
+```
 
 Here `S` is the exact sum of all low-frequency, high-frequency, normal-correction,
 and infinite-tail contributions. Division by `ell>0` gives the normalized bound.
@@ -49,9 +49,9 @@ The first covering runs from `ell=1/20` to `ell=6/5`; the previously proved
 Cantelli argument covers larger fractions. For a bounded moment band ending at
 `U` and `n≥20`, the rational inequality
 
-$$
+```math
 1/\sqrt n\le111803399/500000000
-$$
+```
 
 shows that `ell≤U·111803399/500000000`. Each band's final endpoint is exactly
 that rational upper bound. Thus no large-sample tail is omitted.

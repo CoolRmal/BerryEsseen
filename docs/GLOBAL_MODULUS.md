@@ -3,10 +3,10 @@
 Let X have mean zero, variance one, and beta=E|X|³. Write f(t)=E exp(itX).
 We prove
 
-$$
+```math
 |f(t)|^2\le1-2t^2h((\beta+1)|t|),\qquad
 |f(t)|\le\exp\{-t^2h((\beta+1)|t|)\}.
-$$
+```
 
 Both inequalities are fully formalized in
 [FullModulus.lean](../BerryEsseen/FullModulus.lean).
@@ -16,16 +16,16 @@ They are analytic ingredients; they do not by themselves prove the final numeric
 
 Take an independent copy X' and put D=X-X'. Then
 
-$$
+```math
 |f(t)|^2=E\cos(tD),\qquad ED^2=2.
-$$
+```
 
 The useful third-moment estimate is
 
-$$
+```math
 E|D|^3\le E[(X-X')^2(|X|+|X'|)]
 =2\beta+2E|X|\le2(\beta+1).
-$$
+```
 
 The first inequality is just |X-X'|<=|X|+|X'|. Expanding the middle expression,
 the terms containing E X or E X' vanish. The remaining cross terms use E X²=1.
@@ -38,14 +38,14 @@ retaining useful second- and third-moment information.
 
 Set r=9/2, g(s)=(1-cos(s))/s² for s>0, and
 
-$$
+```math
 a=\frac{81}{80(1-\cos r)},\qquad
 h(s)=\begin{cases}
 \frac12-\frac{s}{10},&s\le r,\\
 a g(s),&r<s\le2\pi,\\
 0,&s>2\pi.
 \end{cases}
-$$
+```
 
 We use the linear branch also for negative s so that h is convex on the entire real line.
 Only nonnegative arguments enter the probability estimate.
@@ -59,11 +59,11 @@ Here is a direct way to check them.
 * The values match: a g(r)=1/20 and g(2pi)=0.
 * On [r,2pi],
 
-$$
+```math
 g'(s)=\frac{s\sin s-2(1-\cos s)}{s^3}\le0,
 \quad
 g''(s)=\frac{(s^2-6)\cos s-4s\sin s+6}{s^4}\ge0.
-$$
+```
 
 For the second inequality, split at 3pi/2. On [r,3pi/2], the distance to 3pi/2 is
 at most 1/2, so sin(s)<=-3/4 by cos(v)>=1-v²/2. Since r<=s<=5 and cos(s)>=-1,
@@ -83,21 +83,21 @@ The details are in [CosineProfile.lean](../BerryEsseen/CosineProfile.lean),
 
 Put z=(beta+1)|t|. Choose a supporting line to h at z:
 
-$$
+```math
 h(y)\ge h(z)+m(y-z),\qquad m\le0.
-$$
+```
 
 Such a line exists by convexity; its slope is nonpositive because h is decreasing.
 Since cos(v)<=1-v² h(|v|),
 
-$$
+```math
 \begin{aligned}
 1-|f(t)|^2
 &\ge t^2 E[D^2h(|t||D|)]\\
 &\ge t^2\{2h(z)+m(|t|E|D|^3-2z)\}\\
 &\ge2t^2h(z).
 \end{aligned}
-$$
+```
 
 The last line uses |t| E|D|³<=2z and m<=0. Every integral exists: h is bounded on
 [0,infinity), and the supporting-line expression requires only the second and third
