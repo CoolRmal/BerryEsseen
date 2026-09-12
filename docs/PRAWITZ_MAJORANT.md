@@ -1,9 +1,8 @@
 # The pointwise inequality behind Prawitz smoothing
 
-This note proves the pointwise majorant and its probability bounds. These results are
-formalized in Lean. The subsequent conversion to the four-term Fourier smoothing bound,
-remains to be formalized. The normal CDF representation used in that conversion is now
-proved separately in [GaussianInversion.lean](../BerryEsseen/GaussianInversion.lean).
+This note proves the pointwise majorant, its probability bounds, and the four-term
+Fourier smoothing inequality. All these steps are formalized in Lean, including
+endpoint integrability. The numerical certificate assembly remains unfinished.
 
 The useful mechanism is a shift recurrence. Its sign becomes transparent after adding
 one elementary correction term.
@@ -143,8 +142,8 @@ These expectations exist: the same integral bound yields
 and `S` is measurable. The proof handles an atom at `a` explicitly; the upper pointwise
 bound equals one at zero and the reflected lower bound equals zero there.
 
-The characteristic-function conversion is proved below. Splitting its comparison with
-the normal CDF into norm bounds and assembling the numerical upper bound remain unfinished.
+The characteristic-function conversion and its comparison with the normal CDF are proved
+below. Assembling the numerical upper bound remains unfinished.
 
 ## Lean map
 
@@ -204,5 +203,54 @@ Taking `k=T/(2π)` in the probability bounds and evaluating the sine and cosine 
 These bounds hold for every `T>0` and are proved in
 [PrawitzFourier.lean](../BerryEsseen/PrawitzFourier.lean). The kernel `K₁` here is twice the
 usual Prawitz kernel, accounting for the absence of an extra factor two outside the integral.
-The remaining smoothing step subtracts the normal representation, splits at `t₀`, and
-bounds the resulting complex projections by their norms.
+The smoothing step below subtracts the normal representation and bounds the complex
+projections by their norms.
+
+
+## The four integrals
+
+Write `K=K₁`, `g(t)=exp(-t²/2)`, and choose any `T>0` and `0<τ≤1`.
+On the low-frequency interval, the identity
+
+\[
+K(s)f(Ts)-\frac{i}{\pi s}g(Ts)
+=K(s)(f(Ts)-g(Ts))+
+ \left(K(s)-\frac{i}{\pi s}\right)g(Ts)
+\]
+
+separates the distributional error from the correction to the normal inversion kernel.
+Multiplication by `exp(-iTsx)` preserves norms. On `[τ,1]`, bound the distributional
+term by `|K(s)||f(Ts)|`. The remaining normal integral on `[τ,∞)` is bounded using
+`|sin(Tsx)|≤1`. The reflected kernel has the same two norms because
+`K₋₁=-conj(K₁)` and `K₋₁-i/(πs)=-conj(K₁-i/(πs))`. Thus both CDF bounds give
+
+\[
+\boxed{
+\begin{aligned}
+|F(x)-\Phi(x)|\le{}&
+\int_0^\tau |K(s)|\,|f(Ts)-g(Ts)|\,ds\\
+&+\int_\tau^1 |K(s)|\,|f(Ts)|\,ds\\
+&+\int_0^\tau\left|K(s)-\frac{i}{\pi s}\right|g(Ts)\,ds\\
+&+\int_\tau^\infty\frac{g(Ts)}{\pi s}\,ds.
+\end{aligned}}
+\]
+
+The endpoint at zero causes no convergence problem. Jordan's inequality and elementary
+Taylor bounds give `|cot(πs)-1/(πs)|≤π²s/3` for `0<s≤1/2`. Consequently,
+`K(s)-i/(πs)` stays bounded and `s|K(s)|` stays bounded. A finite first moment gives
+
+\[
+|f(Ts)-g(Ts)|\le
+\left(|T|\mathbb E|X|+\frac{T^2}{2}\right)s\qquad(0\le s\le1).
+\]
+
+The apparent singularity in the first integrand is therefore cancelled. Away from zero,
+the kernel norms are bounded; the last integral is dominated by a Gaussian divided by
+`πτ`. These facts justify all the splitting and integral comparisons above.
+
+The complete theorem is `prawitz_smoothing` in
+[PrawitzSmoothing.lean](../BerryEsseen/PrawitzSmoothing.lean).
+[SmoothingMajorants.lean](../BerryEsseen/SmoothingMajorants.lean) proves the corollary
+that substitutes any integrable upper bounds for `|f-g|` and `|f|`, and applies the
+inequality to the actual normalized iid sum. The bounds need only hold on open intervals;
+values at the endpoints do not affect the integrals.

@@ -50,8 +50,9 @@ be used; every additional analytic input must be formally proved.
 - Proved: the pointwise complex decomposition into characteristic-function error and
   normal correction, equality of the upper/lower kernel norms, and an abstract integral
   splitting bound with explicit integrability and almost-everywhere domination premises.
-- Remaining in Prawitz smoothing: instantiate the split and justify the integrability
-  of the norm majorants at the zero-frequency endpoint.
+- Proved: the complete four-term Prawitz smoothing inequality, including every endpoint
+  integrability argument, its application to the normalized iid law, and substitution
+  of explicit characteristic-function majorants on the open frequency intervals.
 - Formalize the small-Lyapunov-fraction remainder estimate and its 47 rational consequences.
 - Proved: the elementary large-fraction Cantelli argument, including the universal CDF
   bound 11/20 and the target upper bound whenever beta/sqrt(n)>=6/5.
