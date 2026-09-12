@@ -40,7 +40,11 @@ be used; every additional analytic input must be formally proved.
 
 ## 3. Fourier smoothing and extreme parameter regions
 
-- Formalize the Prawitz smoothing inequality, including its kernel and limiting arguments.
+- Proved: the pointwise Prawitz majorant, including kernel integrability, the shift recurrence,
+  its limiting value via Riemann–Lebesgue, measurability, and the first-moment growth bound.
+- Proved: averaging the majorant bounds the CDF from both sides, including atoms.
+- Remaining in Prawitz smoothing: interchange the integrals, identify the characteristic
+  function, prove the normal CDF Fourier representation, and split the resulting bound.
 - Formalize the small-Lyapunov-fraction remainder estimate and its 47 rational consequences.
 - Proved: the elementary large-fraction Cantelli argument, including the universal CDF
   bound 11/20 and the target upper bound whenever beta/sqrt(n)>=6/5.

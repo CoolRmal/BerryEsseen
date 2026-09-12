@@ -56,6 +56,8 @@ The [global modulus argument](docs/GLOBAL_MODULUS.md) gives the convex minorant 
 explains how symmetrization and one supporting line produce an exponential bound.
 The [sample-size reduction](docs/SCALAR_COMPRESSION.md) explains the completed geometric
 damping argument and both scalar and vector error bounds for actual iid sums.
+The [Prawitz majorant proof](docs/PRAWITZ_MAJORANT.md) derives the pointwise inequality
+from a shift recurrence and Riemann–Lebesgue, then averages it to bound a CDF.
 The [numerical proof notes](docs/NUMERICAL_PROOF.md) distinguish the completed
 integration and interval soundness proofs from the remaining certificate assembly.
 

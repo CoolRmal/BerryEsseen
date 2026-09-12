@@ -27,3 +27,4 @@ public import BerryEsseen.Numerics.SquareRootJet
 public import BerryEsseen.GeometricDamping
 public import BerryEsseen.VectorCompression
 public import BerryEsseen.ParameterCaps
+public import BerryEsseen.PrawitzProbability
