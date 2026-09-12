@@ -77,6 +77,11 @@ be used; every additional analytic input must be formally proved.
 - Proved: every passing scale-2⁶⁴ scalar table entry has its claimed real meaning
   (exponential upper, cosine upper, cotangent lower and upper). This includes the
   cleared-denominator polynomial identities and rounding bounds on pi.
+- Proved: all scalar and vector low-frequency rectangle bounds, the high-frequency
+  and normal-correction rectangles, and the infinite Gaussian tail bound. The full
+  decay exponent has its minimum at a panel endpoint, including across splices.
+- Proved: all three decay-endpoint witness modes, the cleared-integer geometric-factor
+  guard, and assembly of adjacent panels with explicit first/last endpoint conditions.
 - Reuse the previous exact certificates only after connecting each premise to its analytic meaning.
 - Proved: substituting the scalar and vector caps gives explicit, integrable smoothing
   bounds independent of the unknown distribution. A bound `C*a` at the lower fraction

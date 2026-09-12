@@ -60,6 +60,8 @@ damping argument and both scalar and vector error bounds for actual iid sums.
 The [Prawitz majorant proof](docs/PRAWITZ_MAJORANT.md) derives the pointwise inequality
 from a shift recurrence and Riemann–Lebesgue, then derives the four-term Fourier smoothing
 inequality, including endpoint integrability.
+The [panel-bound proof](docs/PANEL_BOUNDS.md) explains how endpoint data control all
+four smoothing terms, including intervals crossing the decay-profile splices.
 The [numerical proof notes](docs/NUMERICAL_PROOF.md) distinguish the completed
 integration and interval soundness proofs from the remaining certificate assembly.
 
