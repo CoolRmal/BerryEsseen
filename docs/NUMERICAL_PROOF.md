@@ -20,6 +20,13 @@ the fourth-order remainder has a nonnegative weight on both sides of m.
 This complete real-analysis statement is proved in
 [TaylorPanel.lean](../BerryEsseen/TaylorPanel.lean).
 
+The finite records use the rescaled function G(t)=F(m+h*t). Their stored coefficient
+is G^(k)(t)/k!, including the factor h^k. The corresponding bound is
+`2*h*(mid.c0 + mid.c2/3 + whole.c4/5)`.
+[TaylorPanelSoundness.lean](../BerryEsseen/Numerics/TaylorPanelSoundness.lean) proves
+this exact formula by change of variables and connects integer interval endpoints
+to its real coefficient bounds.
+
 ## From an expression to derivative bounds
 
 Store the five coefficients cj=F^(j)(x)/j!, for j=0,...,4, as intervals.
@@ -84,6 +91,13 @@ so its normalized error is at most `C`. `ParameterCellBounds.lean` proves this i
 for the large-moment region and for the four moment bands with sample size at least 20.
 Thus the remaining numerical statements have explicit real-integral conclusions;
 no claim that a list of passing integer checks alone proves the probability bound is made.
+
+For finite sample-size cells, [FINITE_SAMPLES.md](FINITE_SAMPLES.md) gives the separate
+completed analytic reduction. `FiniteSmoothing.lean` bounds the actual CDF by the
+three smooth integrals evaluated by the finite records and an explicit Gaussian tail.
+`FiniteGeometricAverage.lean` justifies replacing sample sizes in `[N,H]` by the
+lower endpoint with the factor `H/N`. The cell budget uses `sqrt(H)/L`, where `L`
+is its lower third-moment endpoint. Numerical record instantiation is still required.
 
 
 ## The cotangent entries in the kernel tables

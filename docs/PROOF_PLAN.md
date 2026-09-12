@@ -37,6 +37,12 @@ be used; every additional analytic input must be formally proved.
 - Proved: the scalar and vector characteristic-function bounds uniformly under moment
   and sample-size caps, including the band coefficients and frequency guard.
 - Proved: the cap choices for beta>=2 and for n>=20, including the rational square-root bound.
+- Proved: the finite geometric sum divided by its length is an integral of powers of
+  convex combinations. Its monotonicity justifies the exact H/N comparison over
+  a finite sample-size interval [N,H].
+- Proved: all smooth finite-sample modulus branches and both factored error bounds,
+  with explicit branch domains; the cutoff c*sqrt(n) gives a common one-summand
+  frequency throughout the cell.
 
 ## 3. Fourier smoothing and extreme parameter regions
 
@@ -71,6 +77,9 @@ be used; every additional analytic input must be formally proved.
 - Proved: the signed fourth-order midpoint integration bound, with the fourth derivative
   controlled over the whole panel. Proved: explicit scalar Taylor remainder bounds for
   exponential, sine, and cosine, to justify rational scalar enclosures.
+- Proved: the normalized-jet integration rule 2*h*(c0+c2/3+c4/5), including the
+  change of variables, affine jet inputs, and refinements with a separate real-value
+  enclosure premise. Signed coefficients and zero panel width are included.
 - Proved: the cotangent correction is nonnegative and increasing, its rational polynomial
   bounds follow from signed sine Taylor estimates, and the resulting endpoint kernel
   bounds dominate entire integration panels.
@@ -98,6 +107,11 @@ be used; every additional analytic input must be formally proved.
   theorem. Adjacency gives continuous coverage of all five parameter ranges.
 - Proved: the target bound when `ell>=1/20` and either `n>=20` or `beta>=2`.
 - Remaining: complete the separate finite-sample and small-fraction arguments.
+- Proved: the finite-sample analytic reduction to its three smooth integrals and
+  explicit Gaussian tail. Polynomial kernel denominators are positive throughout
+  the required half-period. A budget normalized by sqrt(H)/L gives the actual
+  probability bound throughout [N,H] and [L,B]. The saved finite numerical records
+  still need to be connected to these theorems.
 - Reuse the previous exact certificates only after connecting each premise to its analytic meaning.
 - Proved: substituting the scalar and vector caps gives explicit, integrable smoothing
   bounds independent of the unknown distribution. A bound `C*a` at the lower fraction

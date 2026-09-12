@@ -9,6 +9,11 @@ public import BerryEsseen.TrigonometricAnchors
 public import BerryEsseen.ImaginaryPart
 public import BerryEsseen.RealPart
 public import BerryEsseen.PowerComparison
+public import BerryEsseen.FiniteGeometricAverage
+public import BerryEsseen.FiniteModulus
+public import BerryEsseen.FiniteSampleBounds
+public import BerryEsseen.FiniteKernels
+public import BerryEsseen.FiniteSmoothing
 public import BerryEsseen.LowerBound
 public import BerryEsseen.LargeFraction
 public import BerryEsseen.CosineMinorant
@@ -24,6 +29,8 @@ public import BerryEsseen.Numerics.InverseJet
 public import BerryEsseen.Numerics.ExponentialJet
 public import BerryEsseen.Numerics.TrigonometricJet
 public import BerryEsseen.Numerics.SquareRootJet
+public import BerryEsseen.Numerics.JetInputs
+public import BerryEsseen.Numerics.TaylorPanelSoundness
 public import BerryEsseen.GeometricDamping
 public import BerryEsseen.VectorCompression
 public import BerryEsseen.ParameterCaps

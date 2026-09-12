@@ -19,6 +19,9 @@ A complete 467-cell covering now proves the `0.4688` upper bound whenever
 `β/√n ≥ 0.05` and either `n ≥ 20` or `β ≥ 2`, with all numerical data checked
 in Lean. The separate small-fraction and remaining small-sample regions are unfinished.
 A successful supporting-library build does not establish the headline bound.
+The analytic finite-sample reduction is also proved: smooth characteristic-function
+and kernel bounds, uniform comparison over sample-size intervals, and the normalized
+Taylor-panel integration rule. Applying these to every finite-sample record remains.
 
 ## Meaning of the constant
 
@@ -60,6 +63,8 @@ The [global modulus argument](docs/GLOBAL_MODULUS.md) gives the convex minorant 
 explains how symmetrization and one supporting line produce an exponential bound.
 The [sample-size reduction](docs/SCALAR_COMPRESSION.md) explains the completed geometric
 damping argument and both scalar and vector error bounds for actual iid sums.
+The [finite-sample proof](docs/FINITE_SAMPLES.md) derives the precise integral and
+rational budget that each remaining small-sample cell must certify.
 The [Prawitz majorant proof](docs/PRAWITZ_MAJORANT.md) derives the pointwise inequality
 from a shift recurrence and Riemann–Lebesgue, then derives the four-term Fourier smoothing
 inequality, including endpoint integrability.
