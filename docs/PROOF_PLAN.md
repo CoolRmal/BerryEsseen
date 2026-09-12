@@ -85,8 +85,12 @@ be used; every additional analytic input must be formally proved.
 - Proved: checked general cells imply their real cutoff, grid, and decay facts. Every
   passing saved endpoint-decay, tail, normal-panel, and high-panel record implies its
   claimed real bound. Both high-frequency kernel branches are included.
-- Remaining: the low-panel record theorem, the complete saved-data imports and panel
-  sums, the finite-sample certificate, and coverage of every parameter region.
+- Proved: both scalar and vector low-panel records imply their real integral bounds,
+  including all rounded factors. The pointwise minimum of the two envelopes remains
+  a valid smoothing majorant, and every complete indexed low-panel list bounds the
+  integral from zero to the exact split point.
+- Remaining: the complete saved-data imports and four-term panel sums, the
+  finite-sample certificate, and coverage of every parameter region.
 - Reuse the previous exact certificates only after connecting each premise to its analytic meaning.
 - Proved: substituting the scalar and vector caps gives explicit, integrable smoothing
   bounds independent of the unknown distribution. A bound `C*a` at the lower fraction

@@ -20,6 +20,11 @@ stored rational argument scale, and both cubic and cosine coefficient bounds. Th
 results come from the actual record checks, rather than additional assumptions supplied
 by the certificate generator.
 
+`CellErrorFacts.lean` derives the variance cap and the cubic and quartic scalar-error
+coefficients. When the cell enables the moment anchor, `CellAnchorFacts.lean` also
+derives its moment range, frequency restriction, and separate real and imaginary
+error coefficients.
+
 ## Checked decay endpoints
 
 An endpoint witness may use zero, the cubic branch, or a cosine-table entry.
@@ -39,6 +44,9 @@ the proved minorant coefficient.
 | `generalTail` | The infinite normal tail is at most `termUpper/2⁶⁴`. | `generalTail_sound` |
 | `generalNormalPanel` | The normal-correction integral over this exact panel is at most `termUpper/2⁶⁴`. | `generalNormalPanel_sound` |
 | `generalHighPanel` | The high-frequency modulus integral over this exact panel is at most `termUpper/2⁶⁴`. | `generalHighPanel_sound` |
+| `generalLowPanel`, scalar branch | The scalar-error smoothing integral over this exact panel is at most `termUpper/2⁶⁴`. | `generalLowPanel_scalar_sound` |
+| `generalLowPanel`, vector branch | The vector-error smoothing integral over this exact panel is at most `termUpper/2⁶⁴`. | `generalLowPanel_vector_sound` |
+| `generalLowPanel`, either branch | The cell's error-envelope integral over this exact panel is at most `termUpper/2⁶⁴`. | `generalLowPanel_sound` |
 
 Each theorem applies to **every passing record**. The table-entry proofs and every
 integer-to-real conversion are included in its dependency closure.
@@ -49,10 +57,23 @@ kernel formulas, both endpoint decay witnesses, and the rounded exponential boun
 The tail proof uses the exact grid endpoint, the stored Gaussian-exponent lower bound,
 the exponential table, and the rational lower bound on π.
 
+The low-panel proof checks the lower cotangent bound, the scaled kernel norm, both
+decay endpoints, the lower bound for the damping difference, the exponential and
+geometric factors, and the final product. Natural-number subtraction is converted
+to real subtraction only after its nonnegativity has been proved. Rounding the
+variance cap upwards weakens both damping bounds in the required direction.
+
+For anchor-enabled cells, `cellLowErrorEnvelope` is the pointwise minimum of the
+scalar and vector envelopes. `MixedSmoothing.lean` proves that this minimum is
+integrable against the smoothing kernel and bounds the actual normalized-sum
+characteristic error under the stated moment and frequency conditions. Thus the
+panel records may select either branch independently. The complete low-frequency
+sum theorem, `generalLowPanels_sound`, requires a passing record at every index
+and proves that the grid covers exactly the interval from zero to the split.
+
 ## Remaining assembly
 
-The low-frequency `generalLowPanel` checks still need their record-to-integral theorem.
-Then the saved records must be imported and connected to the complete panel sums, and
-the cells must cover the required parameter ranges. The separate small-fraction
+The saved records must be imported and connected to all four complete panel sums,
+and the cells must cover the required parameter ranges. The separate small-fraction
 argument and the finite-sample certificate also remain in the final proof plan.
 The completed theorems above do not yet establish the universal upper constant.
