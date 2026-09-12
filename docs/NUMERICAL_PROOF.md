@@ -84,3 +84,51 @@ so its normalized error is at most `C`. `ParameterCellBounds.lean` proves this i
 for the large-moment region and for the four moment bands with sample size at least 20.
 Thus the remaining numerical statements have explicit real-integral conclusions;
 no claim that a list of passing integer checks alone proves the probability bound is made.
+
+
+## The cotangent entries in the kernel tables
+
+Put `q(x)=1/x-cot(x)` for `0<x<π`. It is nonnegative and increasing:
+
+\[
+q'(x)=\frac1{\sin^2x}-\frac1{x^2}\ge0,
+\qquad
+\sin x-x\cos x=\int_0^x t\sin t\,dt\ge0.
+\]
+
+The second identity also gives rational bounds. Define
+
+\[
+\begin{aligned}
+A_-(x)&=\frac13-\frac{x^2}{30}+\frac{x^4}{840}-\frac{x^6}{45360},\\
+A_+(x)&=A_-(x)+\frac{x^8}{3991680},\\
+D_+(x)&=1-\frac{x^2}{6}+\frac{x^4}{120}-\frac{x^6}{5040}+\frac{x^8}{362880},\\
+D_-(x)&=D_+(x)-\frac{x^{10}}{39916800}.
+\end{aligned}
+\]
+
+The degree-seven and degree-nine sine bounds, integrated against `t`, sandwich
+`sin(x)-x cos(x)` between `x³ A₋(x)` and `x³ A₊(x)`. The degree-eleven and
+degree-nine sine bounds sandwich `sin(x)` between `x D₋(x)` and `x D₊(x)`.
+Consequently,
+
+\[
+\frac{xA_-(x)}{D_+(x)}\le q(x)\le\frac{xA_+(x)}{D_-(x)},
+\]
+
+where the lower comparison requires `A₋≥0` and the upper one requires `D₋>0`.
+These are exactly the positivity guards checked by the integer tables. All the
+real inequalities are proved in `CotangentPolynomials.lean`; interpreting the
+integer table checks remains a separate step.
+
+For the doubled Prawitz kernel, the exact identities are
+
+\[
+\left|K(s)-\frac{i}{\pi s}\right|=(1-s)\sqrt{1+q(\pi s)^2},
+\qquad |K(s)|=(1-s)\sqrt{1+q(\pi(1-s))^2}.
+\]
+
+They show that `|K(s)|` decreases on `(0,1)`. A correction-integral panel `[l,r]`
+is bounded by `(1-l) sqrt(1+q(πr)²)`. A high-frequency panel uses the left endpoint
+of the decreasing kernel. `CotangentCorrection.lean` proves these panel inequalities,
+including the alternative left-half formula using a lower bound on `q` and on `π`.

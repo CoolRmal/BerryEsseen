@@ -71,6 +71,9 @@ be used; every additional analytic input must be formally proved.
 - Proved: the signed fourth-order midpoint integration bound, with the fourth derivative
   controlled over the whole panel. Proved: explicit scalar Taylor remainder bounds for
   exponential, sine, and cosine, to justify rational scalar enclosures.
+- Proved: the cotangent correction is nonnegative and increasing, its rational polynomial
+  bounds follow from signed sine Taylor estimates, and the resulting endpoint kernel
+  bounds dominate entire integration panels.
 - Reuse the previous exact certificates only after connecting each premise to its analytic meaning.
 - Proved: substituting the scalar and vector caps gives explicit, integrable smoothing
   bounds independent of the unknown distribution. A bound `C*a` at the lower fraction
