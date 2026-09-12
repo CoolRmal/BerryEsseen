@@ -30,3 +30,5 @@ public import BerryEsseen.ParameterCaps
 public import BerryEsseen.PrawitzProbability
 public import BerryEsseen.GaussianInversion
 public import BerryEsseen.PrawitzFourier
+public import BerryEsseen.SmoothingAlgebra
+public import BerryEsseen.SmoothingSplit
