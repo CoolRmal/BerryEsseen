@@ -40,3 +40,6 @@ public import BerryEsseen.VectorSmoothingPanels
 public import BerryEsseen.PanelSums
 public import BerryEsseen.DecayWitnesses
 public import BerryEsseen.Numerics.GeometricWitness
+public import BerryEsseen.Numerics.TailCertificate
+public import BerryEsseen.Numerics.NormalCertificate
+public import BerryEsseen.Numerics.HighCertificate

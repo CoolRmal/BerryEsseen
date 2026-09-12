@@ -36,4 +36,30 @@ theorem tableEntry_exp_at {e : TableEntry} (h : tableEntry e = true) (hk : e.kin
   apply exp_le_exp.mpr
   linarith
 
+theorem tableEntry_q_index_bound {e : TableEntry} (h : tableEntry e = true)
+    (hk : e.kind = 2 ∨ e.kind = 3) : e.index ≤ 2048 := by
+  rcases hk with hk | hk
+  · simp only [tableEntry, hk, qEntry, Bool.false_eq_true, ite_false,
+      Bool.and_eq_true, decide_eq_true_eq] at h
+    tauto
+  · simp only [tableEntry, hk, qEntry, ite_true, Bool.and_eq_true, decide_eq_true_eq] at h
+    tauto
+
+theorem tableEntry_q_upper_at {e : TableEntry} (h : tableEntry e = true) (hk : e.kind = 3)
+    {x : ℝ} (hx : 0 ≤ x) (hxk : x ≤ π * e.index / 4096) :
+    cotangentCorrection x ≤ (e.value : ℝ) / scale := by
+  have hidx : (e.index : ℝ) ≤ 2048 := by exact_mod_cast tableEntry_q_index_bound h (Or.inr hk)
+  have hθ0 : 0 ≤ π * e.index / 4096 := by positivity
+  have hθπ : π * e.index / 4096 < π := by nlinarith [pi_pos]
+  exact (monotoneOn_cotangentCorrection_nonnegative ⟨hx, hxk.trans_lt hθπ⟩
+    ⟨hθ0, hθπ⟩ hxk).trans (tableEntry_q_upper h hk)
+
+theorem tableEntry_q_lower_at {e : TableEntry} (h : tableEntry e = true) (hk : e.kind = 2)
+    {x : ℝ} (hxπ : x < π) (hkx : π * e.index / 4096 ≤ x) :
+    (e.value : ℝ) / scale ≤ cotangentCorrection x := by
+  have hθ0 : 0 ≤ π * e.index / 4096 := by positivity
+  exact (tableEntry_q_lower h hk).trans
+    (monotoneOn_cotangentCorrection_nonnegative ⟨hθ0, hkx.trans_lt hxπ⟩
+      ⟨hθ0.trans hkx, hxπ⟩ hkx)
+
 end ScalarFullH

@@ -82,6 +82,11 @@ be used; every additional analytic input must be formally proved.
   decay exponent has its minimum at a panel endpoint, including across splices.
 - Proved: all three decay-endpoint witness modes, the cleared-integer geometric-factor
   guard, and assembly of adjacent panels with explicit first/last endpoint conditions.
+- Proved: checked general cells imply their real cutoff, grid, and decay facts. Every
+  passing saved endpoint-decay, tail, normal-panel, and high-panel record implies its
+  claimed real bound. Both high-frequency kernel branches are included.
+- Remaining: the low-panel record theorem, the complete saved-data imports and panel
+  sums, the finite-sample certificate, and coverage of every parameter region.
 - Reuse the previous exact certificates only after connecting each premise to its analytic meaning.
 - Proved: substituting the scalar and vector caps gives explicit, integrable smoothing
   bounds independent of the unknown distribution. A bound `C*a` at the lower fraction

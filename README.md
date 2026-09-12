@@ -62,6 +62,8 @@ from a shift recurrence and Riemann–Lebesgue, then derives the four-term Fouri
 inequality, including endpoint integrability.
 The [panel-bound proof](docs/PANEL_BOUNDS.md) explains how endpoint data control all
 four smoothing terms, including intervals crossing the decay-profile splices.
+The [certificate soundness notes](docs/CERTIFICATE_SOUNDNESS.md) identify which saved
+integer record checks now imply bounds on the actual real integrals.
 The [numerical proof notes](docs/NUMERICAL_PROOF.md) distinguish the completed
 integration and interval soundness proofs from the remaining certificate assembly.
 
