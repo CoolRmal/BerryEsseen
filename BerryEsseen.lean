@@ -24,3 +24,6 @@ public import BerryEsseen.Numerics.InverseJet
 public import BerryEsseen.Numerics.ExponentialJet
 public import BerryEsseen.Numerics.TrigonometricJet
 public import BerryEsseen.Numerics.SquareRootJet
+public import BerryEsseen.GeometricDamping
+public import BerryEsseen.VectorCompression
+public import BerryEsseen.ParameterCaps

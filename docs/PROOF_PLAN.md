@@ -32,6 +32,12 @@ be used; every additional analytic input must be formally proved.
 - Proved: all-frequency majorants for normalized sums, combining the geometric power
   comparison with the magnitude bound. The one-summand bounds increase with beta.
 
+- Proved: the continuous geometric damping factor, its monotonicity in both arguments,
+  its polynomial upper bound, and the exact geometric-sum identity.
+- Proved: the scalar and vector characteristic-function bounds uniformly under moment
+  and sample-size caps, including the band coefficients and frequency guard.
+- Proved: the cap choices for beta>=2 and for n>=20, including the rational square-root bound.
+
 ## 3. Fourier smoothing and extreme parameter regions
 
 - Formalize the Prawitz smoothing inequality, including its kernel and limiting arguments.

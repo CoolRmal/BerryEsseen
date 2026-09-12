@@ -13,7 +13,7 @@ theorem berry_esseen_constant_bounds :
 solution is not yet expected to pass the comparator.** The supporting library currently
 contains a complete proof of the `0.40` lower bound, moment inequalities, improved real-
 and imaginary-part characteristic-function bounds, the global convex-minorant modulus
-bound, classical Taylor estimates, and rational certificate margins.
+bound, classical Taylor estimates, uniform sample-size caps, and rational certificate margins.
 A successful supporting-library build does not establish the headline bound.
 
 ## Meaning of the constant
@@ -54,6 +54,8 @@ completed analytic estimates and links them to their Lean proofs. It uses a sing
 integral identity for both the real and imaginary estimates.
 The [global modulus argument](docs/GLOBAL_MODULUS.md) gives the convex minorant and
 explains how symmetrization and one supporting line produce an exponential bound.
+The [sample-size reduction](docs/SCALAR_COMPRESSION.md) explains the completed geometric
+damping argument and both scalar and vector error bounds for actual iid sums.
 The [numerical proof notes](docs/NUMERICAL_PROOF.md) distinguish the completed
 integration and interval soundness proofs from the remaining certificate assembly.
 

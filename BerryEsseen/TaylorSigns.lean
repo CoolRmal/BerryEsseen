@@ -58,6 +58,21 @@ theorem exp_neg_le_taylor_eight {x : ℝ} (hx : 0 ≤ x) :
     exact mul_nonpos_of_nonpos_of_nonneg (neg_nonpos.mpr (exp_pos _).le) (pow_nonneg hx.le _)
   linarith
 
+theorem exp_neg_le_taylor_even {x : ℝ} (hx : 0 ≤ x) (m : ℕ) :
+    exp (-x) ≤ ∑ k ∈ Finset.range (2 * m + 1), (-1 : ℝ) ^ k * x ^ k / k.factorial := by
+  rcases eq_or_lt_of_le hx with rfl | hx
+  · simp [Finset.sum_range_succ']
+  have hf (n : ℕ) : ContDiff ℝ n (fun s : ℝ ↦ exp ((-1) * s)) := by fun_prop
+  obtain ⟨y, hy, he⟩ := taylor_remainder_at_zero hf hx (2 * m)
+  simp only [iteratedDeriv_exp_const_mul] at he
+  simp only [mul_zero, exp_zero, mul_one, neg_one_mul, pow_add, pow_mul] at he
+  norm_num at he
+  have hr : -exp (-y) * x ^ (2 * m + 1) / (2 * m + 1).factorial ≤ 0 := by
+    apply div_nonpos_of_nonpos_of_nonneg _ (Nat.cast_nonneg _)
+    exact mul_nonpos_of_nonpos_of_nonneg (neg_nonpos.mpr (exp_pos _).le) (pow_nonneg hx.le _)
+  simp only [pow_add, pow_mul, pow_one, neg_mul] at hr
+  linarith
+
 theorem cos_taylor_eighteen_le {x : ℝ} (hx : 0 ≤ x) (hxπ : x ≤ π) :
     (∑ k ∈ Finset.range 10, (-1 : ℝ) ^ k * x ^ (2 * k) / (2 * k).factorial) ≤ cos x := by
   rcases eq_or_lt_of_le hx with rfl | hx
