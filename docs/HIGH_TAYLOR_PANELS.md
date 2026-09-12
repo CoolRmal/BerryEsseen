@@ -20,7 +20,7 @@ uses the actual iid characteristic function, monotonicity in the third moment,
 and the power bound for every sample size $`n\ge N`$.
 
 On a left-half panel, the kernel factor is instead $`K_0(s)/s`$, with
-$`0<l\le r\le1/2`$. Its denominator and sine-polynomial domain are checked
+$`0\lt l\le r\le1/2`$. Its denominator and sine-polynomial domain are checked
 throughout the panel.
 
 The line branch checks $`(B+1)cr\le9/2`$. The cosine branch checks both

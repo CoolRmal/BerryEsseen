@@ -9,7 +9,7 @@ bound
 ```
 
 Here the summands are iid, centered, have variance one, and
-$`\beta=\mathbb E|X|^3<\infty`$. This is a regional statement, not a bound of
+$`\beta=\mathbb E|X|^3\lt \infty`$. This is a regional statement, not a bound of
 $`183/400`$ on the universal Berry–Esseen constant. The remaining parameter
 regions require the other proofs in the project.
 
@@ -53,7 +53,7 @@ The useful relation between this cubic error and the cutoff is
 ```
 
 Indeed, weighted Cauchy–Schwarz bounds the square of the left side by
-$`8(1/50+25/6912)<(7/16)^2`$.
+$`8(1/50+25/6912)\lt (7/16)^2`$.
 
 These steps are proved in
 [SmallFractionCoefficients.lean](../BerryEsseen/SmallFractionCoefficients.lean).
@@ -91,7 +91,7 @@ s|K(s)|\le\frac{10}{9\pi}.
 
 For completeness, positivity of the cotangent correction bounds the scaled
 imaginary coordinate by $`1/\pi`$; the scaled real coordinate is at most
-$`\tau(1-\tau)`$. Square these bounds and use $`\pi^2<10`$.
+$`\tau(1-\tau)`$. Square these bounds and use $`\pi^2\lt 10`$.
 
 The finite Gaussian moments satisfy
 
@@ -130,7 +130,7 @@ $`\sin x\ge x(1-x^2/6)`$,
 0\le q(x)\le\frac{x}{3(1-x^2/6)}
 ```
 
-whenever $`0<x<\pi`$ and the denominator is positive.
+whenever $`0\lt x\lt \pi`$ and the denominator is positive.
 On $`s\le3/20`$ this yields $`q(\pi s)^2\le\pi^2s^2/8`$, hence
 
 ```math

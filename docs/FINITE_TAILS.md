@@ -1,6 +1,6 @@
 # Certified Gaussian tails in all finite cells
 
-For $`n\ge N>0`$, $`c>0`$, and $`\tau>0`$, the proved Gaussian tail estimate is
+For $`n\ge N\gt 0`$, $`c\gt 0`$, and $`\tau\gt 0`$, the proved Gaussian tail estimate is
 
 ```math
 \int_\tau^\infty \frac{e^{-c^2ns^2/2}}{\pi s}\,ds

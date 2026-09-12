@@ -6,7 +6,7 @@ whole finite-sample or universal Berry–Esseen bound.
 
 Fix a centered variance-one law with third absolute moment at most $`B`$,
 and integers $`1\le N\le n`$. Write $`T=c\sqrt n`$, with $`c\ge0`$.
-On a panel $`0<l\le s\le r\le1`$, suppose
+On a panel $`0\lt l\le s\le r\le1`$, suppose
 
 ```math
 (B+1)cr\le\frac92.
@@ -56,7 +56,7 @@ These statements are proved in
 Put $`q(x)=1/x-\cot x`$. The reflected Prawitz kernel satisfies
 
 ```math
-|K(s)|=(1-s)\sqrt{1+q(\pi(1-s))^2},\qquad 0<s<1.
+|K(s)|=(1-s)\sqrt{1+q(\pi(1-s))^2},\qquad 0\lt s\lt 1.
 ```
 
 We prove the elementary estimate
@@ -93,7 +93,7 @@ q(\pi(1-s))=\frac1{\pi s}+\frac1\pi
 to obtain (1). For $`s\ge1/2`$, monotonicity of $`q`$ gives
 $`q(\pi(1-s))\le q(\pi/2)=2/\pi\le(1+s)/(\pi s)`$.
 
-The ratio $`(1+s)/(\pi s)`$ decreases in $`s>0`$. Consequently
+The ratio $`(1+s)/(\pi s)`$ decreases in $`s\gt 0`$. Consequently
 
 ```math
 |K(s)|\,|f_{S_n}(Ts)|
@@ -117,7 +117,7 @@ pointwise domination, and (2), including the integral's existence.
 ## What each numerical certificate checks
 
 All parameters and witnesses are rational. Let
-$`p=13493037704/2^{32}<\pi`$. The certificate proposes nonnegative numbers
+$`p=13493037704/2^{32}\lt \pi`$. The certificate proposes nonnegative numbers
 
 ```math
 M\ge\max\{\sqrt{P_B(cl)},\sqrt{P_B(cr)}\},\qquad

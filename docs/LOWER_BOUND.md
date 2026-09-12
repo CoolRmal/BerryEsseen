@@ -1,5 +1,9 @@
 # A short proof that the constant exceeds 0.40
 
+For the stronger classical bound $`(\sqrt{10}+3)/(6\sqrt{2\pi})`$, see
+[the complete asymptotic proof](ESSEEN_LOWER_BOUND.md). This note gives the
+finite witness used in the currently checked Lean lower-bound theorem.
+
 Let $`B`$ be Bernoulli with success probability $`2/5`$, and put
 
 ```math
@@ -36,7 +40,7 @@ e^{-x^2/2}\ge1-\frac{x^2}{2},\qquad
 \frac1{\sqrt{2\pi}}\ge\frac{25}{63}.
 ```
 
-The latter follows already from $`\pi<3.15`$. Therefore
+The latter follows already from $`\pi\lt 3.15`$. Therefore
 
 ```math
 \Phi(-1/3)
@@ -51,7 +55,7 @@ Substitution and rational arithmetic now give
 \frac{\sqrt6}{\beta}
 \left|\mathbb P(W_6\le-1/3)-\Phi(-1/3)\right|
 \ge\frac{30}{13}\left(\frac{1701}{3125}-\frac12+\frac{1325}{10206}\right)
->\frac25.
+\gt \frac25.
 ```
 
 Since the universal iid constant is the supremum of these normalized errors, it is

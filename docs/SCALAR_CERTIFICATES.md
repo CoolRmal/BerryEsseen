@@ -24,7 +24,7 @@ A cell covers a closed fraction interval `[a,b]`. The analytic majorant uses `b`
 so it dominates every law in the cell. The numerical budget uses `a`:
 
 ```math
-\Delta_n\le S/2^{64}<0.4688\,a\le0.4688\,\ell.
+\Delta_n\le S/2^{64}\lt 0.4688\,a\le0.4688\,\ell.
 ```
 
 Here `S` is the exact sum of all low-frequency, high-frequency, normal-correction,

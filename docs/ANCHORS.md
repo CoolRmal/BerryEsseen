@@ -8,7 +8,7 @@ Assume
 
 ```math
 \mathbb EX=0,\qquad \mathbb EX^2=1,\qquad
-\beta=\mathbb E|X|^3<\infty.
+\beta=\mathbb E|X|^3\lt \infty.
 ```
 
 Write $`Y=|X|`$, $`\delta=\beta-1`$, and $`f(t)=\mathbb E e^{itX}`$.
@@ -96,7 +96,7 @@ Substituting in (B) and integrating $`v`$ or $`v^2`$ gives
 \tag{C}
 ```
 
-For the last inequality, first take $`x\ge0`$ in (B), then use oddness for $`x<0`$.
+For the last inequality, first take $`x\ge0`$ in (B), then use oddness for $`x\lt 0`$.
 Because $`\mathbb EX=0`$, subtracting $`X\sin t`$ does not change the expected sine.
 Taking expectations and applying (A) proves
 

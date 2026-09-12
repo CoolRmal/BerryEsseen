@@ -1,7 +1,7 @@
 # Why large third moments need no Fourier calculation
 
 Let $`Y`$ have mean zero and variance one, and write $`F(x)=\mathbb P(Y\le x)`$.
-For $`a>0`$, Markov's inequality applied to $`(Y+1/a)^2`$ gives
+For $`a\gt 0`$, Markov's inequality applied to $`(Y+1/a)^2`$ gives
 
 ```math
 \mathbb P(Y\ge a)\le
@@ -10,7 +10,7 @@ For $`a>0`$, Markov's inequality applied to $`(Y+1/a)^2`$ gives
 ```
 
 The same argument applied to $`-Y`$ bounds the lower tail.
-For $`x>0`$, this implies
+For $`x\gt 0`$, this implies
 
 ```math
 F(x)\ge\frac{x^2}{1+x^2},\qquad
@@ -24,17 +24,17 @@ normal density is at most $`2/5`$, so it is at most
 \frac12+\frac{2x}{5}-\frac{x^2}{1+x^2}\le\frac{11}{20}.
 ```
 
-To verify this last step, multiply by $`20(1+x^2)>0`$. The resulting polynomial is
+To verify this last step, multiply by $`20(1+x^2)\gt 0`$. The resulting polynomial is
 $`P(x)=1-8x+21x^2-8x^3`$. On $`[0,1/2]`$,
 
 ```math
-P(x)\ge1-8x+17x^2=17(x-4/17)^2+1/17>0.
+P(x)\ge1-8x+17x^2=17(x-4/17)^2+1/17\gt 0.
 ```
 
 On $`[1/2,1]`$,
 
 ```math
-P(x)\ge1-8x+13x^2=13(x-1/2)^2+5(x-1/2)+1/4>0.
+P(x)\ge1-8x+13x^2=13(x-1/2)^2+5(x-1/2)+1/4\gt 0.
 ```
 
 The opposite error satisfies $`F(x)-\Phi(x)\le1-\Phi(x)\le1/2`$. For negative
@@ -49,7 +49,7 @@ For the normalized iid sum, put $`\ell=\beta/\sqrt n`$. Whenever $`\ell\ge6/5`$,
 
 ```math
 \frac{\sqrt n}{\beta}\sup_x|F_n(x)-\Phi(x)|
-\le\frac{11}{24}<0.4688.
+\le\frac{11}{24}\lt 0.4688.
 ```
 
 This entire range is proved analytically. Lean checks the iid moment identities in

@@ -9,7 +9,7 @@ Let `X` have mean zero, variance one, and third absolute moment `β`. Write
 
 ```math
 1\le N\le n\le H,\qquad 1\le L\le\beta\le B,\qquad
-c>0,\qquad 0<\tau\le\tfrac12.
+c\gt 0,\qquad 0\lt \tau\le\tfrac12.
 ```
 
 The aim is to bound the normalized CDF error for **every** law and every integer
@@ -178,7 +178,7 @@ L(s)=\frac HN c^3s^2K_0(s)E(cs)
 U(s)=
 \begin{cases}
 K_0(s)M(cs)^N/s,&s\le1/2,\\
-K_R(s)M(cs)^N,&s>1/2,
+K_R(s)M(cs)^N,&s\gt 1/2,
 \end{cases}
 ```
 

@@ -108,7 +108,7 @@ There the geometric-factor argument is exactly
 Hence, for any `0≤η≤dT³l³/10`, monotonicity of `G_v` gives
 
 ```math
-D(Ts)\le e^{-(1-v)\min(L,R)}G_v(\eta),\qquad 0<v\le1.
+D(Ts)\le e^{-(1-v)\min(L,R)}G_v(\eta),\qquad 0\lt v\le1.
 ```
 
 Combining the three bounds gives the panel estimate

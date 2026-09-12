@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       proof-cache-tag:
-        description: Optional release tag containing compiled outputs for this exact commit
+        description: Optional release tag with matching supporting Lean sources and dependencies
         required: false
         default: ""
         type: string
@@ -40,6 +40,7 @@ jobs:
           [[ "$CACHE_TAG" =~ ^proof-cache-[0-9a-f]{12}$ ]]
           gh release download "$CACHE_TAG" --pattern 'proof-cache.part-*' --pattern proof-cache.json --dir "$RUNNER_TEMP/berry-proof-cache"
           python3 scripts/proof_cache.py restore "$RUNNER_TEMP/berry-proof-cache"
+          rm -r "$RUNNER_TEMP/berry-proof-cache"
       - uses: actions/setup-go@v5
         with:
           go-version: stable

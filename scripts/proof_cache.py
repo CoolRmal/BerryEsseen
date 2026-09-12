@@ -24,12 +24,26 @@ def digest(path):
     return result.hexdigest()
 
 
+def supporting_sources_digest():
+    """Identify every cached Lean module by its path and exact source bytes."""
+    names = subprocess.check_output(
+        ['git', 'ls-files', '-z', '--', 'BerryEsseen.lean',
+         ':(glob)BerryEsseen/**/*.lean'], cwd=ROOT).split(b'\0')
+    result = hashlib.sha256()
+    for name in sorted(name for name in names if name):
+        result.update(name + b'\0')
+        result.update(bytes.fromhex(digest(ROOT / name.decode())))
+    return result.hexdigest()
+
+
 def identity():
     return {
         'source_commit': subprocess.check_output(
             ['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
         'lean_toolchain': (ROOT / 'lean-toolchain').read_text().strip(),
         'lake_manifest_sha256': digest(ROOT / 'lake-manifest.json'),
+        'lakefile_sha256': digest(ROOT / 'lakefile.toml'),
+        'supporting_sources_sha256': supporting_sources_digest(),
     }
 
 
@@ -91,7 +105,7 @@ def pack(destination):
             parts.append({'name': path.name, 'size': written, 'sha256': digest(path)})
             index += 1
     archive.unlink()
-    manifest = {'schema': 'berry-proof-cache-v1', **identity(),
+    manifest = {'schema': 'berry-proof-cache-v2', **identity(),
                 'file_count': len(files), 'parts': parts}
     (destination / 'proof-cache.json').write_text(json.dumps(manifest, indent=2) + '\n')
     print(f'Packed {len(files)} files in {len(parts)} parts at {destination}', flush=True)
@@ -99,10 +113,13 @@ def pack(destination):
 
 def restore(source):
     manifest = json.loads((source / 'proof-cache.json').read_text())
-    if manifest['schema'] != 'berry-proof-cache-v1':
+    if manifest['schema'] != 'berry-proof-cache-v2':
         raise ValueError('Unexpected cache schema')
-    if any(manifest.get(key) != value for key, value in identity().items()):
-        raise ValueError('Cache source or dependency revision does not match this checkout')
+    # Challenge, Solution, and documentation may change independently of cached
+    # supporting modules. Both challenge and solution are rebuilt by the checker.
+    if any(manifest.get(key) != value for key, value in identity().items()
+           if key != 'source_commit'):
+        raise ValueError('Cache supporting source or dependencies do not match this checkout')
     parts = manifest['parts']
     if not parts:
         raise ValueError('Empty cache')

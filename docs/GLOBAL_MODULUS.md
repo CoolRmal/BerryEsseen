@@ -42,8 +42,8 @@ Set r=9/2, g(s)=(1-cos(s))/s² for s>0, and
 a=\frac{81}{80(1-\cos r)},\qquad
 h(s)=\begin{cases}
 \frac12-\frac{s}{10},&s\le r,\\
-a g(s),&r<s\le2\pi,\\
-0,&s>2\pi.
+a g(s),&r\lt s\le2\pi,\\
+0,&s\gt 2\pi.
 \end{cases}
 ```
 

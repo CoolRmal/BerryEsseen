@@ -1,7 +1,7 @@
 # The finite normal-correction integrals
 
 For a saved cell with sample sizes $`N\le n\le H`$, cutoff $`T=c\sqrt n`$,
-and split $`0<\tau\le1/2`$, the normal-correction term is bounded by
+and split $`0\lt \tau\le1/2`$, the normal-correction term is bounded by
 
 ```math
 \int_0^\tau (1-s)\sqrt{1+Q_+(\pi s)^2}\,
