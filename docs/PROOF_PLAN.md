@@ -122,6 +122,11 @@ be used; every additional analytic input must be formally proved.
   the required half-period. A budget normalized by sqrt(H)/L gives the actual
   probability bound throughout [N,H] and [L,B]. The saved finite numerical records
   still need to be connected to these theorems.
+- Proved: the endpoint-Darboux formula and all 458 actual saved endpoint panels,
+  including the branch domains, rational square-root majorants, and integral bounds.
+- Proved: the cubic critical-point range and the global cosine radicand range;
+  all 2,884 frozen refinements have analytic certificates. Their original enclosures
+  and expression identities remain explicit premises for the Taylor-program composition.
 - Reuse the previous exact certificates only after connecting each premise to its analytic meaning.
 - Proved: substituting the scalar and vector caps gives explicit, integrable smoothing
   bounds independent of the unknown distribution. A bound `C*a` at the lower fraction

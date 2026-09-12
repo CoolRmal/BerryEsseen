@@ -25,6 +25,9 @@ Taylor-panel integration rule. Applying these to every finite-sample record rema
 All 3,514 exponential seeds and 4,248 paired sine/cosine seeds in the finite programs
 now have separate exact certificates; see the [exponential proof](docs/EXPONENTIAL_SEEDS.md)
 and [trigonometric proof](docs/TRIGONOMETRIC_SEEDS.md).
+The [458 endpoint panels](docs/FINITE_DARBOUX.md) now bound their actual
+high-frequency integrals. All [2,884 radicand refinements](docs/RADICAND_REFINEMENTS.md)
+also have analytic certificates, ready for the remaining Taylor-program composition.
 
 ## Meaning of the constant
 

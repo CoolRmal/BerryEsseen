@@ -56,3 +56,5 @@ public import BerryEsseen.Numerics.CellCertificate
 public import BerryEsseen.Certificates.ScalarFullH.MomentBands
 public import BerryEsseen.Certificates.FiniteExpSeeds.Complete
 public import BerryEsseen.Certificates.FiniteTrigSeeds.Complete
+public import BerryEsseen.Certificates.FiniteDarbouxPanels.Complete
+public import BerryEsseen.Certificates.FiniteRadicandRefinements.Complete

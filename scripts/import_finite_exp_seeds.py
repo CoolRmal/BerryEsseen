@@ -66,7 +66,7 @@ def endpoint_lean(cert):
     return f"⟨{ilit(cert['value'])}, {recipe}⟩"
 
 
-def extract(source, on_trig=None):
+def extract(source, on_trig=None, on_refine=None):
     manifest_path = source / "manifest.json"
     manifest = json.loads(manifest_path.read_text())
     sources, occurrences, entries, indices = [], [], [], {}
@@ -79,11 +79,11 @@ def extract(source, on_trig=None):
         if digest != chunk["source_sha256"]:
             raise ValueError(f"Source hash differs: {path}")
         sources.append({"name": path.name, "sha256": digest})
-        panel, values = None, {}
+        panel, values, current_input = None, {}, None
         for line in data.decode().splitlines():
             match = re.fullmatch(r"def panel(\d+) : Option Bool := do", line)
             if match:
-                panel, values = int(match[1]), {}
+                panel, values, current_input = int(match[1]), {}, None
                 panels += 1
                 continue
             match = LET.fullmatch(line)
@@ -97,6 +97,10 @@ def extract(source, on_trig=None):
                 if len(pairs) != 5:
                     raise ValueError("Malformed literal jet")
                 values[name] = pairs[0]
+                if pairs[1] != (0, 0):
+                    if any(pair != (0, 0) for pair in pairs[2:]):
+                        raise ValueError("Non-affine literal input")
+                    current_input = pairs[0]
                 continue
             if expression.startswith("{"):
                 parent = re.search(r"j\d+", expression)[0]
@@ -105,6 +109,10 @@ def extract(source, on_trig=None):
                 lo, hi = pairs[0]
                 if not values[parent][0] <= lo <= hi <= values[parent][1]:
                     raise ValueError("Refinement is not included in original interval")
+                if on_refine is not None:
+                    if current_input is None:
+                        raise ValueError("Refinement without an affine input")
+                    on_refine(current_input, values[parent], (lo, hi), path.name, panel, name)
                 values[name] = (lo, hi)
                 continue
             projection = re.fullmatch(r"(j\d+)\.([12])", expression)

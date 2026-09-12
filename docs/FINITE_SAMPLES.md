@@ -243,8 +243,16 @@ proves (E) and its application to the scale-`2³²` jet records.
 affine input rule and the rule for replacing a zeroth interval with a separately
 proved tighter enclosure.
 
-To finish the finite-sample proof, the saved expression evaluations still need
-proofs of their scalar seeds, analytic refinements and branch guards, and their
-identification with these integrands. Their checked panel sums must then be
-assembled over all the finite parameter cells. The analytic reduction above
-does not assert that these remaining certificate obligations have been completed.
+All 3,514 exponential seeds and 4,248 paired sine/cosine seeds explicitly present
+in the jet programs now have checked analytic certificates. The 2,884 radicand
+refinements also have certificates with their input and original-enclosure
+premises explicit; see [the refinement proof](RADICAND_REFINEMENTS.md).
+All 458 endpoint-Darboux panels already bound the actual high-frequency
+integrals; see [their proof](FINITE_DARBOUX.md).
+
+To finish the Taylor panels, the saved expressions still need the exact meanings
+of their constants and affine inputs, their branch guards, and their identification
+with these integrands. The numerical programs must then be composed using the
+proved seed, refinement, arithmetic, and Taylor-integration rules. Finally their
+panel sums must be assembled over all the finite parameter cells. Those obligations,
+and the separate small-fraction argument, remain unfinished.

@@ -28,7 +28,10 @@ def main():
             raise SystemExit(result.returncode)
         if start // 32 != stop // 32 or stop == 467:
             print(f'{stop}/467 cell modules checked ({time.monotonic() - started:.1f}s)', flush=True)
-    for folder, label in [('FiniteExpSeeds', 'exponential'), ('FiniteTrigSeeds', 'trigonometric')]:
+    for folder, label in [('FiniteExpSeeds', 'exponential seed'),
+                          ('FiniteTrigSeeds', 'trigonometric seed'),
+                          ('FiniteDarbouxPanels', 'Darboux panel'),
+                          ('FiniteRadicandRefinements', 'radicand refinement')]:
         batches = sorted((root / f'BerryEsseen/Certificates/{folder}').glob('Batch*.lean'))
         for start in range(0, len(batches), args.batch_size):
             batch = batches[start:start + args.batch_size]
@@ -39,7 +42,7 @@ def main():
                 print(result.stdout + result.stderr, flush=True)
                 raise SystemExit(result.returncode)
             stop = start + len(batch)
-            print(f'{stop}/{len(batches)} {label} seed batches checked', flush=True)
+            print(f'{stop}/{len(batches)} {label} batches checked', flush=True)
     subprocess.run(['lake', 'build', 'BerryEsseen'], cwd=root, check=True)
 
 
