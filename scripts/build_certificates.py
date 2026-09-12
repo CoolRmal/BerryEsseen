@@ -33,7 +33,9 @@ def main():
                           ('FiniteDarbouxPanels', 'Darboux panel'),
                           ('FiniteRadicandRefinements', 'radicand refinement'),
                           ('FiniteScalarConstants', 'scalar constant'),
-                          ('FiniteTails', 'Gaussian tail')]:
+                          ('FiniteTails', 'Gaussian tail'),
+                          ('FiniteHighTaylorPanels', 'high-frequency Taylor'),
+                          ('FiniteLowTaylorPanels', 'low-frequency Taylor')]:
         batches = sorted((root / f'BerryEsseen/Certificates/{folder}').glob('Batch*.lean'))
         for start in range(0, len(batches), args.batch_size):
             batch = batches[start:start + args.batch_size]
@@ -57,12 +59,30 @@ def main():
         stop = start + len(batch)
         if start // 32 != stop // 32 or stop == len(normals):
             print(f'{stop}/{len(normals)} complete normal-panel proofs checked', flush=True)
-    cells = sorted((root / 'BerryEsseen/Certificates/FiniteNormalCells').glob('Cell*.lean'))
-    for start in range(0, len(cells), args.batch_size):
-        batch = cells[start:start + args.batch_size]
-        subprocess.run(['lake', 'build', *[
-            f'BerryEsseen.Certificates.FiniteNormalCells.{path.stem}' for path in batch]],
-            cwd=root, check=True)
+    for folder in ['FiniteNormalCells', 'FiniteHighCells', 'FiniteLowCells', 'FiniteCompleteCells']:
+        cells = sorted((root / f'BerryEsseen/Certificates/{folder}').glob('Cell*.lean'))
+        for start in range(0, len(cells), args.batch_size):
+            batch = cells[start:start + args.batch_size]
+            result = subprocess.run(['lake', 'build', *[
+                f'BerryEsseen.Certificates.{folder}.{path.stem}' for path in batch]],
+                cwd=root, capture_output=True, text=True)
+            if result.returncode:
+                print(result.stdout + result.stderr, flush=True)
+                raise SystemExit(result.returncode)
+            print(f'{start + len(batch)}/{len(cells)} {folder} checked', flush=True)
+    blocks = sorted((root / 'BerryEsseen/Certificates/FiniteParameterBlocks').glob('Block*.lean'))
+    for start in range(0, len(blocks), args.batch_size):
+        batch = blocks[start:start + args.batch_size]
+        result = subprocess.run(['lake', 'build', *[
+            f'BerryEsseen.Certificates.FiniteParameterBlocks.{path.stem}' for path in batch]],
+            cwd=root, capture_output=True, text=True)
+        if result.returncode:
+            print(result.stdout + result.stderr, flush=True)
+            raise SystemExit(result.returncode)
+        print(f'{start + len(batch)}/{len(blocks)} finite-parameter blocks checked', flush=True)
+    if (root / 'BerryEsseen/Certificates/FiniteParameterBlocks/Coverage.lean').exists():
+        subprocess.run(['lake', 'build', 'BerryEsseen.Certificates.FiniteParameterBlocks.Coverage'],
+                       cwd=root, check=True)
     subprocess.run(['lake', 'build', 'BerryEsseen'], cwd=root, check=True)
 
 

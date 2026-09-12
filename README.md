@@ -35,8 +35,10 @@ real meanings of the constants appearing in those programs.
 The [normal-correction construction](docs/NORMAL_PANELS.md) connects 669 Taylor
 panels to actual integrals and joins them into the 174 complete correction terms.
 All [174 Gaussian tails](docs/FINITE_TAILS.md) also have exact certificates.
-The remaining low- and high-frequency Taylor panels still need complete assembly;
-seven [high-frequency examples](docs/HIGH_TAYLOR_PANELS.md) currently cover all saved branch types.
+All 1,806 high-frequency and 1,101 low-frequency Taylor-panel proofs are now
+generated, together with the [174 complete cells and parameter covering](docs/FINITE_CELLS.md).
+Their full verification is running on this branch. The universal upper theorem and
+comparator result remain unfinished; generated source is not a substitute for a passing check.
 
 ## Meaning of the constant
 

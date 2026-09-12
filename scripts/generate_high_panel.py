@@ -65,7 +65,7 @@ def exp_seeds():
     return result
 
 
-def generate(row_index, panel_index, output):
+def generate(row_index, panel_index, output, namespace_prefix="FiniteHighPanel"):
     saved = (ROOT / "data/finite20_coalesced.jsonl").read_bytes()
     if hashlib.sha256(saved).hexdigest() != SOURCE_SHA256:
         raise ValueError("Saved cover differs")
@@ -129,7 +129,7 @@ def generate(row_index, panel_index, output):
                 break
         if i not in refinement_nodes:
             raise ValueError(f"No matching refinement or input expression at {i}")
-    namespace = f"FiniteHighPanel{row_index}_{panel_index}"
+    namespace = f"{namespace_prefix}{row_index}_{panel_index}"
     lines = ["module", "", "public import BerryEsseen.Numerics.EnclosesOn",
              "public import BerryEsseen.Numerics.TaylorPanelSoundness",
              "public import BerryEsseen.FiniteHighPanels",
@@ -319,7 +319,12 @@ def generate(row_index, panel_index, output):
         if branch == "cosine":
             lines += ["    (by have hp := FiniteDarbouxCertificates.piLower_le_pi; norm_num [FiniteDarbouxCertificates.piLower] at hp ⊢; linarith)"]
         lines += ["    envelope_integral"]
-    lines += ["", f"end {namespace}", ""]
+    lines += ["", "def certificate : CertifiedHighPanel :=",
+              f"  ⟨{n}, {beta}, {c}, {qlit(l)}, {qlit(r)}, upper, by",
+              "    intro μ hμ n hn hβ",
+              "    simpa only [Rat.cast_div, Rat.cast_ofNat, Rat.cast_zero, Rat.cast_one] using",
+              "      actual_high_integral hμ hn (by simpa only [Rat.cast_div, Rat.cast_ofNat, Rat.cast_zero, Rat.cast_one] using hβ)⟩",
+              "", f"end {namespace}", ""]
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text("\n".join(lines))
     print(json.dumps({"row": row_index, "panel": panel_index, "nodes": len(retained_all),
@@ -332,8 +337,11 @@ def main():
     parser.add_argument("--panel", type=int, default=7)
     parser.add_argument("--output", type=Path,
                         default=ROOT / "BerryEsseen/Certificates/FiniteHighPanels/Panel0_7.lean")
+    parser.add_argument("--namespace-prefix", default="FiniteHighPanel")
     args = parser.parse_args()
-    generate(args.row, args.panel, args.output)
+    if not args.namespace_prefix.isidentifier():
+        parser.error("Namespace prefix must be an identifier")
+    generate(args.row, args.panel, args.output, args.namespace_prefix)
 
 
 if __name__ == "__main__":

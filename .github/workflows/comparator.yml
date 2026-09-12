@@ -1,0 +1,41 @@
+name: Final sandboxed comparator
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  comparator:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+      - uses: leanprover/lean-action@v1
+        with:
+          build: "false"
+      - uses: actions/setup-go@v5
+        with:
+          go-version: stable
+      - name: Build supporting certificates in bounded batches
+        run: python3 scripts/build_certificates.py --batch-size 2
+      - name: Verify source files remain unchanged
+        run: git diff --exit-code
+      - name: Enable the unprivileged user service manager
+        run: |
+          sudo loginctl enable-linger "$(id -un)"
+          sudo systemctl start "user@$(id -u).service"
+          echo "XDG_RUNTIME_DIR=/run/user/$(id -u)" >> "$GITHUB_ENV"
+          echo "DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus" >> "$GITHUB_ENV"
+      - name: Compare the theorem with the trusted challenge
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p comparator/results
+          scripts/run_comparator_linux.sh 2>&1 | tee comparator/results/final-linux.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: comparator-log
+          path: comparator/results/final-linux.log

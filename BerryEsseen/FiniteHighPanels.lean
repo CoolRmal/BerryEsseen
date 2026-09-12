@@ -200,4 +200,16 @@ theorem finite_high_left_anchor_panel_bound {μ : ProbabilityMeasure ℝ} (hμ :
   · intro s hs
     exact finiteAnchorModulus_le_one branch (hsq s hs)
 
+structure CertifiedHighPanel where
+  samples : Nat
+  beta : Rat
+  cutoff : Rat
+  left : Rat
+  right : Rat
+  upper : Rat
+  bound : ∀ {μ : ProbabilityMeasure ℝ}, Admissible μ → ∀ {n : ℕ}, samples ≤ n →
+    thirdAbsMoment μ ≤ beta →
+    (∫ s in (left : ℝ)..right,
+      prawitzHighMagnitude (normalizedSumLaw μ n) ((cutoff : ℝ) * sqrt n) s) ≤ upper
+
 end BerryEsseen
