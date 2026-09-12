@@ -29,3 +29,4 @@ public import BerryEsseen.VectorCompression
 public import BerryEsseen.ParameterCaps
 public import BerryEsseen.PrawitzProbability
 public import BerryEsseen.GaussianInversion
+public import BerryEsseen.PrawitzFourier

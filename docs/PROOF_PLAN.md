@@ -45,8 +45,10 @@ be used; every additional analytic input must be formally proved.
 - Proved: averaging the majorant bounds the CDF from both sides, including atoms.
 - Proved: the normal CDF Fourier representation on the full line and positive half-line,
   including frequency rescaling. The proof integrates the Gaussian cosine transform by Fubini.
-- Remaining in Prawitz smoothing: interchange the majorant integrals, identify the
-  characteristic function, and split the resulting bound against the normal representation.
+- Proved: Fubini for the majorant under a finite first moment, the translated
+  characteristic-function projection, and both finite-frequency Fourier bounds for the CDF.
+- Remaining in Prawitz smoothing: split these bounds against the normal representation
+  and justify the integrability of the norm majorants at the zero-frequency endpoint.
 - Formalize the small-Lyapunov-fraction remainder estimate and its 47 rational consequences.
 - Proved: the elementary large-fraction Cantelli argument, including the universal CDF
   bound 11/20 and the target upper bound whenever beta/sqrt(n)>=6/5.

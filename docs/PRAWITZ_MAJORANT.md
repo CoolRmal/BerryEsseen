@@ -143,10 +143,8 @@ These expectations exist: the same integral bound yields
 and `S` is measurable. The proof handles an atom at `a` explicitly; the upper pointwise
 bound equals one at zero and the reflected lower bound equals zero there.
 
-The remaining Fourier step will express these expectations using the characteristic
-function, subtract the normal CDF, and split the frequency integral at the chosen cutoff.
-That step, and the numerical upper-bound assembly, are not established merely by the
-majorant proved here.
+The characteristic-function conversion is proved below. Splitting its comparison with
+the normal CDF into norm bounds and assembling the numerical upper bound remain unfinished.
 
 ## Lean map
 
@@ -178,3 +176,33 @@ by one, so the exchange is justified on every finite interval. The exceptional f
 
 The integral is absolutely convergent because `|sin(xt)/t| ≤ |x|`. The formal proof also
 includes the substitution `t=Ts` for every `T>0`, as used in the smoothing inequality.
+
+## From expectations to characteristic functions
+
+The interchange of the probability and smoothing integrals is now formalized in
+[PrawitzFubini.lean](../BerryEsseen/PrawitzFubini.lean). The bound above supplies an
+integrable majorant linear in `|X|`. Also,
+
+\[
+\operatorname{sinc}(\pi z)^2=2\int_0^1(1-s)\cos(2\pi zs)\,ds.
+\]
+
+For `σ=±1`, write the doubled positive-frequency kernel as
+
+\[
+K_\sigma(s)=\sigma(1-s)+iB(s).
+\]
+
+Taking `k=T/(2π)` in the probability bounds and evaluating the sine and cosine expectations gives
+
+\[
+\frac12+\int_0^1\Re\{K_{-1}(s)e^{-iTsx}f(Ts)\}\,ds
+\le F(x)\le
+\frac12+\int_0^1\Re\{K_1(s)e^{-iTsx}f(Ts)\}\,ds.
+\]
+
+These bounds hold for every `T>0` and are proved in
+[PrawitzFourier.lean](../BerryEsseen/PrawitzFourier.lean). The kernel `K₁` here is twice the
+usual Prawitz kernel, accounting for the absence of an extra factor two outside the integral.
+The remaining smoothing step subtracts the normal representation, splits at `t₀`, and
+bounds the resulting complex projections by their norms.
