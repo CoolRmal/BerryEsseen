@@ -14,4 +14,6 @@ replaced. A successful build of the supporting library is not a solution to the 
 public theorem berry_esseen_constant_bounds :
     (0.40 : ℝ≥0∞) ≤ BerryEsseen.berryEsseenConstant ∧
       BerryEsseen.berryEsseenConstant ≤ 0.4688 := by
-  sorry
+  constructor
+  · exact BerryEsseen.berryEsseenConstant_lower_bound
+  · sorry

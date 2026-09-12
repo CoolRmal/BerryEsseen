@@ -18,7 +18,8 @@ be used; every additional analytic input must be formally proved.
 - Proved: the cosine reference bound with coefficient (beta-1)/6.
 - Proved: all three imaginary estimates using sin(uX)-X sin(u).
 - Prove the elementary convex minorant and its symmetrized global modulus bound.
-- Prove the Gaussian/cosine discrepancy and finite geometric power comparison.
+- Proved: the finite geometric power comparison and coordinate-to-modulus estimates.
+- Pending: the Gaussian/cosine discrepancy.
 - Connect independent product sums with powers of the characteristic function.
 
 ## 3. Fourier smoothing and extreme parameter regions
@@ -39,13 +40,16 @@ be used; every additional analytic input must be formally proved.
 
 ## 5. Lower-bound witness
 
+**Completed in Lean:** `BerryEsseen.berryEsseenConstant_lower_bound`. Its axiom closure
+contains only `propext`, `Classical.choice`, and `Quot.sound`.
+
 Let B have Bernoulli parameter 2/5, and X=(B-2/5)/sqrt(6/25). For six iid copies,
 the event W_6<=-1/3 is the event that the binomial count is at most 2. Its probability is
 1701/3125, and sqrt(6)/E|X|³=30/13. Thus it is enough to prove
 
 `(30/13) * (1701/3125 - Phi(-1/3)) > 2/5`.
 
-Use symmetry of the Gaussian density and the elementary inequality exp(-t²/2)>=1-t²/2
+The proof uses symmetry of the Gaussian density and the elementary inequality exp(-t²/2)>=1-t²/2
 on [0,1/3] to bound the normal CDF by rational arithmetic. This avoids an asymptotic
 Edgeworth expansion for the lower bound.
 
