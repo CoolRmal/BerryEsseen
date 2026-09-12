@@ -22,6 +22,8 @@ A successful supporting-library build does not establish the headline bound.
 The analytic finite-sample reduction is also proved: smooth characteristic-function
 and kernel bounds, uniform comparison over sample-size intervals, and the normalized
 Taylor-panel integration rule. Applying these to every finite-sample record remains.
+All 3,514 scalar exponential seeds in the finite programs now have separate exact
+certificates; see [their proof](docs/EXPONENTIAL_SEEDS.md).
 
 ## Meaning of the constant
 

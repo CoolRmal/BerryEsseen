@@ -54,6 +54,10 @@ The completed implementations and proofs are in
 [Numerics](../BerryEsseen/Numerics). An exponential or trigonometric operation also
 needs a valid interval for its zeroth coefficient. That premise is explicit, not
 inferred merely because a saved interval was supplied.
+The [exponential seed certificates](EXPONENTIAL_SEEDS.md) now discharge that premise
+for all 3,514 exponential calls extracted from the frozen finite-sample programs.
+Their soundness covers every real input in each recorded interval. Connecting the
+computed jet input to that interval and assembling each complete panel remain.
 
 ## From integers to real intervals
 

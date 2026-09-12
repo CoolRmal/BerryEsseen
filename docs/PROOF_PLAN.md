@@ -73,6 +73,11 @@ be used; every additional analytic input must be formally proved.
   derivatives of constants, sums, products, reciprocals, square roots, exponentials,
   sine, and cosine. Exponential and trigonometric scalar seeds remain explicit premises
   to be discharged by the scalar remainder bounds and exact certificate data.
+- Proved: the exact exponential seed checker, including rational Taylor bounds,
+  repeated outward squaring, zero and underflow cases, and monotonicity between
+  endpoints. All 3,514 exponential seeds in the frozen finite programs have checked
+  certificates and real soundness theorems. Trigonometric seeds and full panel
+  assembly remain; the jet input must still be identified with the certified interval.
 - Prove the positive integration and Taylor-panel rules, including error signs.
 - Proved: the signed fourth-order midpoint integration bound, with the fourth derivative
   controlled over the whole panel. Proved: explicit scalar Taylor remainder bounds for

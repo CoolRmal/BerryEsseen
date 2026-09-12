@@ -27,6 +27,7 @@ public import BerryEsseen.ScalarRemainders
 public import BerryEsseen.Numerics.IntervalSoundness
 public import BerryEsseen.Numerics.InverseJet
 public import BerryEsseen.Numerics.ExponentialJet
+public import BerryEsseen.Numerics.CertifiedExponentialJet
 public import BerryEsseen.Numerics.TrigonometricJet
 public import BerryEsseen.Numerics.SquareRootJet
 public import BerryEsseen.Numerics.JetInputs
@@ -52,3 +53,4 @@ public import BerryEsseen.Numerics.NormalCertificate
 public import BerryEsseen.Numerics.HighCertificate
 public import BerryEsseen.Numerics.CellCertificate
 public import BerryEsseen.Certificates.ScalarFullH.MomentBands
+public import BerryEsseen.Certificates.FiniteExpSeeds.Complete
