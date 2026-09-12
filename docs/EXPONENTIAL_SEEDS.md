@@ -9,25 +9,25 @@ This note describes the separate exact certificates for those scalar values.
 
 Let `S=2³²`. An integer interval `[a,b]` means
 
-\[
+$$
 a\le Sx\le b.
-\]
+$$
 
 To enclose the exponential at a rational endpoint `x/S`, choose a nonnegative
 integer `k` and put `r=x/(S 2^k)`. The checker requires `|r|≤1`. For any positive
 integer `n`, Taylor's theorem gives
 
-\[
+$$
 \left|e^r-\sum_{j=0}^{n-1}\frac{r^j}{j!}\right|
 \le R:=\frac{2|r|^n}{n!}.
-\]
+$$
 
 Write the polynomial as `P`. Both `P` and `R` are exact rational numbers. A proposed
 integer seed `[a,b]` is accepted only if
 
-\[
+$$
 a\le S(P-R),\qquad S(P+R)\le b.
-\]
+$$
 
 These comparisons imply `a≤S exp(r)≤b`. The coefficients, degree, and proposed
 endpoints are not trusted: Lean checks the rational calculations and applies the
@@ -40,9 +40,9 @@ interval multiplication rule. Each squaring encloses the square of every real
 number enclosed by the preceding interval, including when its endpoints have
 different signs. The result encloses
 
-\[
+$$
 (e^r)^{2^k}=e^{x/S}.
-\]
+$$
 
 The final proposed interval must contain the computed interval. This last check
 allows harmless widening but cannot accept an unjustified narrowing.

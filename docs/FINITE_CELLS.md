@@ -57,6 +57,6 @@ batches before building the library. The generator scripts record source hashes
 and exact rational data in manifests. Python generates candidates; Lean checks
 the resulting proof terms.
 
-The optional `build_ready_finite_cells.py` helper assembles cells while Taylor
-batches are being built. File existence only determines scheduling: each chosen
-module still goes through Lake's dependency checks and Lean's kernel.
+Use one build driver per checkout. Overlapping Lake invocations can observe
+partially written dependency outputs and then try to rebuild the same module.
+Separate checkouts, such as the Linux CI runner, may be checked independently.

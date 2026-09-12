@@ -1,43 +1,43 @@
 # The finite normal-correction integrals
 
-For a saved cell with sample sizes \(N\le n\le H\), cutoff \(T=c\sqrt n\),
-and split \(0<\tau\le1/2\), the normal-correction term is bounded by
+For a saved cell with sample sizes $N\le n\le H$, cutoff $T=c\sqrt n$,
+and split $0<\tau\le1/2$, the normal-correction term is bounded by
 
-\[
+$$
 \int_0^\tau (1-s)\sqrt{1+Q_+(\pi s)^2}\,
                    e^{-c^2Ns^2/2}\,ds.
-\]
+$$
 
-Here \(Q_+\) is the rational polynomial upper bound for
-\(1/x-\cot x\) already proved in `FiniteKernels.lean`. Its denominator is
-positive throughout \([0,\pi/2]\). Increasing the sample size decreases the
-Gaussian factor, so a bound at \(N\) applies to every \(n\ge N\).
+Here $Q_+$ is the rational polynomial upper bound for
+$1/x-\cot x$ already proved in `FiniteKernels.lean`. Its denominator is
+positive throughout $[0,\pi/2]$. Increasing the sample size decreases the
+Gaussian factor, so a bound at $N$ applies to every $n\ge N$.
 
 ## What a panel proof establishes
 
-On one interval \([l,r]\), put \(m=(l+r)/2\), \(h=(r-l)/2\), and
-\(G(t)=f(m+ht)\). The normalized Taylor integration theorem gives
+On one interval $[l,r]$, put $m=(l+r)/2$, $h=(r-l)/2$, and
+$G(t)=f(m+ht)$. The normalized Taylor integration theorem gives
 
-\[
+$$
 \int_l^r f(s)\,ds
 \le 2h\left(a_0+\frac{a_2}{3}+\frac{a_4}{5}\right),
-\]
+$$
 
-provided \(a_0\ge G(0)\), \(a_2\ge G''(0)/2!\), and
-\(a_4\ge G^{(4)}(t)/4!\) for every \(-1\le t\le1\). The last condition is
+provided $a_0\ge G(0)$, $a_2\ge G''(0)/2!$, and
+$a_4\ge G^{(4)}(t)/4!$ for every $-1\le t\le1$. The last condition is
 an enclosure of the derivative on the entire interval, not a finite sampling
 of that derivative. Integration cancels the odd terms of the Taylor polynomial.
 
 Each generated proof supplies these hypotheses as follows:
 
-1. Every arithmetic node carries an exact function of \(t\), a proof that it
+1. Every arithmetic node carries an exact function of $t$, a proof that it
    is four times continuously differentiable at each point of its domain,
    and five interval enclosures of its normalized derivatives.
 2. Constants use the 693 exact scalar certificates. Arithmetic uses proved
    Taylor recurrences. Inverses and square roots have checked domain guards;
    exponentials use the certified scalar seeds.
 3. One evaluation encloses derivatives at zero, and a second evaluation
-   encloses derivatives throughout \([-1,1]\). Lean checks that they represent
+   encloses derivatives throughout $[-1,1]$. Lean checks that they represent
    the same function.
 4. Lean proves an explicit identity between that function and the displayed
    normal envelope after the affine change of variable. The proof unfolds the

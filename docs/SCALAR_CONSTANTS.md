@@ -27,17 +27,17 @@ The scalar records comprise 506 rational enclosures, one π enclosure, one
 cosine, one subtraction, two reciprocals, 152 products, and 30 square roots.
 They include the actual constants used to form
 
-\[
+$$
 c\sqrt N,\qquad \sqrt{(B-1)(B+5/3)},\qquad \sqrt{B-1},\qquad
 \frac1\pi,\qquad \frac{81}{80(1-\cos(9/2))},
-\]
+$$
 
 as well as the rational polynomial coefficients and sample/moment endpoints.
 
 Each arithmetic constructor produces an enclosure of the corresponding exact
 real operation. Rational containment, reciprocal guards, and square-root
 inequalities are checked with exact arithmetic. The square-root rule permits
-zero, as is necessary for constants such as \(\sqrt{B-1}\) when \(B=1\).
+zero, as is necessary for constants such as $\sqrt{B-1}$ when $B=1$.
 Trigonometric constants use the already proved endpoint and range certificates.
 The `encloses_constant` theorem then initializes a constant Taylor jet.
 

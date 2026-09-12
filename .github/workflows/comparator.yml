@@ -15,11 +15,24 @@ jobs:
       - uses: leanprover/lean-action@v1
         with:
           build: "false"
+      - name: Restore checked project outputs
+        id: project-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: .lake/build
+          key: berry-proofs-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}
+          restore-keys: berry-proofs-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
       - uses: actions/setup-go@v5
         with:
           go-version: stable
       - name: Build supporting certificates in bounded batches
         run: python3 scripts/build_certificates.py --batch-size 2
+      - name: Save checked project outputs
+        if: steps.project-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: .lake/build
+          key: berry-proofs-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}
       - name: Verify source files remain unchanged
         run: git diff --exit-code
       - name: Enable the unprivileged user service manager

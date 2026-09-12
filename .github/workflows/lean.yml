@@ -16,5 +16,11 @@ jobs:
       - uses: leanprover/lean-action@v1
         with:
           build: "false"
+      - name: Restore checked project outputs
+        uses: actions/cache@v4
+        with:
+          path: .lake/build
+          key: berry-proofs-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}
+          restore-keys: berry-proofs-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
       - name: Check certificates and supporting library
         run: python3 scripts/build_certificates.py --batch-size 2

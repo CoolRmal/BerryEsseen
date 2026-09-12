@@ -120,7 +120,7 @@ be used; every additional analytic input must be formally proved.
   their exact indexed lists have the real-integral meaning required by the cell
   theorem. Adjacency gives continuous coverage of all five parameter ranges.
 - Proved: the target bound when `ell>=1/20` and either `n>=20` or `beta>=2`.
-- Remaining: complete the separate finite-sample and small-fraction arguments.
+- Remaining: finish checking the separate finite-sample certificate assembly.
 - Proved: the finite-sample analytic reduction to its three smooth integrals and
   explicit Gaussian tail. Polynomial kernel denominators are positive throughout
   the required half-period. A budget normalized by sqrt(H)/L gives the actual

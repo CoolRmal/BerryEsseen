@@ -67,9 +67,11 @@ or `sorryAx` is permitted in the final solution's dependency closure.
 
 ## Proof plan
 
-See [docs/PROOF_PLAN.md](docs/PROOF_PLAN.md). An existing computer-assisted argument has
-rational margins strong enough for `0.4688`. The remaining work is to formalize the analytic
-inequalities, the meaning of the numerical certificates, and the final universal assembly.
+Start with [the proof overview](docs/PROOF_OVERVIEW.md) for the mechanisms and their
+connection to the final theorem; [docs/PROOF_PLAN.md](docs/PROOF_PLAN.md) tracks the
+formal components. The saved rational budgets have margins strong enough for `0.4688`.
+The remaining work is to finish checking the finite certificate composition, assemble
+the universal theorem, and pass the comparator.
 The completed elementary lower-bound proof uses six standardized Bernoulli variables with
 success probability `2/5`; see [the short proof](docs/LOWER_BOUND.md).
 
