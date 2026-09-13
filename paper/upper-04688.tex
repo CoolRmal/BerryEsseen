@@ -3997,14 +3997,18 @@ Tool & Pinned git revision \\
   comparison and kernel replay; any local macOS run using the upstream
   development adapter is to be identified separately and is not a sandboxed
   verification.
-\item \textbf{Local build.} The repository's own documentation records that
-  \texttt{lake build Solution BerryEsseen} has passed. Independently, on the
-  machine used to prepare this document, the build tree
-  \file{.lake/build/lib/lean/BerryEsseen/} contained $1{,}272$ compiled
-  \file{.olean} modules at the time of writing, and no \file{Solution.olean} or
-  \file{Challenge.olean} was present; a build was in progress. We therefore
-  make no independent claim about a completed local build here, only the two
-  observations just stated.
+\item \textbf{Local build.} The full library was rebuilt from scratch on the
+  machine used to prepare this document (a ten-core Apple Silicon laptop):
+  \texttt{python3 scripts/build\_certificates.py --batch-size 4} followed by
+  \texttt{lake build Solution Challenge} completed successfully, reporting
+  $5{,}566$ and $6{,}117$ finished jobs, in $183$ minutes of wall-clock time
+  ($583$ minutes of CPU time). On the resulting build,
+  \texttt{\#print axioms} reports exactly
+  \lean{[propext, Classical.choice, Quot.sound]} for both
+  \lean{berry\_esseen\_constant\_lower\_bound} and
+  \lean{berry\_esseen\_constant\_upper\_bound}, and their statements are the two
+  displayed in Section~\ref{sec:statement}. This is an ordinary Lean build and
+  axiom query; it is not the sandboxed comparator run, which remains pending.
 \end{itemize}
 
 \subsection{Sanity properties of the formalization}
