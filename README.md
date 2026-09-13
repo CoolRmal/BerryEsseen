@@ -15,6 +15,10 @@ theorem berry_esseen_constant_upper_bound :
 **Status: the complete theorem has passed Lean (`lake build Solution BerryEsseen`).
 The separate pinned, sandboxed Linux comparator check is pending.**
 
+**Sharper bound.** A separate development proves `BerryEsseen.berryEsseenConstant ≤ 0.423`
+(`lake build BerryEsseen.Upper0423.Main`), using `native_decide` for its finite certificates;
+see [docs/UPPER_0423.md](docs/UPPER_0423.md). It does not modify the `0.4688` proof.
+
 Read the [proof overview](docs/PROOF_OVERVIEW.md) and the
 [small-fraction argument](docs/SMALL_FRACTION.md) directly on GitHub. All proof
 notes use GitHub's math blocks and protected inline math syntax.
