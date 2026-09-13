@@ -22,6 +22,40 @@ trusts Lean's compiler for the finite checks. The mathematical source is the
 computer-assisted proof `research/PROOF_0423.md`; its external input (Shevtsova's bound for
 large third moments) is **not** used — the large-moment region is proved directly.
 
+## Provenance and attribution
+
+The analytic framework of this proof is not new here. The research notes
+`research/imaginary-envelope.md` ("Source alignment and attribution") and
+`research/recovery/RECOVERY.md` attribute the following ingredients to
+[haonan-xiao/iid-berry-esseen, commit `f00d781c`](https://github.com/haonan-xiao/iid-berry-esseen/tree/f00d781c8c42908bf4aef2739129442a0919fa38),
+which proves a `0.4395` bound for the same constant:
+
+* the shared moment parameters, the radial rectangle and the disk/strip discussion, the shared
+  convex profile, the moment region, and the Prawitz normalization convention
+  (their `proof-guide.md`, sections 2–3 and 5–6);
+* the two-point sine-circle mechanism (their `SineRemainder.lean`), formalized here in
+  `Analytic/SineCircle.lean`;
+* the stop-loss identity for `E|X − X'|³` and the resulting bounds on the symmetrization
+  excess `η` (their `ThirdMomentRatio.lean`), here `Analytic/StopLoss.lean` and
+  `Analytic/Moments.lean`;
+* the separate radial estimates for the real and imaginary parts (their
+  `TwoPointComparison.lean`), here `Analytic/Radial.lean`;
+* the cosine constant `κ = max_{v>0} (cos v − 1 + v²/2)/v³`, bracketed there as
+  `0.09916191350 < κ < 0.09916191353`; this development uses the coarser rational majorant
+  `49581/500000` and the same convex profile `1/2 − κv` continued by `(1 − cos v)/v²`
+  (`Analytic/CosineProfile.lean`).
+
+Every one of these lemmas is proved from scratch in Lean here and checked by the kernel, but
+the mathematical ingredients and the overall approach are theirs. None of their certificates
+or numerical budgets are used: the research notes record that their certificates and their
+`56/45` domain cutoff are specific to the `0.4395` theorem. No claim is made here about the
+correctness of that theorem.
+
+The ingredients the research notes claim as additions are the anchored imaginary envelope,
+the signed real interval, the cosine lower bound, the geometric-sum comparison, and — in this
+Lean development — the uniform-in-`n` certificate that removes the published Shevtsova input
+used by the research proof.
+
 ## Case split
 
 Write `β = E|X|³`, `η` for the symmetrization excess, and `ℓ = β/√n`.

@@ -1,0 +1,2259 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=2.6cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{alltt}
+\usepackage{newunicodechar}
+\usepackage[hidelinks]{hyperref}
+
+\allowdisplaybreaks
+\sloppy
+\emergencystretch=3em
+
+% Unicode characters occurring in the reproduced Lean source.
+\newunicodechar{β}{\ensuremath{\beta}}
+\newunicodechar{η}{\ensuremath{\eta}}
+\newunicodechar{μ}{\ensuremath{\mu}}
+\newunicodechar{ℂ}{\ensuremath{\mathbb{C}}}
+\newunicodechar{ℕ}{\ensuremath{\mathbb{N}}}
+\newunicodechar{ℝ}{\ensuremath{\mathbb{R}}}
+\newunicodechar{→}{\ensuremath{\to}}
+\newunicodechar{↦}{\ensuremath{\mapsto}}
+\newunicodechar{∂}{\ensuremath{\partial}}
+\newunicodechar{∑}{\ensuremath{\textstyle\sum}}
+\newunicodechar{∞}{\ensuremath{\infty}}
+\newunicodechar{∫}{\ensuremath{\textstyle\int}}
+\newunicodechar{≤}{\ensuremath{\le}}
+\newunicodechar{≥}{\ensuremath{\ge}}
+\newunicodechar{⨆}{\ensuremath{\textstyle\bigsqcup}}
+
+% A Lean code block: verbatim-like, but macros and Unicode still work.
+\newenvironment{leancode}{\par\smallskip\begin{alltt}\small}{\end{alltt}\smallskip}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{convention}[theorem]{Convention}
+
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator*{\esssup}{ess\,sup}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\EE}{\mathbb{E}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\kap}{\kappa}
+\newcommand{\Lean}[1]{\texttt{#1}}
+\newcommand{\file}[1]{\texttt{#1}}
+
+% A compact "formalized as" marker.
+\newcommand{\formal}[2]{%
+  \par\smallskip
+  \begingroup\small\raggedright\emergencystretch=5em
+  \noindent\textit{In Lean:} \Lean{#1} in \file{#2}.\par
+  \endgroup\smallskip}
+
+\title{The i.i.d.\ Berry--Esseen constant is at most $0.423$:\\
+a machine-checked proof}
+
+\author{}
+\date{13 September 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Let $C_{\mathrm{BE}}$ be the least constant such that
+$\sup_x|F_n(x)-\Phi(x)|\le C_{\mathrm{BE}}\,\beta_3/\sqrt n$ for every centered,
+variance-one law with finite third absolute moment $\beta_3$ and every sample
+size $n\ge 1$, where $F_n$ is the distribution function of the normalized sum of
+$n$ independent copies and $\Phi$ is the standard normal distribution function.
+We describe a complete proof of $C_{\mathrm{BE}}\le 0.423$ which has been
+formalized in Lean~4 on top of Mathlib, in the module tree
+\file{BerryEsseen/Upper0423/} of the accompanying repository, and whose final
+statement is
+\begin{center}
+  \small
+  \Lean{BerryEsseen.Upper0423.berryEsseenConstant\_le\_0423}\\[2pt]
+  ${}:{}$\Lean{BerryEsseen.berryEsseenConstant} $\le$ \Lean{0.423}
+\end{center}
+The proof combines the Prawitz smoothing inequality with a family of pointwise
+characteristic-function estimates in the three moment coordinates
+$\beta=\EE|X|^3$, $\eta=\tfrac12\EE|X-X'|^3-\beta$ and $s=\EE|X|$, an
+interval/Taylor-jet checking engine whose soundness is proved inside Lean, and
+two families of finite certificates: $569$ per-sample-size parameter covers with
+$18\,845$ leaves for $2\le n\le 255$, and a single certificate of $281$ cells
+that is uniform in $n$ for all $n\ge 256$. The regimes $n=1$ and
+$\beta/\sqrt n\ge 1.3003$ are handled analytically with no computation. There is
+no \Lean{sorry} and no user-declared axiom; the finite certificates are
+discharged by \Lean{native\_decide}, so they additionally trust Lean's compiler.
+We state the trust boundary precisely and identify which analytic ingredients
+originate in the earlier work of Xiao and Li.
+\end{abstract}
+
+\tableofcontents
+
+\bigskip
+
+\section{Introduction}
+\label{sec:intro}
+
+\subsection{The constant}
+
+Let $X,X_1,X_2,\dots$ be independent real random variables with a common law
+$\mu$ satisfying
+\begin{equation}
+  \label{eq:admissible}
+  \EE X = 0,\qquad \EE X^2 = 1,\qquad \beta:=\EE|X|^3<\infty ,
+\end{equation}
+and set
+\[
+  S_n=\frac{X_1+\dots+X_n}{\sqrt n},\qquad
+  F_n(x)=\PP(S_n\le x),\qquad
+  \Delta_n=\sup_{x\in\RR}\bigl|F_n(x)-\Phi(x)\bigr| .
+\]
+The Berry--Esseen theorem \cite{Berry1941,Esseen1942} asserts the existence of a
+universal constant $C$ with $\Delta_n\le C\beta/\sqrt n$ for all $n\ge1$ and all
+laws satisfying \eqref{eq:admissible}. We write $C_{\mathrm{BE}}$ for the least
+such constant, i.e.
+\begin{equation}
+  \label{eq:constant}
+  C_{\mathrm{BE}}
+  =\sup\Bigl\{\tfrac{\sqrt n}{\beta}\,\bigl|F_n(x)-\Phi(x)\bigr|
+  \;:\;\mu \text{ satisfies } \eqref{eq:admissible},\ n\ge1,\ x\in\RR\Bigr\}
+  \in[0,\infty] .
+\end{equation}
+Esseen \cite{Esseen1956} proved the lower bound
+\[
+  C_{\mathrm{BE}}\;\ge\;c_{\mathrm E}:=\frac{\sqrt{10}+3}{6\sqrt{2\pi}}
+  =0.4097321\ldots,
+\]
+attained asymptotically along suitably centered and normalized Bernoulli sums,
+and it is conjectured (usually attributed to Zolotarev \cite{Zolotarev1967}) that
+$C_{\mathrm{BE}}=c_{\mathrm E}$. In the special case of Bernoulli (equivalently
+binomial) summands the value $c_{\mathrm E}$ is known to be optimal; see
+Schulz \cite{Schulz2016} and Zolotukhin, Nagaev and Chebotarev
+\cite{Zolotukhin2018}.
+
+Table~\ref{tab:history} lists the published upper bounds. The bibliographic data
+follow the survey entry \cite{Tao2026}.
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{llp{7.4cm}}
+    \toprule
+    Bound & Reference & Comment\\
+    \midrule
+    $0.82$   & Zolotarev \cite{Zolotarev1967}        & Zolotarev-type smoothing inequalities; also $0.9051$ for independent (non-i.i.d.) summands.\\
+    $0.7975$ & van Beek \cite{vanBeek1972}            & Fourier-analytic refinement.\\
+    $0.7655$ & Shiganov \cite{Shiganov1986}           & \\
+    $0.7056$ & Shevtsova \cite{Shevtsova2006}         & \\
+    $0.5129$ & Korolev--Shevtsova \cite{KorolevShevtsova2009} & From the structural bound $\Delta_n\le0.34445(\beta+0.489)/\sqrt n$.\\
+    $0.4785$ & Tyurin \cite{Tyurin2009}               & \\
+    $0.4748$ & Shevtsova \cite{Shevtsova2011}         & \\
+    $0.4690$ & Shevtsova \cite{Shevtsova2013}         & From
+      $\Delta_n\le\min\{0.4690\,\beta,\ 0.3322(\beta+0.429),\ 0.3031(\beta+0.646)\}/\sqrt n$.\\
+    \bottomrule
+  \end{tabular}
+  \caption{Published upper bounds for $C_{\mathrm{BE}}$.}
+  \label{tab:history}
+\end{table}
+
+\subsection{The result}
+
+\begin{theorem}
+  \label{thm:main}
+  $C_{\mathrm{BE}}\le \dfrac{423}{1000}$.
+\end{theorem}
+
+Theorem~\ref{thm:main} is formalized in Lean~4 over Mathlib \cite{Mathlib}. The
+constant \eqref{eq:constant} is defined in the repository as an extended
+nonnegative real supremum, with finiteness a consequence rather than a hypothesis:
+
+\begin{leancode}
+def berryEsseenConstant : ℝ≥0∞ :=
+  ⨆ (μ : ProbabilityMeasure ℝ) (_ : Admissible μ) (n : ℕ) (_ : 0 < n) (x : ℝ),
+    normalizedError μ n x
+\end{leancode}
+
+\noindent and the theorem proved is
+\begin{leancode}
+theorem BerryEsseen.Upper0423.berryEsseenConstant_le_0423 :
+    BerryEsseen.berryEsseenConstant ≤ 0.423
+\end{leancode}
+in \file{BerryEsseen/Upper0423/Main.lean}. Section~\ref{sec:notation} reproduces
+all the ambient definitions verbatim so that the statement can be audited without
+reading Lean beyond these few lines.
+
+\subsection{What is proved and what is computed}
+
+The proof has two very different kinds of ingredient, and we keep them
+rigorously separated throughout.
+
+\begin{enumerate}[label=(\alph*),leftmargin=2.2em]
+\item \emph{Analysis.} The Prawitz smoothing inequality, a list of pointwise
+  estimates for the characteristic function of an admissible law in terms of
+  $(\beta,\eta,s)$, the geometry of the moment region, elementary Gaussian
+  bounds, the semantics of a fixed-point interval arithmetic and of fourth-order
+  Taylor jets, the soundness of a Taylor/range quadrature rule, and the algebra
+  that turns a certified numerical budget into the final inequality. All of this
+  is proved in Lean by ordinary means and is checked by the Lean kernel.
+
+\item \emph{Finite computation.} Exactly $579$ closed Boolean statements of the
+  form ``this explicit certificate is accepted by this explicit checker'' are
+  discharged by the tactic \Lean{native\_decide}, which compiles the Boolean
+  expression to machine code and runs it. Each such use introduces one auxiliary
+  axiom, so the finite part of the proof trusts the Lean compiler and runtime in
+  addition to the kernel.
+\end{enumerate}
+
+Nothing about the \emph{search} for the certificates is trusted: the search was
+done outside Lean, but every accepted numerical bound is recomputed by a checker
+whose soundness is a Lean theorem, quantified over \emph{all} inputs the checker
+accepts. Section~\ref{sec:trust} states the trust boundary precisely and lists
+what we do and do not claim.
+
+\subsection{Outline}
+
+Section~\ref{sec:attribution} records the provenance of the analytic
+ingredients. Section~\ref{sec:notation} fixes notation and reproduces the formal
+definitions. Section~\ref{sec:moments} develops the moment geometry
+($\beta\ge1$, $0\le\eta\le s\le1$, $s\beta\ge1$, $\beta+\eta\ge2$).
+Section~\ref{sec:prawitz} states the smoothing inequality as formalized.
+Section~\ref{sec:chf} collects the characteristic-function estimates.
+Section~\ref{sec:split} gives the case decomposition, and
+Sections~\ref{sec:one} and \ref{sec:largeell} dispose of the two elementary
+cases. Section~\ref{sec:engine} describes the interval/jet engine and its
+soundness, Section~\ref{sec:covers} the per-sample-size covers for
+$2\le n\le255$, and Section~\ref{sec:uniform} the uniform certificate for
+$n\ge256$. Section~\ref{sec:trust} is the trust boundary and
+Section~\ref{sec:repro} the reproduction instructions.
+Section~\ref{sec:related} discusses related and concurrent work.
+
+\section{Provenance and attribution}
+\label{sec:attribution}
+
+Because this is a formalization of a computer-assisted argument that builds on
+earlier work, it is important to say at the outset which mathematical
+ingredients are inherited and which are not.
+
+\subsection{Ingredients originating in Xiao--Li}
+
+A substantial part of the analytic framework used here originates in the work of
+Haonan Xiao and Chunlin Li \cite{XiaoLi2026}, specifically the repository
+\begin{center}
+\url{https://github.com/haonan-xiao/iid-berry-esseen}
+\end{center}
+at commit \texttt{f00d781c8c42908bf4aef2739129442a0919fa38}, which proves the
+bound $C_{\mathrm{BE}}\le 879/2000=0.4395$ with its own Lean formalization
+(accessed 13 September 2026). We refer to that work as [XL]. The following
+ingredients are due to [XL] and are used here:
+
+\begin{enumerate}[label=(\roman*),leftmargin=2.4em]
+\item \textbf{The moment coordinates and the moment region.} The idea of
+  carrying the symmetrized third-moment ratio alongside $\beta$ and the first
+  absolute moment $s=\EE|X|$, and of using the resulting region as the parameter
+  domain of the whole argument, is from [XL], \file{proof-guide.md}
+  \S\S2--3. Our $\eta$ is an affine reparametrization of their ratio
+  $r=\EE|X-X'|^3/(2\EE|X|^3)$, namely $\eta=\beta(r-1)$.
+
+\item \textbf{The Prawitz normalization convention.} The particular form of the
+  doubled Prawitz kernel and of the resulting exact upper functional
+  (Section~\ref{sec:prawitz}) follows [XL], \file{proof-guide.md} \S\S5--6.
+
+\item \textbf{The stop-loss identity and the excess bounds.} The identity
+  expressing $\EE|X-X'|^3$ through the stop-loss transform, and the resulting
+  inequalities $\eta\ge0$ and $\beta+\eta\ge2$, are from [XL],
+  \file{lean/BerryEsseen/Moments/ThirdMomentRatio.lean}
+  (\Lean{symmetrizedThirdAbsoluteMoment\_stopLoss\_identity}). See
+  Section~\ref{sec:moments}.
+
+\item \textbf{The two-point sine circle.} The mechanism by which a centered law
+  is decomposed into centered two-point laws and the imaginary part of the
+  characteristic function is confined to a circle jointly with an energy
+  coordinate is from [XL],
+  \file{lean/BerryEsseen/CharacteristicFunctions/SineRemainder.lean}
+  (\Lean{sine\_remainder\_circle} together with the two-point energy and moment
+  lemmas). See Proposition~\ref{prop:circle}.
+
+\item \textbf{The radial estimates.} The separate radial bounds for the real and
+  imaginary parts in terms of $1-s$ are from [XL],
+  \file{lean/BerryEsseen/CharacteristicFunctions/TwoPointComparison.lean}
+  (\Lean{charFun\_real\_radial\_bound}, \Lean{charFun\_imag\_radial\_bound}).
+  See Proposition~\ref{prop:radial}.
+
+\item \textbf{The disk/strip intersection.} The idea of intersecting the
+  second-order Taylor disk with the real and imaginary strips, which is what the
+  \emph{coordinate} modulus branch of our engine implements, is from [XL],
+  \file{lean/BerryEsseen/CharacteristicFunctions/MomentDisk.lean}.
+
+\item \textbf{The cubic cosine constant and the convex profile.} The constant
+  \[
+    \kap=\max_{v>0}\frac{\cos v-1+v^2/2}{v^3}
+  \]
+  and its use as a global majorant appear in [XL], whose proof guide brackets it
+  as $0.09916191350<\kap<0.09916191353$ and uses the rational upper bound
+  $\Lean{kappaPlus}=9916191353/10^{11}$. The convex profile obtained by splicing
+  the supporting line $\tfrac12-\kap v$ to $(1-\cos v)/v^2$ also appears
+  there. Our development uses the coarser rational majorant
+  $\kap\le 49581/500000=0.099162$, which is what the certificates are calibrated
+  to. See Section~\ref{sec:kappa}.
+\end{enumerate}
+
+Our Lean proofs of all these lemmas were written from scratch in the present
+development and are checked by the Lean kernel; we do not import, translate or
+otherwise reuse [XL]'s Lean code. What is inherited is mathematical: the choice
+of coordinates, the smoothing normalization, and the specific mechanisms listed
+above. We make no claim of priority for any of them.
+
+\subsection{What is not used}
+
+Theorem~\ref{thm:main} does not use [XL]'s numerical result, nor any of their
+certificates, nor their region decomposition. This is not a stylistic choice:
+their certificates are budgets for the target $0.4395$ and cannot be reused as
+budgets for $0.423$, and their Lyapunov cutoff $\beta/\sqrt n\le 56/45$ is
+tailored to $0.4395$ (our analytic cap $\Delta_n\le 11/20$ forces the smaller
+cutoff $13003/10000$; see Section~\ref{sec:largeell}). We make no assertion about
+the correctness of their $0.4395$ theorem, which we have not audited.
+
+Theorem~\ref{thm:main} also does \emph{not} use Shevtsova's published bound
+\cite{Shevtsova2011,Shevtsova2013}, or any other result from
+Table~\ref{tab:history}. Earlier drafts of the underlying research notes did
+invoke Shevtsova's estimate to dispose of the large-third-moment region; the
+formalized proof replaces that input by the direct treatment of
+Sections~\ref{sec:largeell} and \ref{sec:covers}. The only external mathematical
+library used is Mathlib.
+
+\subsection{What is new here}
+
+Relative to [XL] the following ingredients are, as far as we can tell, new in the
+present development. We state this descriptively and claim no more.
+
+\begin{enumerate}[label=(\alph*),leftmargin=2.2em]
+\item \textbf{The anchored imaginary envelope.} The cubic imaginary bound
+  $|\operatorname{Im}f(u)|\le\tfrac16\sqrt{(\beta-1)(\beta+5/3)}\,|u|^3$
+  anchored at $\cos u$ rather than at~$1$
+  (Proposition~\ref{prop:imcubic}), and the sharpened quadratic bound
+  $|\operatorname{Im}f(u)|\le\tfrac12\sqrt{2(\beta-1)/3}\,u^2$
+  (Proposition~\ref{prop:imquad}).
+\item \textbf{The signed real interval.} The two-sided estimate
+  $\cos u\le\operatorname{Re}f(u)$ on $[0,\pi]$
+  (Proposition~\ref{prop:relower}) together with the three upper bounds of
+  Proposition~\ref{prop:reupper}, which lets the engine use the
+  \emph{signed} real part in the coordinate modulus branch.
+\item \textbf{The joint complex anchor disk.} The ODE-based bound
+  $\|f(u)-\cos u\|\le\sqrt{(\beta-1)(\beta+5/3)}\,(u-\sin u)$ on $[0,\pi]$
+  (Proposition~\ref{prop:ode}).
+\item \textbf{The geometric-sum comparison.} The replacement of the crude
+  $|a^n-b^n|\le n|a-b|$ by the exact telescoping sum
+  $\sum_{j<n}|a|^j|b|^{n-1-j}$, evaluated by a halving recursion inside the
+  certified jet arithmetic (Section~\ref{sec:lowfactor}).
+\item \textbf{The uniform-in-$n$ certificate.} A single finite certificate
+  covering \emph{all} $n\ge256$ simultaneously, obtained by reducing the
+  smoothing functional to five one-dimensional integrals in the two scalars
+  $L=(\beta+\eta)/\sqrt n$ and $h=1/\sqrt n$ (Section~\ref{sec:uniform}).
+\item \textbf{The elimination of the published external input}, as described
+  above.
+\end{enumerate}
+
+\section{Notation and the formal statement}
+\label{sec:notation}
+
+\subsection{The ambient definitions}
+
+The following definitions are those of \file{BerryEsseen/Defs.lean} (identical
+to the independently auditable copy in \file{Challenge.lean}), reproduced here
+verbatim.
+
+\begin{leancode}
+def thirdAbsMoment (μ : ProbabilityMeasure ℝ) : ℝ := ∫ x, |x| ^ 3 ∂(μ : Measure ℝ)
+
+structure Admissible (μ : ProbabilityMeasure ℝ) : Prop where
+  integrable_id : Integrable (fun x : ℝ ↦ x) (μ : Measure ℝ)
+  integrable_sq : Integrable (fun x : ℝ ↦ x ^ 2) (μ : Measure ℝ)
+  integrable_abs_cube : Integrable (fun x : ℝ ↦ |x| ^ 3) (μ : Measure ℝ)
+  mean_zero : (∫ x, x ∂(μ : Measure ℝ)) = 0
+  second_moment_one : (∫ x, x ^ 2 ∂(μ : Measure ℝ)) = 1
+
+def normalizedSum (n : ℕ) (x : Fin n → ℝ) : ℝ := (∑ i, x i) / Real.sqrt n
+
+def normalizedSumLaw (μ : ProbabilityMeasure ℝ) (n : ℕ) : Measure ℝ :=
+  Measure.map (normalizedSum n) (Measure.pi fun _ : Fin n ↦ (μ : Measure ℝ))
+
+def normalCDF (x : ℝ) : ℝ := (gaussianReal 0 1).real (Set.Iic x)
+
+def normalizedError (μ : ProbabilityMeasure ℝ) (n : ℕ) (x : ℝ) : ℝ≥0∞ :=
+  ENNReal.ofReal (Real.sqrt n / thirdAbsMoment μ *
+    |(normalizedSumLaw μ n).real (Set.Iic x) - normalCDF x|)
+
+def berryEsseenConstant : ℝ≥0∞ :=
+  ⨆ (μ : ProbabilityMeasure ℝ) (_ : Admissible μ) (n : ℕ) (_ : 0 < n) (x : ℝ),
+    normalizedError μ n x
+\end{leancode}
+
+Three points deserve emphasis. First, independence is realized by the finite
+product measure $\mu^{\otimes n}$ on $\RR^{\mathrm{Fin}\,n}$, so no auxiliary
+probability space is assumed to exist. Second, the supremum is taken in
+$[0,\infty]$, so finiteness of $C_{\mathrm{BE}}$ is part of the conclusion and
+not a hypothesis. Third, \Lean{normalizedError} is defined with
+$\sqrt n/\beta$ as a multiplicative prefactor rather than by an inequality
+$\Delta_n\le C\beta/\sqrt n$; the two readings agree because $\beta>0$ for every
+admissible law (Lemma~\ref{lem:betapos}).
+
+The reduction from the supremum to a pointwise statement is the trivial
+\begin{equation}
+  \label{eq:constant-le-iff}
+  C_{\mathrm{BE}}\le C
+  \iff
+  \forall \mu\ \text{admissible},\ \forall n\ge1,\ \forall x,\quad
+  \Lean{normalizedError}\ \mu\ n\ x\le C ,
+\end{equation}
+which is \Lean{BerryEsseen.constant\_le\_iff} in \file{BerryEsseen/Constant.lean}.
+Everything below therefore concerns the single pointwise quantity
+\[
+  \mathcal E(\mu,n,x):=\frac{\sqrt n}{\beta}\bigl|F_n(x)-\Phi(x)\bigr| ,
+\]
+which we must bound by $423/1000$.
+
+\subsection{Moment coordinates}
+
+Throughout, $\mu$ is an admissible law, $X\sim\mu$, $X'$ an independent copy, and
+$f(u)=\EE e^{\ii uX}$ is the characteristic function. We use the three moment
+coordinates
+\begin{equation}
+  \label{eq:coords}
+  \beta=\EE|X|^3,\qquad
+  \eta=\tfrac12\EE|X-X'|^3-\beta,\qquad
+  s=\EE|X| ,
+\end{equation}
+and the derived quantity
+\begin{equation}
+  \label{eq:gamma}
+  \Gamma=\sqrt{(\beta-1)^2+\beta^2-\eta^2} .
+\end{equation}
+We call $\eta$ the \emph{symmetrization excess}; it is the excess of the
+half-symmetrized third absolute moment over $\beta$ itself, and it vanishes for
+the Rademacher law. Carrying $(\beta,\eta,s)$ jointly --- equivalently, carrying
+$\beta$, the symmetrized third-moment ratio $r=1+\eta/\beta$ and the first
+absolute moment --- is the choice of coordinates made by [XL] (item (i) of
+Section~\ref{sec:attribution}), and the region \eqref{eq:region} below is their
+moment region.
+\formal{thirdAbsMoment, symmExcess, absMean, gammaR}{BerryEsseen/Defs.lean, Upper0423/Analytic/Moments.lean, Upper0423/LargeN/Defs.lean}
+
+We also write
+\[
+  \ell=\frac{\beta}{\sqrt n}
+\]
+for the Lyapunov fraction, and reserve $g(u)=e^{-u^2/2}$ for the standard normal
+characteristic function.
+
+\subsection{Constants}
+
+Table~\ref{tab:constants} lists all the numerical constants that occur in the
+proof; each is a rational number written exactly as it appears in the Lean
+sources.
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{llp{7.6cm}}
+    \toprule
+    Symbol & Exact value & Role\\
+    \midrule
+    target & $423/1000$ & the bound being proved (\Lean{Native.target})\\
+    $\kap$ & $49581/500000$ & rational majorant for $\max_v(\cos v-1+v^2/2)/v^3$ (\Lean{Native.kappa}, \Lean{kappaR})\\
+    $B$ & $712569/454000$ & upper end of the original small-$\beta$ covers (\Lean{deltaMax}${}=B-1=258569/454000$)\\
+    $\varepsilon$ & $1/1000$ & low-frequency omission cutoff (\Lean{Native.epsilon})\\
+    --- & $13003/10000$ & Lyapunov threshold for the Cantelli case\\
+    --- & $11/20$ & the universal Cantelli cap for $\Delta_n$\\
+    --- & $21/50$ & the $n=1$ constant\\
+    $A$ & $(8-64\kap)/(1-\cos4)$ & scale of the curved branch of the convex profile\\
+    $2^{40}$ & $1099511627776$ & fixed-point scale of the interval arithmetic (\Lean{Native.scale})\\
+    $\tau$ & $1/4$ & smoothing split in the uniform certificate\\
+    $r$ & $16$ & $r^2=256$, the first sample size of the uniform regime\\
+    $m$ & $256$ & panel count per cell in the uniform certificate\\
+    $\nu$ & $\bigl(\tfrac{22/7}{3(1-(22/7)^2/96)}\bigr)^2\!/2$ & quadratic coefficient of the normal-correction majorant (\Lean{LargeN.nu})\\
+    \bottomrule
+  \end{tabular}
+  \caption{The numerical constants, exactly as in the Lean sources.}
+  \label{tab:constants}
+\end{table}
+
+\section{The moment region}
+\label{sec:moments}
+
+All the pointwise estimates of Section~\ref{sec:chf} are stated in terms of
+$(\beta,\eta,s)$, so the first task is to delimit the region in which these
+parameters live. The following four facts are what the certificates use.
+
+\begin{lemma}[$\beta\ge1$]
+  \label{lem:betapos}
+  For every admissible $\mu$ we have $\beta\ge1$, and in particular $\beta>0$.
+\end{lemma}
+
+\begin{proof}
+  The polynomial $w(y)=(y-1)^2(2y+1)=2y^3-3y^2+1$ is nonnegative for $y\ge0$.
+  Applying it to $y=|X|$ and using $\EE X^2=1$ gives
+  $0\le\EE w(|X|)=2\beta-3+1=2(\beta-1)$.
+\end{proof}
+\formal{momentExcessWeight, one\_le\_thirdAbsMoment, thirdAbsMoment\_pos}{BerryEsseen/MomentExcess.lean}
+
+\begin{lemma}[$0\le\eta\le s\le1$ and $s\beta\ge1$]
+  \label{lem:eta}
+  For every admissible $\mu$,
+  \[
+    0\le\eta\le s\le 1,\qquad s\beta\ge1 .
+  \]
+\end{lemma}
+
+\begin{proof}
+  For $s\le1$ apply Cauchy--Schwarz: $s=\EE|X|\le(\EE X^2)^{1/2}=1$. For
+  $s\beta\ge1$ apply Cauchy--Schwarz in the form
+  $1=(\EE X^2)^2=(\EE|X|^{1/2}\cdot|X|^{3/2})^2\le\EE|X|\cdot\EE|X|^3=s\beta$.
+  For $\eta\ge0$ and $\eta\le s$ we use two elementary scalar inequalities:
+  \[
+    |x-y|^3\ge|x|^3+|y|^3-3xy(|x|+|y|),
+    \qquad
+    |x-y|^3\le(x-y)^2(|x|+|y|) .
+  \]
+  Integrating the first against $\mu\otimes\mu$ and using $\EE X=0$ gives
+  $\EE|X-X'|^3\ge2\beta$, i.e. $\eta\ge0$; integrating the second and expanding
+  $(x-y)^2$ gives $\EE|X-X'|^3\le2\beta+2s$, i.e. $\eta\le s$.
+\end{proof}
+\formal{abs\_sub\_cube\_ge, abs\_sub\_cube\_le, symmExcess\_nonneg, symmExcess\_le\_absMean, symmExcess\_le\_one, one\_le\_absMean\_mul\_thirdAbsMoment}{Upper0423/Analytic/Moments.lean}
+
+The excess bounds of Lemma~\ref{lem:eta}, in the equivalent formulation through
+the ratio $r=\EE|X-X'|^3/(2\beta)$, are due to [XL] (item (iii) of
+Section~\ref{sec:attribution}); the proof above is an independent and shorter
+rederivation of the two inequalities actually needed.
+
+\begin{proposition}[Feasibility: $\beta+\eta\ge2$]
+  \label{prop:feasible}
+  For every admissible $\mu$ we have $\EE|X-X'|^3\ge4$, equivalently
+  $\beta+\eta\ge2$, with equality for the Rademacher law.
+\end{proposition}
+
+\begin{proof}[Proof sketch]
+  For $x>y$ one has $\tfrac16(x-y)^3=\int_y^x(x-t)(t-y)\dd t$, so
+  \[
+    |x-y|^3
+    =6\int_\RR\bigl[(x-t)_+(t-y)_+ + (y-t)_+(t-x)_+\bigr]\dd t ,
+  \]
+  and taking expectations,
+  $\EE|X-X'|^3=12\int_\RR P(t)N(t)\dd t$ with $P(t)=\EE(X-t)_+$ and
+  $N(t)=\EE(t-X)_+=P(t)+t$. Subtracting the Rademacher stop-loss profile
+  $a_0(t)=\tfrac12(1-t)_+$ turns the deficit into a Gram form: with
+  \[
+    G(x,y)=\int_0^\infty\bigl((x-t)_+-a_0(t)\bigr)\bigl((y-t)_+-a_0(t)\bigr)\dd t ,
+  \]
+  one has the pointwise minorant $|x-y|^3\ge \text{(explicit)}+12\,G(x,y)$, and
+  $\iint G\dd\mu\dd\mu\ge0$ by Fubini because $G$ is a positive semidefinite
+  kernel (a square of an integral of a single function). The explicit part
+  integrates to exactly~$4$.
+\end{proof}
+\formal{radStopLoss, stopLossGram, stopLossGram\_integral\_nonneg, four\_le\_integral\_symm\_abs\_cube, two\_le\_thirdAbsMoment\_add\_symmExcess}{Upper0423/Analytic/StopLoss.lean}
+
+\begin{remark}
+  The stop-loss formulation of Proposition~\ref{prop:feasible} is due to [XL]
+  (item (iii) of Section~\ref{sec:attribution}); the proof above is a
+  self-contained rederivation. Proposition~\ref{prop:feasible} is what makes the
+  coordinate $a=\beta+\eta$ useful: it is bounded below by $2$ and it is
+  precisely the quantity that controls the modulus of $f$ through the convex
+  profile (Section~\ref{sec:kappa}).
+\end{remark}
+
+Summarizing, the parameter region used by the certificates is
+\begin{equation}
+  \label{eq:region}
+  \beta\ge1,\qquad 0\le\eta\le s\le1,\qquad s\beta\ge1,\qquad \beta+\eta\ge2 .
+\end{equation}
+Two coordinate systems on \eqref{eq:region} are used:
+\begin{itemize}[leftmargin=1.6em]
+\item for $\beta\le2$: $\delta=\beta-1\in[0,1]$ and $w\in[0,1]$ with
+  $\eta=1-\delta w$ (so $w$ interpolates between $\eta=1$ and $\eta=1-\delta$;
+  note $\eta\ge 2-\beta=1-\delta$ by \eqref{eq:region});
+\item for $\beta\ge2$: the pair $(\beta,\eta)$ directly, with $\eta\in[0,1]$.
+\end{itemize}
+
+\section{The Prawitz smoothing inequality}
+\label{sec:prawitz}
+
+\subsection{The kernel}
+
+\begin{definition}
+  \label{def:kernel}
+  For $s\in(0,1)$ put
+  \[
+    k(s)=(1-s)\frac{\cos\pi s}{\sin\pi s}+\frac1\pi,
+    \qquad
+    K_\sigma(s)=\sigma(1-s)+\ii\,k(s)\qquad(\sigma\in\{\pm1\}) .
+  \]
+  We abbreviate $K=K_1$.
+\end{definition}
+\formal{prawitzSineKernel, prawitzKernel}{BerryEsseen/PrawitzKernel.lean, BerryEsseen/PrawitzFourier.lean}
+
+\noindent Since $|K_{-1}(s)|=|K_1(s)|$ we only ever need
+\begin{equation}
+  \label{eq:absK}
+  |K(s)|=\sqrt{(1-s)^2+k(s)^2} .
+\end{equation}
+Two equivalent rewritings of \eqref{eq:absK}, both used by the engine, follow
+from the cotangent defect $q(z)=\tfrac1z-\cot z$:
+\begin{align}
+  \label{eq:K-right}
+  |K(s)| &= (1-s)\sqrt{1+q(\pi(1-s))^2},\\
+  \label{eq:K-left}
+  s\,|K(s)| &= \sqrt{\bigl(s(1-s)\bigr)^2+\Bigl(\tfrac1\pi-s(1-s)\,q(\pi s)\Bigr)^2} .
+\end{align}
+Indeed $k(s)=(1-s)q(\pi(1-s))$ using $\cot(\pi-z)=-\cot z$, which gives
+\eqref{eq:K-right}; and $k(s)=\tfrac1{\pi s}-(1-s)q(\pi s)$, which gives
+\eqref{eq:K-left} after multiplying by $s$. Form \eqref{eq:K-left} is
+numerically stable near $s=0$ (where $|K|$ blows up like $1/(\pi s)$ but
+$s|K(s)|$ is smooth) and form \eqref{eq:K-right} near $s=1$. This is why the
+high-frequency panels of a certificate are never allowed to straddle $s=1/2$: on
+$[\tau,1/2]$ the engine uses \eqref{eq:K-left}, on $[1/2,1]$ it uses
+\eqref{eq:K-right}.
+
+Finally, the normal correction uses
+\begin{equation}
+  \label{eq:K-normal}
+  \Bigl|K(s)-\frac{\ii}{\pi s}\Bigr| = (1-s)\sqrt{1+q(\pi s)^2},
+\end{equation}
+because $\tfrac1\pi-\tfrac1{\pi s}=-\tfrac{1-s}{\pi s}$, so the imaginary part of
+$K(s)-\ii/(\pi s)$ equals $-(1-s)q(\pi s)$.
+\formal{kernel\_norm\_eq\_sqrt, kernelR\_left, kernelR\_right, kernelR\_scaled, kernelR\_normal}{Upper0423/LargeN/Kernels.lean, Upper0423/Analytic/Kernels.lean}
+
+\subsection{The smoothing bound}
+
+\begin{definition}
+  \label{def:smoothing}
+  For a probability measure $\rho$ on $\RR$ with characteristic function
+  $\varphi$, and for $T>0$, $\tau\in(0,1]$, put
+  \begin{align*}
+    \mathcal S(\rho,T,\tau)
+    &= \int_0^\tau |K(t)|\;\bigl|\varphi(Tt)-e^{-T^2t^2/2}\bigr|\dd t
+    && \text{(low)}\\
+    &\quad+\int_\tau^1 |K(t)|\;\bigl|\varphi(Tt)\bigr|\dd t
+    && \text{(high)}\\
+    &\quad+\int_0^\tau \Bigl|K(t)-\frac{\ii}{\pi t}\Bigr| e^{-T^2t^2/2}\dd t
+    && \text{(normal correction)}\\
+    &\quad+\int_\tau^\infty \frac{e^{-T^2t^2/2}}{\pi t}\dd t .
+    && \text{(tail)}
+  \end{align*}
+\end{definition}
+\formal{smoothingIntegral, prawitzLowError, prawitzHighMagnitude, prawitzNormalCorrection, prawitzNormalTail}{BerryEsseen/PrawitzSmoothing.lean, BerryEsseen/SmoothingIntegrability.lean}
+
+\begin{theorem}[Prawitz smoothing]
+  \label{thm:prawitz}
+  Let $\rho$ be a probability measure on $\RR$ with $\int|y|\dd\rho<\infty$, let
+  $R$ be its distribution function, $T>0$ and $\tau\in(0,1]$. Then for every
+  $x\in\RR$,
+  \[
+    \bigl|R(x)-\Phi(x)\bigr|\;\le\;\mathcal S(\rho,T,\tau) .
+  \]
+\end{theorem}
+\formal{prawitz\_smoothing, abs\_prawitzFourier\_residual\_le, normalizedSum\_prawitz\_smoothing}{BerryEsseen/PrawitzSmoothing.lean, BerryEsseen/SmoothingMajorants.lean}
+
+Theorem~\ref{thm:prawitz} is the inequality of Prawitz \cite{Prawitz1972}, in the
+normalization of [XL] (item (ii) of Section~\ref{sec:attribution}). The
+formalization proceeds through the Fourier functional
+\[
+  \mathcal P(\rho,\sigma,T,x)=\int_0^1
+  \operatorname{Re}\Bigl[K_\sigma(t)\,e^{-\ii Ttx}\,\varphi(Tt)\Bigr]\dd t ,
+\]
+which satisfies $R(x)-\tfrac12\le\mathcal P(\rho,1,T,x)$ and
+$\mathcal P(\rho,-1,T,x)\le R(x)-\tfrac12$ by Prawitz's two-sided inversion
+formula (formalized through a Fubini argument and an explicit majorant/minorant
+of the indicator). Comparing both sides with the Gaussian value
+$\Phi(x)-\tfrac12$, replacing $\varphi$ by $e^{-T^2t^2/2}$ in the range
+$t\le\tau$ and by $0$ in the range $t>\tau$, and using
+$|K_{\pm1}|=|K|$, produces the four terms of Definition~\ref{def:smoothing}. The
+third and fourth terms are the price of the substitution: the exact Gaussian
+Fourier functional is recovered up to
+$|K(t)-\ii/(\pi t)|$ on $[0,\tau]$ and the pure Gaussian tail beyond $\tau$,
+the latter because $\int_0^\infty \frac{e^{-T^2t^2/2}}{\pi t}\sin(Ttx)\dd t$ is
+the exact inversion integral for $\Phi$.
+
+\subsection{The i.i.d.\ scaling}
+
+For an admissible $\mu$ and $n\ge1$, write $\rho_n$ for the law of $S_n$. Then
+$\varphi_n(v)=f(v/\sqrt n)^n$, so with the choice
+\begin{equation}
+  \label{eq:Tscale}
+  T=c\sqrt n \qquad (c>0)
+\end{equation}
+we get $\varphi_n(Tt)=f(ct)^n$ and $e^{-T^2t^2/2}=g(ct)^n$ with
+$g(u)=e^{-u^2/2}$. Thus every integrand in Definition~\ref{def:smoothing} becomes
+a function of the \emph{per-summand} frequency
+\begin{equation}
+  \label{eq:u}
+  u=c\,t ,
+\end{equation}
+raised to the power $n$, times a kernel factor depending on $t$ alone:
+\begin{equation}
+  \label{eq:integrands}
+  \begin{aligned}
+    \text{low}(t) &= |K(t)|\cdot\bigl|f(u)^n-g(u)^n\bigr|,\\
+    \text{high}(t) &= |K(t)|\cdot|f(u)|^n,\\
+    \text{normal}(t) &= \Bigl|K(t)-\frac{\ii}{\pi t}\Bigr|\cdot g(u)^n .
+  \end{aligned}
+\end{equation}
+\formal{charFun\_normalizedSum\_scaled, prawitzLowError\_scaled, prawitzHighMagnitude\_scaled}{Upper0423/Small/Leaf.lean}
+
+The tail term has a closed reduction: substituting $v=T^2t^2/2$,
+\begin{equation}
+  \label{eq:tail}
+  \int_\tau^\infty\frac{e^{-T^2t^2/2}}{\pi t}\dd t
+  = \frac1{2\pi}\int_{nc^2\tau^2/2}^\infty\frac{e^{-v}}{v}\dd v
+  = \frac{E_1(nc^2\tau^2/2)}{2\pi} .
+\end{equation}
+\formal{prawitzNormalTail\_integral\_eq}{Upper0423/Small/Tail.lean}
+
+\section{Characteristic-function estimates}
+\label{sec:chf}
+
+This section collects the pointwise estimates for $f$ that the certificates
+consume. In Lean they are bundled into a single structure
+\begin{leancode}
+structure ChfFacts (f : ℝ → ℂ) (β η s : ℝ) : Prop
+\end{leancode}
+with eighteen fields, and the theorem \Lean{chfFacts} proves that every admissible
+law satisfies it with the parameters \eqref{eq:coords}. The engine's soundness is
+proved from \Lean{ChfFacts} alone, so this list is exactly the analytic interface
+between the mathematics and the computation.
+\formal{ChfFacts}{Upper0423/Analytic/ModulusBridge.lean}
+\formal{chfFacts}{Upper0423/Analytic/ChfFactsProof.lean}
+
+\subsection{The cubic cosine constant and the convex profile}
+\label{sec:kappa}
+
+\begin{lemma}
+  \label{lem:kappa}
+  For all $v\in\RR$, $\cos v-1+\tfrac{v^2}2\le \kap|v|^3$ with
+  $\kap=49581/500000$.
+\end{lemma}
+
+\begin{proof}[Proof sketch]
+  By symmetry assume $v\ge0$. For $v\le2$ the Taylor bound
+  $\cos v\le1-\tfrac{v^2}2+\tfrac{v^4}{24}$ suffices since $v^4/24\le\kap v^3$
+  for $v\le24\kap$, and $24\kap>2$. For $v\ge6$ the left side is at most
+  $\tfrac{v^2}2$ and $\tfrac12\le\kap v$. The interval $[2,6]$ is covered by
+  seven polynomial certificates, each reducing to the nonnegativity of an
+  explicit polynomial on a dyadic subinterval after substituting the degree-$20$
+  Taylor majorant of $\cos$.
+\end{proof}
+\formal{cos\_le\_taylor\_twenty, kappa\_gap\_nonneg\_0 \dots kappa\_gap\_nonneg\_6, cos\_sub\_one\_add\_half\_sq\_le\_kappa}{Upper0423/Analytic/CosineProfile.lean}
+
+The constant $\kap$ and this use of it are due to [XL] (item (vii) of
+Section~\ref{sec:attribution}); the true maximum is
+$0.09916191350\ldots$, and $49581/500000=0.099162$ is a slightly coarser rational
+majorant which is what all certificates are calibrated against.
+
+Averaging Lemma~\ref{lem:kappa} over $v=uX$ gives at once:
+
+\begin{proposition}
+  \label{prop:rekappa}
+  For all $u\in\RR$,
+  $\operatorname{Re}f(u)\le1-\tfrac{u^2}2+\kap\beta|u|^3$, and
+  $|f(u)|^2\le1-u^2+2\kap(\beta+\eta)|u|^3$.
+\end{proposition}
+
+\begin{proof}
+  The first bound is Lemma~\ref{lem:kappa} with $v=uX$, using $\EE X^2=1$. For
+  the second, note $|f(u)|^2=\EE\cos\bigl(u(X-X')\bigr)$ for an independent copy
+  $X'$; apply Lemma~\ref{lem:kappa} with $v=u(X-X')$ and use
+  $\EE(X-X')^2=2$ and $\EE|X-X'|^3=2(\beta+\eta)$.
+\end{proof}
+\formal{charFun\_re\_le\_kappa, normSq\_charFun\_le\_kappa}{Upper0423/Analytic/CosineProfile.lean}
+
+The second bound of Proposition~\ref{prop:rekappa} degenerates for large $|u|$.
+The fix, again due to [XL], is to replace the supporting line
+$\tfrac12-\kap v$ by a globally convex profile.
+
+\begin{definition}[Convex profile]
+  \label{def:profile}
+  With $A=(8-64\kap)/(1-\cos4)$ put
+  \[
+    q(v)=
+    \begin{cases}
+      \tfrac12-\kap v, & 0\le v\le 4,\\[2pt]
+      A\,\dfrac{1-\cos v}{v^2}, & 4< v\le 2\pi,\\[6pt]
+      0, & v>2\pi,
+    \end{cases}
+    \qquad q(v)=q(|v|) \text{ for } v<0 .
+  \]
+\end{definition}
+
+\begin{lemma}
+  \label{lem:profile}
+  $q$ is continuous, convex on $\RR$, nonincreasing and nonnegative on
+  $[0,\infty)$, and satisfies $\cos v\le 1-v^2q(|v|)$ for all $v$.
+\end{lemma}
+
+\begin{proof}[Proof sketch]
+  The value $A$ is chosen so that the two branches agree at $v=4$: indeed
+  $A(1-\cos4)=8-64\kap$ gives $A(1-\cos4)/16=\tfrac12-4\kap$. One checks
+  $\tfrac{\dd}{\dd v}\bigl(A(1-\cos v)/v^2\bigr)\le0$ and
+  $\tfrac{\dd^2}{\dd v^2}\bigl(A(1-\cos v)/v^2\bigr)\ge0$ on $[4,2\pi]$ by
+  explicit sign estimates for $\sin$ and $\cos$ there, and that the right
+  derivative at $4$ dominates $-\kap$; convexity of the splice follows, and the
+  third branch is joined because $A(1-\cos2\pi)/(2\pi)^2=0$ with vanishing
+  derivative. The inequality $\cos v\le1-v^2q(|v|)$ holds on $[0,4]$ by
+  Lemma~\ref{lem:kappa}, is an equality on $(4,2\pi]$ by definition of $A$
+  (up to the factor $A\le1$), and is trivial beyond $2\pi$.
+\end{proof}
+\formal{profile, convexOn\_profile, antitone\_profile, cos\_le\_profile}{Upper0423/Analytic/CosineProfile.lean}
+
+\begin{proposition}[Global modulus bound]
+  \label{prop:profilebound}
+  For all $u$,
+  \[
+    |f(u)|^2\le1-2u^2\,q\bigl((\beta+\eta)|u|\bigr) .
+  \]
+  In particular, if $\beta+\eta\le D$ and $4\le D|u|\le2\pi$, then
+  \[
+    |f(u)|^2\le1-\frac{2A\bigl(1-\cos(D|u|)\bigr)}{D^2} .
+  \]
+\end{proposition}
+
+\begin{proof}[Proof sketch]
+  Write $|f(u)|^2=\EE\cos\bigl(u(X-X')\bigr)\le 1-u^2\,\EE\bigl[(X-X')^2
+  q(|u(X-X')|)\bigr]$ by Lemma~\ref{lem:profile}. The measure
+  $\tfrac12(X-X')^2\dd\PP$ has total mass $1$ and, by convexity of $q$ and
+  Jensen's inequality against that weighted measure,
+  $\EE\bigl[\tfrac12(X-X')^2q(|u||X-X'|)\bigr]\ge
+  q\bigl(|u|\,\EE[\tfrac12(X-X')^2|X-X'|]\bigr)
+  = q\bigl(|u|(\beta+\eta)\bigr)$, using
+  $\EE|X-X'|^3=2(\beta+\eta)$. The second display uses that $q$ is
+  nonincreasing, so $q(D|u|)\le q((\beta+\eta)|u|)$ is false in the wrong
+  direction --- one applies monotonicity in the correct direction, replacing
+  $(\beta+\eta)|u|$ by the larger $D|u|$ and using the antitonicity of $q$ on
+  $[0,\infty)$ together with the explicit curved branch.
+\end{proof}
+\formal{normSq\_charFun\_le\_profile, normSq\_charFun\_le\_curved}{Upper0423/Analytic/CosineProfile.lean, Upper0423/Analytic/ChfFactsProof.lean}
+
+\subsection{The real part}
+
+\begin{proposition}[Signed real lower bound]
+  \label{prop:relower}
+  For $0\le u\le\pi$, $\cos u\le\operatorname{Re}f(u)$.
+\end{proposition}
+
+\begin{proof}
+  Fix $u\in(0,\pi]$ and put $c=\sin u/(2u)$. We claim
+  $H(v)=\cos v+cv^2$ satisfies $H(v)\ge H(u)$ for all $v\ge0$. The chord bound
+  $w\sin u\le u\sin w$ for $0\le w\le u\le\pi$ (concavity of $\sin$ on $[0,\pi]$)
+  gives $H'(v)=2cv-\sin v\le 0$ for $v\le u$ and $\ge0$ for $v\ge u$ in the
+  relevant range; the case $v>\pi$ is handled directly since $\sin v\le 1$ and
+  $2cv\ge 2cu=\sin u$. Substituting $v=u|X|$ and taking expectations, using
+  $\EE X^2=1$ and $\operatorname{Re}f(u)=\EE\cos(uX)=\EE\cos(u|X|)$, yields
+  $\operatorname{Re}f(u)+c\ge\cos u+cu^2\cdot 1$ --- i.e.
+  $\operatorname{Re}f(u)\ge\cos u$.
+\end{proof}
+\formal{mul\_sin\_le\_mul\_sin, cos\_add\_quad\_le, cos\_le\_charFun\_re}{Upper0423/Analytic/RealLower.lean}
+
+No bounded-support hypothesis is needed. This estimate is what allows the engine
+to bracket $\operatorname{Re}f$ from both sides and hence to use the
+\emph{signed} real part, rather than only its modulus, in the coordinate modulus
+branch (Section~\ref{sec:modulus}).
+
+\begin{proposition}[Real upper bounds]
+  \label{prop:reupper}
+  For $u\ge0$ we have the three bounds
+  \begin{align}
+    \operatorname{Re}f(u)&\le \cos u+\frac{(\beta-1)u^3}{6},
+      \label{eq:re-anchor}\\
+    \operatorname{Re}f(u)&\le \cos u+(1-s)\bigl(u\sin u+u^2\bigr),
+      \label{eq:re-radial}\\
+    \operatorname{Re}f(u)&\le 1-\frac{u^2}{2}+\kap\beta u^3 .
+      \label{eq:re-kappa}
+  \end{align}
+\end{proposition}
+
+Bound \eqref{eq:re-anchor} is the two-sided anchor
+$|\operatorname{Re}f(u)-\cos u|\le(\beta-1)|u|^3/6$, which follows from
+$|\cos(uy)-\cos u-\tfrac12(1-y^2)(\ldots)|$-type Taylor estimates weighted by
+$\EE\bigl||X|^3-\ldots\bigr|$; \eqref{eq:re-radial} is the radial bound of
+Proposition~\ref{prop:radial}; \eqref{eq:re-kappa} is
+Proposition~\ref{prop:rekappa}.
+
+\subsection{The imaginary part}
+
+Four bounds are used; all four are needed, because they are sharp in different
+corners of the region \eqref{eq:region}.
+
+\begin{proposition}[Anchored cubic]
+  \label{prop:imcubic}
+  For all $u$,
+  \[
+    |\operatorname{Im}f(u)|\le \frac{\sqrt{(\beta-1)(\beta+5/3)}}{6}\,|u|^3 .
+  \]
+\end{proposition}
+
+\begin{proof}[Proof sketch]
+  $\operatorname{Im}f(u)=\EE\sin(uX)$ and $\EE(uX)=0$, so
+  $\operatorname{Im}f(u)=\EE[\sin(uX)-uX]$ and
+  $|\sin v-v|\le|v|^3/6$ gives the crude $\beta|u|^3/6$. The improvement comes
+  from noticing that the relevant moment is
+  $\EE\bigl||X|\,(X^2-1)\bigr|$ rather than $\EE|X|^3$: by Cauchy--Schwarz with
+  the weight $w(y)=(y-1)^2(2y+1)$ of Lemma~\ref{lem:betapos},
+  \[
+    \bigl(\EE|X|\,|X^2-1|\bigr)^2\le \EE w(|X|)\cdot\EE\frac{\ldots}{\ldots}
+    \le (\beta-1)(\beta+5/3),
+  \]
+  the second inequality being an explicit polynomial comparison. The anchoring
+  at $\cos u$ (rather than at $1$) is what makes the moment $(\beta-1)$-small.
+\end{proof}
+\formal{charFun\_im\_cubic\_anchor}{BerryEsseen/ImaginaryPart.lean (via Upper0423/Analytic/ChfFactsProof.lean)}
+
+\begin{proposition}[Sharpened quadratic]
+  \label{prop:imquad}
+  For all $u$,
+  $|\operatorname{Im}f(u)|\le\dfrac{\sqrt{2(\beta-1)/3}}{2}\,u^2$.
+\end{proposition}
+
+\begin{proof}
+  The scalar inequality $|\sin(uy)-y\sin u|\le\tfrac{u^2}{2}\,y|y-1|$ for
+  $y\ge0$, applied with $y=|X|$ and combined with $\EE X=0$, gives
+  $|\operatorname{Im}f(u)|\le\tfrac{u^2}{2}\,\EE\bigl[|X|\,\bigl||X|-1\bigr|\bigr]$.
+  The polynomial identity
+  \[
+    w(y)\frac{y^2+2y}{9}-y^2(y-1)^2 = \frac{2y(y-1)^4}{9}\ \ge 0
+    \qquad (y\ge0),
+  \]
+  with $w(y)=(y-1)^2(2y+1)$ and $\EE w(|X|)=2(\beta-1)$, gives by weighted
+  Cauchy--Schwarz
+  \[
+    \Bigl(\EE\bigl[|X|\,\bigl||X|-1\bigr|\bigr]\Bigr)^2
+    \le 2(\beta-1)\,\frac{1+2s}{9}\le\frac{2(\beta-1)}{3},
+  \]
+  using $s\le1$.
+\end{proof}
+\formal{weighted\_linear\_sq\_le\_sharp, integral\_abs\_weighted\_linear\_bound\_sharp, abs\_charFun\_im\_le\_quadratic\_sharp}{Upper0423/Analytic/QuadraticImag.lean}
+
+\begin{proposition}[Sine circle]
+  \label{prop:circle}
+  For all $u$,
+  \[
+    |\operatorname{Im}f(u)|\le\frac{\sqrt{\beta^2-\eta^2}}{6}\,|u|^3 .
+  \]
+\end{proposition}
+
+\begin{proof}[Proof sketch]
+  This is the two-point decomposition of [XL] (item (iv) of
+  Section~\ref{sec:attribution}). Write $r_0=\EE X_+=s/2$ and decompose $\mu$ as
+  a mixture of centered two-point laws $P_{a,b}$ (mass $b/(a+b)$ at $a$, mass
+  $a/(a+b)$ at $-b$) with mixing measure
+  $\dd\nu=\tfrac{a+b}{r_0}\dd\mu_+(a)\dd\mu_-(b)$. For each component, with
+  $h_{a,b}(u)=\operatorname{Im}\widehat{P_{a,b}}(u)$,
+  \[
+    |h_{a,b}(u)|\le\frac{|u|^3\,ab\,|a^2-b^2|}{6(a+b)},
+  \]
+  and with $\beta_{a,b}=\frac{ab(a^2+b^2)}{a+b}$ and
+  $e_{a,b}=\frac{2a^2b^2}{a+b}$ one has the pointwise \emph{circle} inequality
+  \[
+    e_{a,b}^2+\Bigl(\frac{6\,h_{a,b}(u)}{|u|^3}\Bigr)^2\le \beta_{a,b}^2 .
+  \]
+  Minkowski's inequality in $L^2(\nu)$ upgrades this to
+  $\zeta^2+\bigl(6\operatorname{Im}f(u)/|u|^3\bigr)^2\le\beta^2$ where
+  $\zeta=\int e_{a,b}\dd\nu$, and an explicit computation gives
+  $\zeta=4A_2B_2/s\ge s\ge\eta$ (with $A_2=\EE X_+^2$, $B_2=\EE X_-^2$), using
+  Lemma~\ref{lem:eta}. Hence
+  $\bigl(6\operatorname{Im}f(u)/|u|^3\bigr)^2\le\beta^2-\eta^2$.
+\end{proof}
+\formal{abs\_sin\_twoPoint\_le, twoPoint\_circle, sineCircle\_prod, abs\_charFun\_im\_le\_sineCircle}{Upper0423/Analytic/SineCircle.lean}
+
+\begin{proposition}[Radial disk]
+  \label{prop:radial}
+  Put $d=1-s$ and $Y=|X|$, $A=\operatorname{sgn}X$ (so $X=AY$), $a=\EE A$. For
+  $0\le u\le\pi$,
+  \begin{align*}
+    \bigl|f(u)-\bigl[\cos u+d\,u\sin u+\ii\,a(\sin u-u\cos u)\bigr]\bigr|
+      &\le d\,u^2,\\
+    \operatorname{Re}f(u)&\le\cos u+d\,(u\sin u+u^2),\\
+    |\operatorname{Im}f(u)|&\le\sqrt{2d}\,(\sin u-u\cos u)+d\,u^2 .
+  \end{align*}
+\end{proposition}
+
+\begin{proof}[Proof sketch]
+  The second-order remainder bound
+  $\bigl|e^{\ii uY}-e^{\ii u}\bigl(1+\ii u(Y-1)\bigr)\bigr|\le\tfrac{u^2}2(Y-1)^2$
+  and $\EE(Y-1)^2=2-2s=2d$ give the first display after averaging, with the
+  $\ii a$ coefficient arising from $\EE[A\,(\ldots)]$ and $\EE[AY]=\EE X=0$.
+  Cauchy--Schwarz applied to $0=\EE[AY]$ gives $a^2+s^2\le1$, hence
+  $a^2\le1-s^2\le2d$, which yields the third display; the second follows from
+  the real part of the first together with $\sin u-u\cos u\ge0$ on $[0,\pi]$.
+\end{proof}
+\formal{abs\_integral\_radialSign\_le, charFun\_re\_le\_radial, abs\_charFun\_im\_le\_radial}{Upper0423/Analytic/Radial.lean}
+
+Proposition~\ref{prop:radial} is the estimate of [XL] (item (v) of
+Section~\ref{sec:attribution}); the form above retains the complex remainder norm
+and the sharpened sign-mean estimate $a^2\le 1-s^2$.
+
+\subsection{The joint anchor disk}
+
+\begin{proposition}[ODE anchor]
+  \label{prop:ode}
+  For $0\le u\le\pi$,
+  \[
+    \bigl\|f(u)-\cos u\bigr\|\le \sqrt{(\beta-1)(\beta+5/3)}\;(u-\sin u) .
+  \]
+\end{proposition}
+
+\begin{proof}[Proof sketch]
+  For fixed real $x$ the function
+  \[
+    G(u)=e^{\ii ux}-\cos u-\ii x\sin u-(1-x^2)(1-\cos u)
+  \]
+  satisfies $G(0)=G'(0)=0$ and $G''+G=(1-x^2)(e^{\ii ux}-1)$, whence
+  $G(u)=\int_0^u\sin(u-v)\,(1-x^2)(e^{\ii vx}-1)\dd v$. Using
+  $|e^{\ii vx}-1|\le v|x|$ and $\int_0^u v\sin(u-v)\dd v=u-\sin u$,
+  \[
+    |G(u)|\le |x|\,|x^2-1|\,(u-\sin u) .
+  \]
+  Averaging over $x=X$ kills the terms $\ii x\sin u$ and $(1-x^2)(1-\cos u)$
+  because $\EE X=0$ and $\EE X^2=1$, leaving
+  $\|f(u)-\cos u\|\le \EE\bigl[|X|\,|X^2-1|\bigr](u-\sin u)$, and the moment is
+  bounded by $\sqrt{(\beta-1)(\beta+5/3)}$ as in
+  Proposition~\ref{prop:imcubic}.
+\end{proof}
+\formal{odeAnchorRemainder, norm\_odeAnchorRemainder\_le, norm\_charFun\_sub\_cos\_le\_ode}{Upper0423/Analytic/OdeAnchor.lean}
+
+Finally the plain Taylor disk is retained:
+\begin{equation}
+  \label{eq:quadratic}
+  \Bigl\|f(u)-1+\frac{u^2}{2}\Bigr\|\le\frac{\beta|u|^3}{6} .
+\end{equation}
+
+\subsection{Summary of the interface}
+
+Table~\ref{tab:chf} lists the eighteen fields of \Lean{ChfFacts}. Each is proved
+for admissible laws in the file indicated.
+
+\begin{table}[htbp]
+  \centering\footnotesize
+  \begin{tabular}{llp{5.2cm}}
+    \toprule
+    Field & Content & Source file\\
+    \midrule
+    \Lean{one\_le\_beta} & $1\le\beta$ & \file{MomentExcess.lean}\\
+    \Lean{eta\_nonneg}, \Lean{eta\_le\_s}, \Lean{s\_le\_one}, \Lean{s\_beta}
+      & $0\le\eta\le s\le1$, $s\beta\ge1$ & \file{Analytic/Moments.lean}\\
+    \Lean{norm\_le\_one} & $|f|\le1$ & Mathlib\\
+    \Lean{re\_ge\_cos} & Prop.~\ref{prop:relower} & \file{Analytic/RealLower.lean}\\
+    \Lean{re\_anchor} & \eqref{eq:re-anchor} & \file{RealPart.lean}\\
+    \Lean{re\_radial} & \eqref{eq:re-radial} & \file{Analytic/Radial.lean}\\
+    \Lean{re\_kappa} & \eqref{eq:re-kappa} & \file{Analytic/CosineProfile.lean}\\
+    \Lean{im\_cubic} & Prop.~\ref{prop:imcubic} & \file{ImaginaryPart.lean}\\
+    \Lean{im\_quad} & Prop.~\ref{prop:imquad} & \file{Analytic/QuadraticImag.lean}\\
+    \Lean{im\_circle} & Prop.~\ref{prop:circle} & \file{Analytic/SineCircle.lean}\\
+    \Lean{im\_radial} & Prop.~\ref{prop:radial} & \file{Analytic/Radial.lean}\\
+    \Lean{normSq\_kappa} & Prop.~\ref{prop:rekappa} & \file{Analytic/CosineProfile.lean}\\
+    \Lean{normSq\_curved} & Prop.~\ref{prop:profilebound} & \file{Analytic/ChfFactsProof.lean}\\
+    \Lean{ode} & Prop.~\ref{prop:ode} & \file{Analytic/OdeAnchor.lean}\\
+    \Lean{quadratic} & \eqref{eq:quadratic} & \file{CharacteristicBounds.lean}\\
+    \bottomrule
+  \end{tabular}
+  \caption{The analytic interface \Lean{ChfFacts}.}
+  \label{tab:chf}
+\end{table}
+
+\section{The case decomposition}
+\label{sec:split}
+
+The proof of Theorem~\ref{thm:main} splits the parameter space
+$\{(\mu,n,x)\}$ into four regions, as follows
+(\Lean{normalizedError\_le\_0423} in \file{Upper0423/Main.lean}):
+
+\begin{center}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llll}
+  \toprule
+  Region & Lean theorem & File & Method\\
+  \midrule
+  $n=1$ & \Lean{normalizedError\_one\_le} & \file{SingleSummand.lean} & polynomial majorants\\
+  $\ell\ge\frac{13003}{10000}$ & \Lean{normalizedError\_large\_ell} & \file{LargeEll.lean} & Cantelli\\
+  $2\le n\le255$, $\ell<\frac{13003}{10000}$ & \Lean{normalizedError\_moderate\_le} & \file{Covers/All.lean} & $569$ covers\\
+  $n\ge256$, $\ell\le\frac{13003}{10000}$ & \Lean{normalizedError\_uniform} & \file{Uniform/Data/All.lean} & $281$ cells\\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\noindent Here $\ell=\beta/\sqrt n$. The four cases are exhaustive:
+if $n=1$ the first applies; otherwise either $\ell\ge13003/10000$ (second case)
+or $\ell<13003/10000$, and then the third or fourth applies according to
+$n\le255$ or $n\ge256$. The overlap of the second and fourth cases at
+$\ell=13003/10000$ is harmless (both are stated with the appropriate non-strict
+or strict inequality).
+
+The threshold $13003/10000$ is exactly what the Cantelli cap allows; see
+Section~\ref{sec:largeell}. Its role in the finite covers is that for
+$2\le n\le255$ one needs only
+\[
+  1\le\beta\le \frac{13003}{10000}\sqrt n ,\qquad 0\le\eta\le1 ,
+\]
+a compact rational box for each $n$.
+
+\section{The single summand: $n=1$}
+\label{sec:one}
+
+\begin{theorem}
+  \label{thm:one}
+  For every admissible $\mu$ and every $t\in\RR$,
+  \[
+    \bigl|\PP(X\le t)-\Phi(t)\bigr|\le\frac{21}{50}\,\beta .
+  \]
+  Consequently $\mathcal E(\mu,1,x)\le 21/50\le 423/1000$.
+\end{theorem}
+
+Since $21/50=0.42<0.423$, this case needs no computation at all. The mechanism is
+a family of \emph{rational polynomial majorants} of indicator functions.
+
+\begin{lemma}[Majorant certificate]
+  \label{lem:maj}
+  Let $C,a,b,c,r\in\QQ$ and suppose
+  \[
+    \varphi(y):=C|y|^3+ay+by^2+c
+  \]
+  satisfies $\varphi\ge0$ on $\RR$ and $\varphi\ge1$ on $(-\infty,r]$. Then for
+  every admissible $\mu$,
+  \[
+    \PP(X\le r)\le \EE\varphi(X)= C\beta+b+c ,
+  \]
+  using $\EE X=0$ and $\EE X^2=1$.
+\end{lemma}
+
+\begin{proof}
+  $\mathbf 1_{(-\infty,r]}\le\varphi$ pointwise, and $\varphi$ is $\mu$-integrable
+  by admissibility; the displayed value of $\EE\varphi$ is immediate.
+\end{proof}
+\formal{prob\_le\_le\_integral, integral\_cubic\_majorant, prob\_le\_le\_of\_certificate}{Upper0423/SingleSummand.lean}
+
+The hypotheses of Lemma~\ref{lem:maj} are themselves certified by two
+sum-of-squares identities, which is what makes them checkable by \Lean{nlinarith}
+on rational data.
+
+\begin{lemma}[SOS1]
+  \label{lem:sos1}
+  Let $C>0$ and $v\in\RR$ with $b+2Cv>0$ and
+  $(Cv^2-a)^2\le4(b+2Cv)c$. Then $Cz^3+bz^2+az+c\ge0$ for all $z\ge0$.
+\end{lemma}
+\begin{proof}
+  Multiply by $4(b+2Cv)>0$ and use the identity
+  \begin{multline*}
+    4(b+2Cv)\bigl(Cz^3+bz^2+az+c\bigr)
+    =4C(b+2Cv)\,z(z-v)^2\\
+    +\bigl(2(b+2Cv)z-(Cv^2-a)\bigr)^2
+    +\bigl(4(b+2Cv)c-(Cv^2-a)^2\bigr) .
+  \end{multline*}
+  Each of the three summands is nonnegative.
+\end{proof}
+
+\begin{lemma}[SOS2]
+  \label{lem:sos2}
+  Let $C>0$ and $b^2\le-3Ca$. Then $z\mapsto Cz^3+bz^2-az+c$ is nondecreasing.
+\end{lemma}
+\begin{proof}
+  For $w\le z$,
+  \begin{multline*}
+    12C\Bigl[\bigl(Cz^3+bz^2-az+c\bigr)-\bigl(Cw^3+bw^2-aw+c\bigr)\Bigr]\\
+    =(z-w)\Bigl(3C^2(z-w)^2+\bigl(3C(z+w)+2b\bigr)^2+4\bigl(-3Ca-b^2\bigr)\Bigr)\ge0 .
+  \end{multline*}
+\end{proof}
+\formal{cubic\_nonneg, cubic\_mono, certificate\_nonpos, certificate\_last}{Upper0423/SingleSummand.lean}
+
+\begin{proof}[Proof of Theorem~\ref{thm:one}]
+  By replacing $X$ with $-X$ it suffices to prove the one-sided bound
+  $\PP(X\le t)-\Phi(t)\le\tfrac{21}{50}\beta$ for all $t$ (the reverse
+  discrepancy is obtained from the one-sided bound for $-X$ together with
+  $\Phi(-t)=1-\Phi(t)$, and $\beta$ is unchanged). Recall $\beta\ge1$
+  (Lemma~\ref{lem:betapos}). The range of $t$ is split into ten pieces:
+  \begin{itemize}[leftmargin=1.6em]
+  \item $t\le-6/5$: a pure quadratic majorant ($C=0$) with
+    $(a,b,c)=\bigl(-\tfrac53\cdot\tfrac{900}{3721},\tfrac{900}{3721},
+    \tfrac{25}{36}\cdot\tfrac{900}{3721}\bigr)$ and $r=-6/5$ gives
+    $\PP(X\le t)\le b+c$, which is below $\tfrac{21}{50}\beta$ already since
+    $\Phi\ge0$.
+  \item $-6/5<t\le-1$: another pure quadratic majorant with
+    $(a,b,c)=(-\tfrac12,\tfrac14,\tfrac14)$, $r=-1$, combined with the explicit
+    Gaussian lower bound of Lemma~\ref{lem:gauss} at $z=6/5$.
+  \item seven cells with endpoints
+    $-1,\,-\tfrac9{10},\,-\tfrac45,\,-\tfrac35,\,-\tfrac25,\,-\tfrac15,\,0,\,\tfrac3{10}$:
+    each carries a cubic certificate with $C=\tfrac{21}{50}$ and explicit
+    rational $(a,b,c,v)$, verified by Lemmas~\ref{lem:sos1} and \ref{lem:sos2},
+    together with the Gaussian value at the left endpoint of the cell.
+  \item $t>3/10$: $\PP(X\le t)\le1$ and
+    $\Phi(t)\ge\Phi(3/10)\ge\tfrac12+\tfrac{197}{1680}$, which suffices.
+  \end{itemize}
+  In each of the seven cells the estimate has the shape
+  \[
+    \PP(X\le t)-\Phi(t)
+    \le \underbrace{\PP(X\le r)}_{\le\,C\beta+b+c}-\underbrace{\Phi(l)}_{\ge\,b+c}
+    \le C\beta ,
+  \]
+  where $[l,r]$ is the cell, using monotonicity of both $F$ and $\Phi$; the
+  numerical content of each row is the pair of inequalities $b+c\le\Phi(l)$ and
+  the SOS conditions.
+\end{proof}
+\formal{prob\_le\_sub\_normalCDF\_le, abs\_prob\_le\_sub\_normalCDF\_le, normalizedError\_one\_le}{Upper0423/SingleSummand.lean}
+
+\begin{lemma}[Explicit Gaussian bounds]
+  \label{lem:gauss}
+  For $z\ge0$,
+  $\Phi(-z)\ge\tfrac12-\tfrac25\bigl(z-\tfrac{z^3}{6}+\tfrac{z^5}{40}\bigr)$, and
+  $\Phi(3/10)\ge\tfrac12+\tfrac{197}{1680}$.
+\end{lemma}
+\begin{proof}
+  From $e^{-v}\le1-v+\tfrac{v^2}2$ for $v\ge0$ one gets
+  $\phi(x)\le\tfrac25-\tfrac{x^2}5+\tfrac{x^4}{20}$; integrating over $[-z,0]$
+  gives the first bound. From $1-\tfrac{x^2}2\le e^{-x^2/2}$ and the numerical
+  bound $(2\pi)^{-1/2}\ge25/63$ one gets
+  $\phi(x)\ge\tfrac{25}{63}(1-\tfrac{x^2}2)$ on $[0,3/10]$; integrating gives the
+  second.
+\end{proof}
+\formal{exp\_neg\_le\_quadratic, gaussianPDFReal\_le\_quartic, normalCDF\_neg\_ge, normalCDF\_three\_tenths\_ge}{Upper0423/SingleSummand.lean}
+
+\section{The large Lyapunov fraction}
+\label{sec:largeell}
+
+\begin{theorem}
+  \label{thm:cantelli}
+  For every admissible $\mu$, every $n\ge1$ and every $x$,
+  $\bigl|F_n(x)-\Phi(x)\bigr|\le\tfrac{11}{20}$. Consequently, if
+  $\ell=\beta/\sqrt n\ge13003/10000$, then
+  \[
+    \mathcal E(\mu,n,x)=\frac{\sqrt n}{\beta}\bigl|F_n(x)-\Phi(x)\bigr|
+    \le\frac{10000}{13003}\cdot\frac{11}{20}=\frac{5500}{13003}
+    <\frac{423}{1000} .
+  \]
+\end{theorem}
+
+\begin{proof}
+  $S_n$ has mean $0$ and variance $1$, so Cantelli's (one-sided Chebyshev)
+  inequality gives $\PP(S_n\ge x)\le\tfrac{1}{1+x^2}$ for $x>0$ and hence
+  $F_n(x)\ge\tfrac{x^2}{1+x^2}$; symmetrically
+  $F_n(x)\le\tfrac{1}{1+x^2}$ for $x<0$. For $x\ge0$ one then needs the
+  elementary Gaussian gap estimate
+  \[
+    \Phi(x)-\frac{x^2}{1+x^2}\le\frac{11}{20}\qquad(x\ge0),
+  \]
+  proved in \file{GaussianBounds.lean} by a polynomial argument on $[0,1]$ and by
+  monotonicity beyond, together with $F_n\le1$ and $\Phi\ge\tfrac12$; the case
+  $x<0$ is symmetric.
+\end{proof}
+\formal{cantelli\_upper, cantelli\_lower, normalCDF\_cantelli\_gap, cdf\_error\_le\_eleven\_twentieths, normalizedSum\_cdf\_error\_le\_eleven\_twentieths}{BerryEsseen/Cantelli.lean, BerryEsseen/GaussianBounds.lean}
+\formal{normalizedError\_large\_ell}{Upper0423/LargeEll.lean}
+
+\begin{remark}
+  The threshold is determined by the numerical identity
+  $\tfrac{11}{20}\cdot\tfrac{10000}{13003}=0.4229793\ldots<0.423$: any smaller
+  threshold would fail, and $13003/10000$ is the value the finite covers are
+  built for. A sharper unconditional cap than $11/20$ would lower the threshold
+  and shrink the finite work; conversely, one cannot reuse a threshold calibrated
+  for a weaker target, e.g. $56/45=1.2\overline{4}$, because
+  $\tfrac{11}{20}\cdot\tfrac{45}{56}=0.4419\ldots>0.423$.
+\end{remark}
+
+\section{The interval and Taylor-jet engine}
+\label{sec:engine}
+
+The remaining two regions require numerical evaluation of the four integrals of
+Definition~\ref{def:smoothing}. This section describes the machinery: an
+executable fixed-point interval arithmetic with fourth-order Taylor jets, a
+quadrature rule, a majorant assembly, and the Lean theorems that make the whole
+thing sound. Nothing in this section is trusted; everything is proved.
+
+\subsection{Fixed-point intervals}
+
+\begin{definition}
+  \label{def:iv}
+  Let $S=2^{40}=1099511627776$. An \emph{interval} is a pair of integers
+  $[\,\ell,h\,]$, and it \emph{contains} $x\in\RR$ when
+  $\ell\le Sx\le h$.
+\end{definition}
+\formal{Iv, Iv.Contains, scale, precision}{Upper0423/Native/Interval.lean, Upper0423/Native/IntervalSound.lean}
+
+All arithmetic is exact integer arithmetic with outward rounding, so containment
+is preserved. Writing $\lfloor\cdot\rfloor$ and $\lceil\cdot\rceil$ for
+floor/ceiling division of integers (defined for divisors of either sign), the
+operations are
+\[
+  \begin{array}{ll}
+  \text{negation} & [-h,-\ell];\\
+  \text{addition} & [\ell_1+\ell_2,\;h_1+h_2];\\
+  \text{subtraction} & [\ell_1-h_2,\;h_1-\ell_2];\\
+  \text{multiplication} & \bigl[\lfloor\min(\ldots)/S\rfloor,\;\lceil\max(\ldots)/S\rceil\bigr]
+    \text{ over the four endpoint products};\\
+  \text{division by } n\in\NN & [\lfloor\ell/n\rfloor,\lceil h/n\rceil];\\
+  \text{reciprocal} & \bigl[\lfloor S^2/h\rfloor,\lceil S^2/\ell\rceil\bigr]
+    \text{ (fails if } \ell\le0\le h);\\
+  \text{square} & \text{as multiplication, with lower bound } 0 \text{ if } \ell\le0\le h;\\
+  \text{square root} & \bigl[\,\lfloor\sqrt{\ell S}\,\rfloor,\;\lceil\sqrt{hS}\,\rceil\,\bigr]
+    \text{ via } \Lean{Nat.sqrt} \text{ (fails if }\ell<0).
+  \end{array}
+\]
+Each of these has a soundness lemma of the form ``if $a$ contains $x$ and $b$
+contains $y$ then $a\ast b$ contains $x\ast y$''. Exponentiation to a natural
+power is by the same binary-exponentiation loop as the reference C\texttt{++}
+implementation, so that the Lean checker and the search program agree bit for
+bit.
+
+\subsection{Transcendental seeds}
+
+\begin{lemma}[$\pi$]
+  \label{lem:pi}
+  The interval $[3454217652352,\,3454217652372]$ contains $\pi$.
+\end{lemma}
+\begin{proof}
+  Immediate from Mathlib's \Lean{Real.pi\_gt\_d20} and \Lean{Real.pi\_lt\_d20}.
+\end{proof}
+\formal{piIv, contains\_piIv}{Upper0423/Native/TranscendentalSound.lean}
+
+\begin{lemma}[exponential]
+  \label{lem:exp}
+  The routine \Lean{Iv.exp} returns an interval containing $e^x$ whenever it
+  succeeds.
+\end{lemma}
+\begin{proof}[Proof sketch]
+  Endpointwise. For $x\le-40S$ return $[0,1]$, which is valid because
+  $e^{-40}\le1/S$. Otherwise find the least $k$ with $8|x|\le S2^k$, put
+  $y=x/2^k$ (so $|y|\le S/8$), sum twelve Taylor terms of $e^y$ by the recursion
+  $(\Sigma,T)\mapsto(\Sigma+Ty/(j{+}1),\,Ty/(j{+}1))$, widen the result by one
+  unit in each direction to absorb the truncation error, clamp at $0$, and square
+  $k$ times. The Taylor remainder after twelve terms at $|y|\le1/8$ is far below
+  one unit in the last place.
+\end{proof}
+
+\begin{lemma}[sine and cosine]
+  \label{lem:sincos}
+  The routine \Lean{Iv.sinCos} returns a pair of intervals containing
+  $(\sin x,\cos x)$ for every $x$ in the argument interval.
+\end{lemma}
+\begin{proof}[Proof sketch]
+  A point evaluation shifts the argument by the nearest multiple of $\pi/2$ into
+  $[-1,1]$ (using the enclosure of Lemma~\ref{lem:pi}), evaluates
+  degree-$17$ Taylor polynomials, widens by one unit, and permutes/negates
+  according to the quadrant. For an interval argument, the two endpoint
+  enclosures are hulled, and additionally hulled with $\pm1$ at every stationary
+  point ($k\pi$ for $\cos$, $(2k{+}1)\pi/2$ for $\sin$, $|k|\le4$) whose own
+  enclosure meets the argument interval; the result is intersected with
+  $[-1,1]$. Soundness rests on the observation that between two consecutive
+  stationary points the function is monotone, so its range over a subinterval is
+  spanned by the endpoint values together with the extreme values at any
+  interior stationary point. Arguments of absolute value larger than $7$ return
+  $[-1,1]$.
+\end{proof}
+\formal{expEndpoint\_sound, Contains.exp, sinCosEndpoint\_sound, Contains.sinCos}{Upper0423/Native/TranscendentalSound.lean, Upper0423/Native/TrigSound.lean}
+
+\subsection{Fourth-order jets}
+
+\begin{definition}
+  \label{def:jet}
+  A \emph{jet} is a quintuple of intervals $(c_0,\dots,c_4)$. It
+  \emph{encloses} a function $F$ at a point $\sigma$ when $c_k$ contains
+  $F^{(k)}(\sigma)/k!$ for $k=0,\dots,4$. It encloses $F$ \emph{on} a set $D$
+  when $F$ is four times differentiable on $D$ and the enclosure holds at every
+  point of $D$.
+\end{definition}
+\formal{Jet, Jet.Encloses, Jet.EnclosesOn}{Upper0423/Native/JetSound.lean}
+
+Jets are propagated by the usual normalized-coefficient recurrences: products by
+the Cauchy convolution, reciprocal and square root by the Newton-type
+recurrences, exponential and sine/cosine by the weighted convolutions
+$r_k=\tfrac1k\sum_{j=1}^{k}j\,a_j r_{k-j}$ (and its trigonometric pair). The
+zeroth coefficient of a squaring uses the dedicated interval square (so that
+$c_0\ge0$ is exploited). Each of these has a Lean soundness lemma, reducing to
+scale-free coefficient identities in the \Lean{BerryEsseen.Numerics} namespace;
+only interval containment is redone in the engine's own namespace.
+
+\subsection{The quadrature rule}
+\label{sec:panel}
+
+A \emph{panel} is a rational interval $[l,r]$. Parametrize it by
+$t=m+h\sigma$ with $m=\tfrac{l+r}2$, $h=\tfrac{r-l}2$ and $\sigma\in[-1,1]$.
+
+\begin{lemma}[Panel rule]
+  \label{lem:panel}
+  Let $F$ be a real function, $l<r$ rationals. Suppose a jet $W$ encloses
+  $\sigma\mapsto F(m+h\sigma)$ on $[-1,1]$ and a jet $M$ encloses it at
+  $\sigma=0$. Then
+  \[
+    \int_l^r F(t)\dd t\;\le\;
+    \min\Bigl\{
+      (r-l)\Bigl(\overline{M_0}+\frac{\overline{M_2}}{3}+\frac{\overline{W_4}}{5}\Bigr),\;
+      (r-l)\,\overline{W_0}
+    \Bigr\},
+  \]
+  where $\overline{\,\cdot\,}$ denotes the upper endpoint of an interval,
+  rescaled by $S^{-1}$.
+\end{lemma}
+\begin{proof}[Proof sketch]
+  For the second (range) bound, $F\le \overline{W_0}$ on the panel. For the first
+  (Taylor) bound, expand
+  $F(m+h\sigma)=\sum_{k\le3}c_k\sigma^k+c_4(\xi)\sigma^4$ with
+  $c_k=c_k(0)$ for $k\le3$ the midpoint coefficients and $c_4(\xi)$ a fourth
+  coefficient at some interior point. Integrating $\sigma^k$ over $[-1,1]$ kills
+  the odd powers and gives $\int_{-1}^1\sigma^2=\tfrac23$,
+  $\int_{-1}^1\sigma^4=\tfrac25$; multiplying by $h=\tfrac{r-l}2$ yields the
+  stated combination $(r-l)(c_0+\tfrac{c_2}3+\tfrac{c_4}5)$, and the whole-panel
+  jet supplies the uniform upper bound for $c_4$.
+\end{proof}
+\formal{panelUpper, integral\_le\_panelUpper, affineJet, centerJet}{Upper0423/Native/Majorant.lean, Upper0423/Native/PanelSound.lean}
+
+The rule is a genuine upper bound for the integral, not an approximation. The
+fourth-order Taylor form is what makes the certificates small: on a smooth panel
+it converges like $(r-l)^5$ while the range rule converges only like $(r-l)$.
+
+\subsection{Panel majorants}
+\label{sec:modulus}
+
+A certificate leaf fixes a \emph{box}
+\[
+  b=\bigl(n,\ \beta_{\mathrm{lo}},\beta_{\mathrm{hi}},\
+  \eta_{\mathrm{lo}},\eta_{\mathrm{hi}},\ c,\ \tau,\ \varepsilon\bigr)
+\]
+of rational data, subject to the validity conditions
+\[
+  n\ge2,\quad
+  1\le\beta_{\mathrm{lo}}\le\beta_{\mathrm{hi}},\quad
+  0\le\eta_{\mathrm{lo}}\le\eta_{\mathrm{hi}}\le1,\quad
+  c>0,\quad 0<\varepsilon<\tau\le\tfrac12,\quad
+  c\tau<\tfrac32,\quad c<\pi .
+\]
+The derived quantities used by the majorants are
+\begin{gather*}
+  \delta=\beta_{\mathrm{hi}}-1,\qquad
+  d=\min\Bigl(1-\tfrac1{\beta_{\mathrm{hi}}},\,1-\eta_{\mathrm{lo}}\Bigr),\qquad
+  a=\beta_{\mathrm{hi}}+\eta_{\mathrm{hi}},\\
+  \Sigma_1=\delta\bigl(\beta_{\mathrm{hi}}+\tfrac53\bigr),\qquad
+  \Sigma_2=\beta_{\mathrm{hi}}^2-\eta_{\mathrm{lo}}^2,\qquad
+  J=\tfrac{1}{36}\min(\Sigma_1,\Sigma_2) .
+\end{gather*}
+The reason $d$ is a legitimate upper bound for $1-s$ is the pair of inequalities
+$s\ge1/\beta$ (from $s\beta\ge1$, Lemma~\ref{lem:eta}) and $s\ge\eta$; the
+quantities $\Sigma_1,\Sigma_2$ dominate $(\beta-1)(\beta+5/3)$ and
+$\beta^2-\eta^2$ respectively.
+\formal{Box, Box.valid, Box.dcap, Box.dsum, Box.cubic1, Box.cubic2, Box.imagSq, dcap\_ge, dsum\_ge, cubic1\_ge, cubic2\_ge}{Upper0423/Native/Majorant.lean, Upper0423/Analytic/ModulusBridge.lean}
+
+With $u=ct$, the four \emph{branch choices} of a panel are as follows.
+
+\paragraph{Imaginary majorant $j(u)$.} One of
+\[
+  \tfrac16\sqrt{\Sigma_1}\,u^3,\quad
+  \tfrac12\sqrt{\tfrac23\delta}\,u^2,\quad
+  \tfrac16\sqrt{\Sigma_2}\,u^3,\quad
+  \sqrt{2d}\,(\sin u-u\cos u)+d\,u^2,
+\]
+dominating $|\operatorname{Im}f(u)|$ by Propositions~\ref{prop:imcubic},
+\ref{prop:imquad}, \ref{prop:circle}, \ref{prop:radial} respectively.
+
+\paragraph{Real majorant $\mathrm{re}(u)$.} One of
+\[
+  \cos u+\tfrac16\delta u^3,\quad
+  \cos u+d\,(u\sin u+u^2),\quad
+  1-\tfrac{u^2}2+\kap\beta_{\mathrm{hi}}u^3,
+\]
+dominating $\operatorname{Re}f(u)$ by Proposition~\ref{prop:reupper}.
+
+\paragraph{Modulus majorant $M(u)$.} One of
+\begin{align*}
+  \text{\emph{one}:}\quad& 1;\\
+  \text{\emph{line}:}\quad& \sqrt{1-u^2+2\kap a\,u^3};\\
+  \text{\emph{cosine}:}\quad& \sqrt{1-\dfrac{2A\bigl(1-\cos(a u)\bigr)}{a^2}};\\
+  \text{\emph{coordinate}:}\quad& \sqrt{\mathrm{far}(\cos u,\mathrm{re}(u);G)+j(u)^2} .
+\end{align*}
+The first three are $|f|\le1$ and Propositions~\ref{prop:rekappa},
+\ref{prop:profilebound}; the \emph{cosine} branch is guarded by a whole-panel
+check that $4\le a\,c\,l$ and $a\,c\,r\le2\pi$, so that the curved branch of the
+profile applies on the entire panel. The \emph{coordinate} branch is the
+disk/strip intersection: $|f|^2=(\operatorname{Re}f)^2+(\operatorname{Im}f)^2$,
+the imaginary square is bounded by $j(u)^2$, and the real square is bounded by
+\[
+  \mathrm{far}(\alpha,\gamma;G)=
+  \begin{cases}
+    \gamma^2, & G=+1,\\
+    \alpha^2, & G=-1,\\
+    \alpha^2+\gamma^2, & G=0,
+  \end{cases}
+\]
+where $\alpha\le\operatorname{Re}f(u)\le\gamma$ are the lower bound $\cos u$
+(Proposition~\ref{prop:relower}) and the chosen upper bound, and $G$ is a
+\emph{sign guard} computed once on the whole panel: $G=+1$ if $\alpha+\gamma\ge0$
+throughout the panel (so $|\operatorname{Re}f|\le\gamma$), $G=-1$ if
+$\alpha+\gamma\le0$ throughout (so $|\operatorname{Re}f|\le-\alpha$), and $G=0$
+otherwise. Since $\max(|\alpha|,|\gamma|)^2\le\alpha^2+\gamma^2$ always, the
+guard only improves the bound, and its correctness on the whole panel is what
+allows the sharper midpoint jet to reuse it. The idea of intersecting the Taylor
+disk with the real and imaginary strips, which is what this branch implements, is
+due to [XL] (item (vi) of Section~\ref{sec:attribution}); the sign guard and the
+use of the two-sided real bracket of Proposition~\ref{prop:relower} are
+particular to the present engine.
+\formal{imagJet, realJet, modulusJet, cosineGuard, signGuard, farthestSquare, abs\_im\_le\_imagR, re\_le\_realR, norm\_le\_modulusR, cosineGuard\_sound}{Upper0423/Native/Majorant.lean, Upper0423/Analytic/ModulusBridge.lean, Upper0423/Analytic/IntegrandBridge.lean}
+
+\subsection{The low-frequency error factor}
+\label{sec:lowfactor}
+
+The low-frequency integrand \eqref{eq:integrands} needs a bound for
+$|f(u)^n-g(u)^n|$, and this is where the geometric-sum comparison enters. Writing
+$G_n(y,z)=\sum_{j<n}y^jz^{n-1-j}$, the telescoping identity gives
+\begin{equation}
+  \label{eq:telescope}
+  \bigl|f(u)^n-g(u)^n\bigr|\le\bigl|f(u)-g(u)\bigr|\cdot G_n\bigl(M(u),g(u)\bigr)
+\end{equation}
+whenever $|f|\le M$ and $g\ge0$. The engine computes $G_n$ exactly by the
+halving recursion
+\[
+  G_{2k}(y,z)=(y^k+z^k)\,G_k(y,z),\qquad
+  G_{2k+1}(y,z)=y\,G_{2k}(y,z)+z^{2k},
+\]
+returning $(y^n,z^n,G_n)$ from $(y^{\lfloor n/2\rfloor},z^{\lfloor n/2\rfloor},
+G_{\lfloor n/2\rfloor})$; this costs $O(\log n)$ jet multiplications.
+\formal{geometric, geometricSum, geomSum, geomSum\_double, geomSum\_succ\_double, geometricR\_spec, norm\_pow\_sub\_pow\_le\_geomSum}{Upper0423/Native/Majorant.lean, Upper0423/Analytic/Geometric.lean}
+
+Five branches for the factor $\Lambda(u)$ with
+$|f(u)^n-g(u)^n|\le u^3\Lambda(u)$ (or the trivial split) are provided:
+
+\begin{itemize}[leftmargin=1.6em]
+\item \emph{classical}: $\Lambda=\bigl(\tfrac16\beta_{\mathrm{hi}}
+  + \mathrm{GU}(u)\bigr)\,G_n(M,g)$, where
+  $g(u)-1+\tfrac{u^2}2\le u^3\,\mathrm{GU}(u)$ and
+  $\|f(u)-1+\tfrac{u^2}2\|\le\tfrac16\beta|u|^3$ by \eqref{eq:quadratic}: the two
+  Taylor disks around the common center $1-\tfrac{u^2}2$.
+\item \emph{coordinate}: the real and imaginary parts of $f(u)-g(u)$ are
+  bracketed separately. Using the two-sided Taylor brackets
+  $u^3\,\mathrm{GC}_L(u)\le g(u)-\cos u\le u^3\,\mathrm{GC}_U(u)$ one gets
+  $\alpha'\le\operatorname{Re}(f(u)-g(u))\le\gamma'$ with
+  $\alpha'=-\mathrm{GC}_U(u)u^3$ and
+  $\gamma'=\bigl(\tfrac{\delta}{6}-\mathrm{GC}_L(u)\bigr)u^3$, so that
+  $\Lambda=\sqrt{\mathrm{far}(\alpha',\gamma';G')+J}\cdot G_n(M,g)$ with a second
+  sign guard $G'$ and the imaginary square cap $J$.
+\item \emph{anchor}: split around $\cos u$:
+  $\Lambda=\sqrt{\tfrac{\delta^2}{36}+J}\;G_n(M,\cos u)
+  + \mathrm{GC}_U(u)\,G_n(g,\cos u)$.
+\item \emph{ode}: the same split with the ODE bound of
+  Proposition~\ref{prop:ode} in place of the anchor disk:
+  $\Lambda=\sqrt{\Sigma_1}\,\mathrm{SU}(u)\,G_n(M,\cos u)
+  + \mathrm{GC}_U(u)\,G_n(g,\cos u)$, where $u-\sin u\le u^3\mathrm{SU}(u)$.
+\item \emph{trivial}: $|f^n-g^n|\le M^n+g^n$, used only where the difference
+  bound is worthless.
+\end{itemize}
+The polynomials $\mathrm{GU},\mathrm{GC}_L,\mathrm{GC}_U,\mathrm{SU}$ are the
+explicit alternating Taylor truncations evaluated by the engine, and the
+corresponding real inequalities are proved on $0\le u\le\pi/2$ in
+\file{Analytic/TaylorPolys.lean} from Mathlib's exponential and trigonometric
+Taylor bounds.
+\formal{lowFactor, lowerErrorJet, upperErrorJet, gaussianCosineCubic, sineCubicUpper, gaussianCubicUpper}{Upper0423/Native/Majorant.lean}
+\formal{gaussianCubicUpper\_bound, gaussianCosine\_upper\_bound, gaussianCosine\_lower\_bound, sineCubicUpper\_bound, norm\_pow\_sub\_gauss\_le\_lowFactor, low\_integrand\_le, high\_integrand\_le, normal\_integrand\_le}{Upper0423/Analytic/TaylorPolys.lean, Upper0423/Analytic/IntegrandBridge.lean}
+
+\subsection{The panel integrand and its certified bound}
+
+Putting the pieces together, the engine's real majorant for a panel $[l,r]$ of
+part $p\in\{\text{low},\text{high},\text{normal}\}$ with branch choices and
+guards is
+\[
+  \mathrm{build}_b(t)=
+  \begin{cases}
+    |K(t)|_{\text{normal}}\cdot e^{-n c^2t^2/2}, & p=\text{normal},\\[2pt]
+    |K(t)|_{\text{left/right}}\cdot M(ct)^n, & p=\text{high},\\[2pt]
+    c^3t^2\cdot\bigl(s|K(s)|\bigr)\big|_{s=t}\cdot\Lambda(ct), & p=\text{low},\\[2pt]
+    |K(t)|_{\text{left}}\cdot\bigl(M(ct)^n+e^{-c^2t^2/2\cdot n}\bigr),
+      & p=\text{low, trivial}.
+  \end{cases}
+\]
+(The low case uses form \eqref{eq:K-left}: $c^3t^2\cdot s|K(s)|=u^3|K(t)|$ with
+$u=ct$.) Comparing with \eqref{eq:integrands}, each case dominates the
+corresponding Prawitz integrand pointwise on the panel, by the results of
+Sections~\ref{sec:chf}, \ref{sec:modulus} and \ref{sec:lowfactor}. The function
+\Lean{framePanel} then
+
+\begin{enumerate}[label=(\arabic*),leftmargin=2.2em]
+\item checks the box validity, the panel validity ($\varepsilon\le l<r\le\tau$ for
+  low, $\tau\le l<r\le1$ and no straddling of $\tfrac12$ for high,
+  $0\le l<r\le\tau$ for normal) and the branch validity;
+\item evaluates the jet of $\mathrm{build}_b$ on the whole panel, \emph{computing}
+  the sign guards from it;
+\item evaluates the jet at the midpoint, \emph{reusing} the stored guards;
+\item returns the panel rule value of Lemma~\ref{lem:panel}, or fails.
+\end{enumerate}
+
+\begin{theorem}[Panel soundness]
+  \label{thm:panelsound}
+  If $\Lean{framePanel}\,b\,l\,r\,p\,\mathrm{ch}=\mathrm{some}\,U$, then $b$ and
+  the panel are valid, $U\ge0$, and there are guards $g$ valid on all of
+  $[l,r]$ with
+  \[
+    \int_l^r\mathrm{build}_b(t)\dd t\le U .
+  \]
+  If moreover $\mu$ is admissible with $(\beta,\eta)$ in the box, then
+  \[
+    \int_l^r(\text{the corresponding Prawitz integrand})\dd t\le U .
+  \]
+\end{theorem}
+\formal{framePanel\_sound, framePanel\_sound', lowPanel\_integral\_le, highPanel\_integral\_le, normalPanel\_integral\_le}{Upper0423/Native/PanelSound.lean, Upper0423/Small/Chains.lean, Upper0423/Small/Leaf.lean}
+
+\subsection{Chains, omission and tail}
+
+A \emph{chain} is a list of adjacent panels covering an interval; the chain total
+bounds the integral over the whole interval, provided the endpoints match, which
+the checker verifies explicitly (the low chain must end exactly at $\tau$, the
+high chain at $1$, the normal chain at $\tau$).
+\formal{chainSum, chainSum\_integral\_le}{Upper0423/Native/Cover.lean, Upper0423/Small/Chains.lean}
+
+The interval $[0,\varepsilon]$ of the low part is not covered by panels: the
+kernel is singular at $0$ and the Taylor jets degenerate. Instead it is bounded
+in closed form.
+
+\begin{lemma}[Low-frequency omission]
+  \label{lem:omission}
+  Let $0<\varepsilon\le\tfrac12$, $c>0$, $n\ge1$ and $\beta\le\beta_{\mathrm{hi}}$.
+  Then
+  \[
+    \int_0^\varepsilon|K(t)|\,\bigl|f(ct)^n-g(ct)^n\bigr|\dd t
+    \le n\Bigl[\beta_{\mathrm{hi}}c^3\Bigl(\frac{\varepsilon^4}{24}
+      +\frac{\varepsilon^3}{18\pi}\Bigr)
+      + c^4\Bigl(\frac{\varepsilon^5}{40}+\frac{\varepsilon^4}{32\pi}\Bigr)\Bigr] .
+  \]
+\end{lemma}
+\begin{proof}[Proof sketch]
+  For $0<t\le\tfrac12$ one has $\cot(\pi t)\le\tfrac1{\pi t}$, whence
+  $0\le k(t)\le\tfrac1{\pi t}$ and $|K(t)|\le1+\tfrac1{\pi t}$. Also
+  $|f^n-g^n|\le n|f-g|\le n\bigl(\tfrac{\beta u^3}{6}+\tfrac{u^4}{8}\bigr)$ with
+  $u=ct$, by the two Taylor disks around $1-\tfrac{u^2}2$. Multiplying and
+  integrating $t^2,t^3,t^4$ over $[0,\varepsilon]$ gives the stated expression.
+\end{proof}
+\formal{norm\_prawitzKernel\_le\_one\_add, omission\_bound, omissionUpper, omissionUpper\_sound}{Upper0423/Small/Omission.lean, Upper0423/Native/Cover.lean}
+
+The Gaussian tail \eqref{eq:tail} is handled by panelling
+$v\mapsto e^{-v}/v$ on $[x,x+24]$ with deterministic cut points (doubling from
+$x$ until $\tfrac14$, then steps of $\tfrac14$), plus the closed tail bound
+$\int_R^\infty e^{-v}/v\dd v\le e^{-R}/R$.
+\formal{tailCuts, tailChain, tailUpper, tailPanel\_sound, tailChain\_sound, integral\_exp\_neg\_div\_Ioi\_le, tailUpper\_sound}{Upper0423/Native/Cover.lean, Upper0423/Small/Tail.lean, Upper0423/Native/PanelSound.lean}
+
+\subsection{A leaf and its budget}
+
+\begin{definition}
+  \label{def:leaf}
+  Given a box $b$ and leaf data $d$ (the cutoff $c$, the split $\tau$ and the
+  three chains), the \emph{leaf total} is
+  \[
+    U(b,d)=\underbrace{\Sigma_{\text{low}}}_{[\varepsilon,\tau]}
+    +\underbrace{\Sigma_{\text{high}}}_{[\tau,1]}
+    +\underbrace{\Sigma_{\text{normal}}}_{[0,\tau]}
+    +\underbrace{\Omega}_{[0,\varepsilon]}
+    +\underbrace{\mathcal T}_{\text{tail}} ,
+  \]
+  and the leaf is \emph{accepted} when $b$ is valid, $U\ge0$ and
+  \begin{equation}
+    \label{eq:budget}
+    n\,U^2 \;<\; \Bigl(\frac{423}{1000}\Bigr)^2\beta_{\mathrm{lo}}^2 .
+  \end{equation}
+\end{definition}
+\formal{leafTotal, leafAccepted}{Upper0423/Native/Cover.lean}
+
+\begin{theorem}[Leaf soundness]
+  \label{thm:leaf}
+  Let $\mu$ be admissible with $\beta_{\mathrm{lo}}\le\beta\le\beta_{\mathrm{hi}}$
+  and $\eta_{\mathrm{lo}}\le\eta\le\eta_{\mathrm{hi}}$, and suppose the leaf
+  $(b,d)$ is accepted. Then for every $x$,
+  \[
+    \mathcal E(\mu,n,x)\le\frac{423}{1000} .
+  \]
+\end{theorem}
+\begin{proof}
+  Theorem~\ref{thm:prawitz} with $T=c\sqrt n$ and split $\tau$ bounds
+  $|F_n(x)-\Phi(x)|$ by the smoothing integral; splitting the low integral at
+  $\varepsilon$ and applying the chain, omission and tail bounds gives
+  $|F_n(x)-\Phi(x)|\le U$. The budget \eqref{eq:budget} is equivalent to
+  $\sqrt n\,U<\tfrac{423}{1000}\beta_{\mathrm{lo}}$ (both sides nonnegative),
+  hence
+  \[
+    \mathcal E(\mu,n,x)=\frac{\sqrt n}{\beta}|F_n-\Phi|
+    \le\frac{\sqrt n\,U}{\beta}
+    \le\frac{423}{1000}\cdot\frac{\beta_{\mathrm{lo}}}{\beta}
+    \le\frac{423}{1000},
+  \]
+  using $\beta_{\mathrm{lo}}\le\beta$.
+\end{proof}
+\formal{leafTotal\_cdf\_bound, leafAccepted\_normalizedError}{Upper0423/Small/Leaf.lean}
+
+Note the shape of \eqref{eq:budget}: it is a purely rational inequality in the
+leaf data, which is what makes it decidable, and the square is taken to avoid
+$\sqrt n$ inside the checker.
+
+\section{The per-sample-size covers, $2\le n\le255$}
+\label{sec:covers}
+
+\subsection{Cover trees}
+
+\begin{definition}
+  \label{def:cover}
+  A \emph{cover} is a binary tree whose leaves carry leaf data and whose internal
+  nodes carry an axis and a rational split point. Acceptance over a root
+  rectangle is defined recursively: a leaf is accepted if the leaf box obtained
+  by outward rounding of the rectangle to the $2^{-40}$ grid is accepted in the
+  sense of Definition~\ref{def:leaf}; a split node is accepted if the split point
+  lies strictly inside the rectangle along the chosen axis and both children are
+  accepted over the two halves.
+\end{definition}
+\formal{Cover, coverAccepted, coverAcceptedBE, roundDown, roundUp, imageBox, imageBoxBE}{Upper0423/Native/Cover.lean, Upper0423/Native/CoverGen.lean}
+
+\begin{lemma}[Locating a law in a cover]
+  \label{lem:locate}
+  If a cover is accepted over a rectangle $R$ and $(\beta,\eta)$ (respectively
+  $(\delta,w)$) lies in $R$, then some accepted leaf box contains
+  $(\beta,\eta)$.
+\end{lemma}
+\begin{proof}
+  Induction on the tree: at a split node, one of the two halves contains the
+  point because the split point lies inside the rectangle; at a leaf, outward
+  rounding only enlarges the box.
+\end{proof}
+\formal{coverAccepted\_leaf, cov\_coverAcceptedBE\_leaf, inBox\_imageBox, cov\_inBox\_imageBoxBE}{Upper0423/Small/CoverTree.lean, Upper0423/Covers/Sound.lean}
+
+Two coordinate systems are used, as anticipated in Section~\ref{sec:moments}.
+For $\beta\le2$, the cover is a tree in $(\delta,w)\in[\delta_{\mathrm{lo}},
+\delta_{\mathrm{hi}}]\times[0,1]$ with $\beta=1+\delta$ and $\eta=1-\delta w$;
+the map $(\delta,w)\mapsto(\beta,\eta)$ is well defined because, given
+$\delta\ge0$ and $\eta\in[\max(0,1-\delta),1]$, the value
+$w=(1-\eta)/\delta$ (or $w=0$ if $\delta=0$) lies in $[0,1]$ and satisfies
+$1-\delta w=\eta$; here $\eta\ge1-\delta$ is exactly
+Proposition~\ref{prop:feasible}. For $\beta\ge2$ the cover is a tree directly in
+$(\beta,\eta)\in[\beta_{\mathrm{lo}},\beta_{\mathrm{hi}}]\times[0,1]$.
+
+\subsection{The certificate format}
+
+Each cover is serialized as a whitespace-separated token string and parsed by an
+untrusted recursive-descent parser: \verb|S axis m <left> <right>| for a split
+and
+\[
+  \verb|F c tau nL (r code)* nH (r code)* nN r*|
+\]
+for a leaf, where \verb|code| packs the four branch choices into a single natural
+number ($\mathrm{imag}+4\,\mathrm{real}+12\,\mathrm{modulus}
++48\,\mathrm{error}$). Parsing is untrusted precisely because the soundness
+theorem is universally quantified over \emph{every} tree the checker accepts: if
+the parser produced garbage, the checker would simply reject it. A representative
+leaf, from \file{Covers/Data/BE3.lean}, reads
+\begin{leancode}
+F 477/200 2/5 17 1/500 216 1/250 216 ... 20 17/40 20 ... 13 2/65 4/65 ... 2/5
+\end{leancode}
+declaring $c=477/200$, $\tau=2/5$, $17$ low panels, then the high panels and the
+$13$ normal panel endpoints.
+\formal{parseCover, tokens, coverStringAccepted, coverStringAcceptedDW, coverStringAcceptedBE}{Upper0423/Native/Cover.lean, Upper0423/Native/CoverGen.lean}
+
+\subsection{The certificates}
+
+Table~\ref{tab:covers} summarizes the finite data. The counts were obtained by
+direct inspection of the repository.
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{lrrl}
+    \toprule
+    Family & Files & Leaves & Root domain\\
+    \midrule
+    \file{Small/Data/Cover\{2..63\}}  & $62$  & $5\,053$  & $\delta\in[0,\tfrac{258569}{454000}]$, $w\in[0,1]$\\
+    \file{Covers/Data/DW\{2..255\}}   & $254$ & $8\,953$  & $\delta\in[\delta_n,d_n]$, $w\in[0,1]$\\
+    \file{Covers/Data/BE\{3..255\}}   & $253$ & $4\,839$  & $\beta\in[2,\beta_n]$, $\eta\in[0,1]$\\
+    \midrule
+    total                             & $569$ & $18\,845$ & \\
+    \bottomrule
+  \end{tabular}
+  \caption{The per-sample-size certificates. Here $\beta_n$ is a rational
+    number with $\beta_n\ge\tfrac{13003}{10000}\sqrt n$;
+    $\delta_n=\tfrac{258569}{454000}$ for $n\le63$ and $\delta_n=0$ for
+    $n\ge64$; and $d_n=\min(1,\beta_n-1)$ (so $d_n=1$ except
+    $d_2=\tfrac{17}{20}$). Each file carries exactly one
+    \Lean{native\_decide}.}
+  \label{tab:covers}
+\end{table}
+
+For each $n$ with $2\le n\le255$ the file \file{Covers/All.lean} contains a
+theorem \Lean{cover\_}$n$ of the form
+\[
+  \beta\le\beta_n\ \Longrightarrow\
+  \mathcal E(\mu,n,x)\le\tfrac{423}{1000},
+\]
+proved by the case distinction
+\begin{itemize}[leftmargin=1.6em]
+\item $\beta\le\tfrac{712569}{454000}$ and $n\le63$: the original research cover
+  \file{Small/Data/Cover}$n$;
+\item $\tfrac{712569}{454000}<\beta\le2$ (or $\beta\le2$ when $n\ge64$): the
+  cover \file{Covers/Data/DW}$n$;
+\item $\beta>2$: the cover \file{Covers/Data/BE}$n$ (absent for $n=2$, where
+  $\beta\le\beta_2=37/20<2$ makes the branch vacuous).
+\end{itemize}
+The hypothesis $\beta\le\beta_n$ is supplied from
+$\ell=\beta/\sqrt n<\tfrac{13003}{10000}$ by the elementary
+\Lean{beta\_le\_of\_ell}: if $b\ge0$ and $(\tfrac{13003}{10000})^2n\le b^2$ then
+$\sqrt n\cdot\tfrac{13003}{10000}\le b$, so $\beta<b$. The rational $\beta_n$ is
+the smallest convenient rational above $\tfrac{13003}{10000}\sqrt n$; e.g.
+$\beta_2=37/20$, $\beta_3=227/100$, $\beta_{64}=521/50$,
+$\beta_{255}=1039/50$. Finally \Lean{normalizedError\_moderate\_le} does
+\Lean{interval\_cases n} and applies \Lean{cover\_}$n$.
+\formal{beta\_le\_of\_ell, cover\_2 \dots cover\_255, normalizedError\_moderate\_le}{Upper0423/Covers/All.lean}
+\formal{normalizedError\_le\_of\_coverAccepted, normalizedError\_small\_le}{Upper0423/Small/Leaf.lean, Upper0423/Small/All.lean}
+\formal{normalizedError\_le\_of\_dwCover, normalizedError\_le\_of\_beCover}{Upper0423/Covers/Sound.lean}
+
+\begin{remark}
+  The three families overlap deliberately: the \file{Small} covers were produced
+  first, for the narrow range $\beta\le B=712569/454000$, and were retained
+  rather than regenerated. The reason for the separate treatment of $\beta\le2$
+  and $\beta\ge2$ is that in the first regime $\eta$ is pinned near $1$ by
+  $\beta+\eta\ge2$, so the $(\delta,w)$ coordinates are much better adapted; for
+  $\beta\ge2$ the constraint is inactive and $(\beta,\eta)$ is the natural chart.
+\end{remark}
+
+\section{The uniform certificate, $n\ge256$}
+\label{sec:uniform}
+
+For large $n$, a per-$n$ cover is impossible. Instead the whole smoothing
+functional is reduced to five one-dimensional integrals in two scalar parameters,
+and a single certificate covers all $n\ge256$ simultaneously.
+
+\subsection{The two scalars}
+
+Fix the smoothing parameters
+\begin{equation}
+  \label{eq:uniform-params}
+  a=\beta+\eta,\qquad
+  L=\frac{a}{\sqrt n},\qquad
+  h=\frac1{\sqrt n},\qquad
+  T=\frac{2\pi}{L}=\frac{2\pi\sqrt n}{a},\qquad
+  \tau=\frac14 .
+\end{equation}
+With this choice, \eqref{eq:Tscale} holds with $c=2\pi/a$, so the per-summand
+frequency \eqref{eq:u} is $u=2\pi t/a$, and
+\[
+  a\,u=2\pi t,\qquad n\,u^2=\frac{(2\pi t)^2}{L^2},\qquad
+  (n-1)\,u^2=\frac{(1-h^2)(2\pi t)^2}{L^2} .
+\]
+Thus every occurrence of $n$, $\beta$ and $\eta$ in the integrands collapses into
+$L$ and $h$.
+
+\begin{definition}
+  \label{def:uniform}
+  With $q$ the convex profile of Definition~\ref{def:profile} and
+  $\psi(t)=(2\pi t)^2q(2\pi t)$, set
+  \begin{align*}
+    \mathrm{high}(L)&=\int_{1/4}^{1}|K(t)|\,e^{-\psi(t)/L^2}\dd t,\\
+    \mathrm{norm}(L)&=\int_0^{1/4}\Bigl|K(t)-\frac{\ii}{\pi t}\Bigr|
+      e^{-2\pi^2t^2/L^2}\dd t,\qquad
+    \mathrm{tail}(L)=\int_{1/4}^\infty\frac{e^{-2\pi^2t^2/L^2}}{\pi t}\dd t,\\
+    E_1(L,h,t)&=\exp\Bigl(-\frac{(1-h^2)(2\pi t)^2}{2L^2}\Bigr),\qquad
+    E_2(L,h,t)=\exp\Bigl(-\frac{(1-h^2)(2\pi t)^2
+      \bigl(\tfrac12-2\pi\kap t\bigr)}{L^2}\Bigr),\\
+    \mathrm{lowG}(L,h)&=\int_0^{1/4}|K(t)|\,\frac{(2\pi t)^3}{12L^3}
+      \bigl(E_1+E_2\bigr)\dd t,\qquad
+    \mathrm{lowK}(L,h)=\int_0^{1/4}|K(t)|\,\frac{(2\pi t)^4}{12L^4}E_1\dd t .
+  \end{align*}
+\end{definition}
+\formal{psiR, highF, normalF, tailF, lowE1, lowE2, lowG, lowK}{Upper0423/Uniform/Defs.lean}
+
+Note $E_1=g(u)^{n-1}$ and $E_2=m(u)^{n-1}$ with $m(u)=e^{-u^2/2+\kap a u^3}$, so
+these are exactly the two exponential envelopes the geometric sum produces.
+
+\begin{proposition}[Uniform reduction]
+  \label{prop:reduction}
+  For every admissible $\mu$, every $n\ge1$ and every $x$,
+  \begin{equation}
+    \label{eq:reduction}
+    \mathcal E(\mu,n,x)\;\le\;
+    \frac{a}{\beta}\cdot
+      \frac{\mathrm{high}(L)+\mathrm{norm}(L)+\mathrm{tail}(L)}{L}
+    +\frac{\Gamma}{\beta}\,\mathrm{lowG}(L,h)
+    +\frac{h}{\beta}\,\mathrm{lowK}(L,h) ,
+  \end{equation}
+  with $a,L,h$ as in \eqref{eq:uniform-params} and $\Gamma$ as in
+  \eqref{eq:gamma}.
+\end{proposition}
+\begin{proof}[Proof sketch]
+  Apply Theorem~\ref{thm:prawitz} with $T=2\pi/L$ and $\tau=\tfrac14$ and bound
+  the four terms.
+
+  \emph{High.} By Proposition~\ref{prop:profilebound},
+  $|f(u)|\le e^{-u^2q(a|u|)}$, hence
+  $|f(u)|^n\le e^{-nu^2q(2\pi t)}=e^{-\psi(t)/L^2}$; the deduction
+  $|f|\le e^{-u^2q}$ from $|f|^2\le1-2u^2q$ uses $1-2y\le e^{-2y}$.
+
+  \emph{Low.} By the geometric-sum comparison and the pointwise estimates of
+  Propositions~\ref{prop:ode}, \ref{prop:rekappa} one has, for
+  $0\le u\le\pi/2$,
+  \[
+    \bigl|f(u)^n-g(u)^n\bigr|
+    \le \frac{n\Gamma u^3}{12}\bigl(g(u)^{n-1}+m(u)^{n-1}\bigr)
+      +\frac{n u^4}{12}\,g(u)^{n-1} ,
+  \]
+  where $\Gamma=\sqrt{(\beta-1)^2+\beta^2-\eta^2}$ arises as the radius of the
+  disk containing $f(u)-\cos u$ jointly with the imaginary strip. The constraint
+  $u\le\pi/2$ holds on $t\le\tfrac14$ because $u=2\pi t/a\le\pi/(2a)\le\pi/4$ by
+  Proposition~\ref{prop:feasible}. Multiplying by $|K(t)|$, integrating, and
+  substituting $u=2\pi t/a$ gives
+  $\tfrac{\Gamma}{\sqrt n}\mathrm{lowG}+\tfrac1n\mathrm{lowK}$.
+
+  \emph{Normal and tail.} These do not involve $\mu$ at all and are literally
+  $\mathrm{norm}(L)$ and $\mathrm{tail}(L)$.
+
+  Finally $\tfrac{\sqrt n}{\beta}=\tfrac{a}{\beta}\cdot\tfrac1L$ and
+  $\tfrac{\sqrt n}{\beta}\cdot\tfrac{1}{n}=\tfrac{h}{\beta}$, which produces
+  \eqref{eq:reduction}.
+\end{proof}
+\formal{red\_high\_pointwise, red\_low\_pointwise, red\_low\_integral, red\_high\_integral, normalized\_cdf\_le\_uniform}{Upper0423/Uniform/Reduction.lean}
+\formal{norm\_charFun\_sub\_cos\_le\_gamma, norm\_charFun\_le\_cubicExp, low\_geomSum\_le, norm\_charFun\_pow\_sub\_gauss\_le}{Upper0423/LargeN/LowPointwise.lean}
+
+\subsection{The budget}
+
+Let $z=\eta/\beta\in[0,1]$, so $a/\beta=1+z$. Suppose $F$, $G$, $K$ are rational
+upper bounds for the three bracketed quantities in \eqref{eq:reduction} on a cell
+$L\in[L_1,L_2]$. Two constraints convert \eqref{eq:reduction} into a rational
+inequality.
+
+\begin{lemma}[$\Gamma$ constraint]
+  \label{lem:gammaconstraint}
+  If $\beta\ge1$ and $0\le\eta\le1$ then
+  $\bigl(\Gamma/\beta\bigr)^2\le2(1-\eta/\beta)$.
+\end{lemma}
+\begin{proof}
+  Equivalently $(\beta-1)^2+\beta^2-\eta^2\le2\beta^2-2\beta\eta$, i.e.
+  $(1-\eta)(2\beta-1-\eta)\ge0$, which holds since $\eta\le1$ and
+  $2\beta-1-\eta\ge2-1-1=0$.
+\end{proof}
+
+\begin{lemma}[$z$ and $h$ caps]
+  \label{lem:caps}
+  Let $r\ge2$ with $r^2\le n$, so $hr\le1$. On a cell with
+  $L_1\le(\beta+\eta)h\le L_2$:
+  \[
+    z\le z_{\mathrm{hi}}:=
+    \begin{cases}
+      \min\bigl(1,\tfrac{1}{L_1r-1}\bigr), & L_1r>1,\\
+      1, & \text{otherwise},
+    \end{cases}
+    \qquad
+    \frac h\beta\le \min\Bigl(\frac1r,\frac{L_2}{2},
+      \frac{1+z_{\mathrm{hi}}}{r^2L_1}\Bigr) .
+  \]
+\end{lemma}
+\begin{proof}
+  From $L_1\le(\beta+\eta)h$ and $hr\le1$ we get
+  $L_1r\le(\beta+\eta)hr\le\beta+\eta$, hence $\beta\ge L_1r-1$ (as $\eta\le1$)
+  and $z=\eta/\beta\le1/(L_1r-1)$. For the $h$ caps: $h\le1/r$; and
+  $2h\le(\beta+\eta)h\le L_2$ by Proposition~\ref{prop:feasible};
+  and $h\,r^2L_1\le(hr)^2(\beta+\eta)\le\beta+\eta\le(1+z_{\mathrm{hi}})\beta$.
+\end{proof}
+
+\begin{lemma}[Budget algebra]
+  \label{lem:budget}
+  Let $c>0$, $0\le z\le z_{\mathrm{hi}}$, $0\le v$ with $v^2\le2(1-z)$,
+  $0\le k\le k_c$, $K\ge0$, and $F'\le F$, $G'\le G$, $K'\le K$. Then
+  \[
+    (1+z)F'+vG'+kK'
+    \;\le\; F+c+\frac{G^2}{2c}+\max\bigl(0,z_{\mathrm{hi}}(F-c)\bigr)+k_cK .
+  \]
+\end{lemma}
+\begin{proof}
+  $vG\le \tfrac{c v^2}{2}+\tfrac{G^2}{2c}$ (AM--GM, i.e.
+  $(cv-G)^2\ge0$) and $\tfrac{cv^2}{2}\le c(1-z)$, so
+  \[
+    (1+z)F+vG\le F+zF+c-cz+\frac{G^2}{2c}
+    = F+c+z(F-c)+\frac{G^2}{2c},
+  \]
+  and $z(F-c)\le\max(0,z_{\mathrm{hi}}(F-c))$ in both signs of $F-c$.
+\end{proof}
+\formal{bud\_gamma\_sq, bud\_z\_le, bud\_hcap, bud\_kc, bud\_k\_le, bud\_core, bud\_val, bud\_accept, bud\_accept\_sound}{Upper0423/Uniform/Budget.lean}
+
+A cell $[L_1,L_2]$ is therefore \emph{accepted} when $2\le r$,
+$0<L_1\le L_2\le3$, the three certified bounds $F=U_1+U_2$, $G$, $K$ exist, and
+\[
+  F+c+\frac{G^2}{2c}+\max\bigl(0,z_{\mathrm{hi}}(F-c)\bigr)+k_cK
+  \;<\;\frac{423}{1000}
+\]
+for at least one of the three candidate parameters
+$c\in\bigl\{F,\ G/\sqrt2,\ G/\sqrt{2(1-z_{\mathrm{hi}})}\bigr\}$
+(the square roots replaced by rational under-approximations; the choice of
+candidate is immaterial to soundness, since \emph{any} $c>0$ works in
+Lemma~\ref{lem:budget}).
+
+\subsection{Certified bounds for the five integrals}
+
+It remains to produce $U_1\ge(\mathrm{high}+\mathrm{tail})/L$,
+$U_2\ge\mathrm{norm}/L$, $G\ge\mathrm{lowG}$ and $K\ge\mathrm{lowK}$, uniformly
+for $L\in[L_1,L_2]$ and $h\le h_{\mathrm{cap}}$. All four are monotone in the
+right places, which is what makes a cell-uniform bound possible.
+
+\paragraph{High and tail.} Both integrands increase with $L$, so they are
+evaluated at $L_2$. For the high part, $\psi$ is bounded below by one of two
+explicit branches: the supporting line
+$\psi(t)\ge(2\pi t)^2(\tfrac12-\kap\,2\pi t)$ (valid for $2\pi t\le2\pi$), and
+the exact curved branch $\psi(t)=A(1-\cos2\pi t)$ once $2\pi t\ge4$. The kernel is
+bounded by \eqref{eq:K-left} or \eqref{eq:K-right} according to the panel. The
+resulting smooth majorant is integrated by the panel rule of
+Lemma~\ref{lem:panel} over $\lfloor m/3\rfloor+1$ panels of $[\tfrac14,1]$ and
+the tail over the remaining panels of $[\tfrac14,S]$, plus a closed Gaussian tail
+beyond $S$.
+\formal{ht\_psiJet, ht\_highPanel, ht\_tailPanel, ht\_tailRest, highTailUpper, highTailUpper\_sound, highTail\_small}{Upper0423/Uniform/HighTail.lean}
+
+\paragraph{Normal correction.} Two bounds are computed and the smaller kept. The
+first is closed-form, from the quadratic kernel majorant
+$|K(t)-\ii/(\pi t)|\le p(t)=1-t+\nu t^2$ on $(0,\tfrac14]$ (with $\nu$ as in
+Table~\ref{tab:constants}) and the exact Gaussian moments:
+\[
+  \frac{\mathrm{norm}(L)}{L}\le
+  \frac{\sqrt{\pi/2}}{2\pi}-\frac{L_1}{4\pi^2}
+  +\frac{\nu\sqrt{\pi/2}\,L_2^2}{8\pi^3} .
+\]
+The second is a left-rectangle sum in the variable $v=Tt$: on the $t$-panel
+corresponding to $v\in[ih,(i{+}1)h]$ one has $p(t)\le p(L_1 ih/(2\pi))$ and
+$e^{-T^2t^2/2}\le e^{-(ih)^2/2}$, and the panel width is at most $Lh/(2\pi)$,
+giving
+\[
+  \frac{\mathrm{norm}(L)}{L}\le\frac{h}{2\pi}
+  \sum_{i<m}p\Bigl(\frac{L_1\,ih}{2\pi}\Bigr)e^{-(ih)^2/2} .
+\]
+The sum is evaluated in interval arithmetic by a recursion that carries
+$e^{-(ih)^2/2}=x^{i^2}$ with $x=e^{-h^2/2}$, so that only one exponential is ever
+computed.
+\formal{nb\_step, nb\_loop, nb\_rect, nb\_closed, normalUpper, normalUpper\_sound, normalIntegral\_le, gaussMoment\_*}{Upper0423/Uniform/NormalBound.lean, Upper0423/LargeN/Normal.lean}
+
+\paragraph{The low coefficients.} Substituting $v=2\pi t/L$ turns
+$\mathrm{lowG}$ into $\int_0^{\pi/(2L)}
+s|K(s)|\,\tfrac{v^2}{12}\,(E_1+E_2)\dd v$ with $s=Lv/(2\pi)$, and similarly for
+$\mathrm{lowK}$. On each $v$-panel $[\alpha,\beta']\subseteq[0,V]$:
+\begin{itemize}[leftmargin=1.6em]
+\item the kernel factor $s|K(s)|$ is bounded by a prefix maximum over a
+  precomputed table on the grid $s=j/(4N)$, $N=1024$; each table entry uses
+  \eqref{eq:K-left} in the form
+  $s^2|K(s)|^2=\sigma^2+(\tfrac1\pi-\sigma q(\pi s))^2$ with
+  $\sigma=s(1-s)$, both factors being monotone on the relevant range;
+\item $E_1\le e^{-\varrho v^2/2}$ and
+  $E_2\le e^{-\varrho v^2/2+\varrho\kap L_e v^3}$ with
+  $\varrho=1-h_{\mathrm{cap}}^2$ and
+  $L_e=\min\bigl(L_2,\pi/(2\alpha)\bigr)$, the second using
+  $v\le\pi/(2L)$;
+\item the resulting smooth majorant is integrated by the fourth-order panel rule
+  of Lemma~\ref{lem:panel}.
+\end{itemize}
+When $V=8<\pi/(2L)$ a closed-form Gaussian tail is added beyond $8$.
+\formal{lb\_table, lb\_panel, lb\_tail, lowUpper, lb\_panel\_sound, lb\_tail\_sound, lowUpper\_sound}{Upper0423/Uniform/LowBound.lean}
+
+\subsection{The cells}
+
+\begin{theorem}
+  \label{thm:uniform}
+  Let $r=16$, $m=256$. There is a list of $282$ rational edges
+  \[
+    \tfrac1{100}=e_0<e_1<\dots<e_{281}=\tfrac{260889}{100000}
+  \]
+  such that every consecutive cell $[e_i,e_{i+1}]$ is accepted, and such that the
+  initial cell $(0,\tfrac1{100}]$ is accepted in the variant form in which
+  $(\mathrm{high}+\mathrm{tail})/L\le1/1000$ is proved analytically. Consequently,
+  for every admissible $\mu$, every $n\ge256$ with
+  $\beta/\sqrt n\le\tfrac{13003}{10000}$, and every $x$,
+  \[
+    \mathcal E(\mu,n,x)\le\frac{423}{1000} .
+  \]
+\end{theorem}
+\formal{cellAccepted, cellsAccepted, smallCellAccepted, bud\_cover, normalizedError\_le\_of\_cellsAccepted}{Upper0423/Uniform/Budget.lean}
+\formal{chunk0 \dots chunk8, acc0 \dots acc8, normalizedError\_uniform}{Upper0423/Uniform/Data/Chunk0.lean \dots Chunk8.lean, Uniform/Data/All.lean}
+
+\begin{proof}[Proof of the deduction]
+  Set $L=(\beta+\eta)h$ with $h=1/\sqrt n$. Since $n\ge256=r^2$ we have
+  $r\le\sqrt n$, so $hr\le1$. The upper end: $\eta\le\beta$ (from $\eta\le1\le\beta$)
+  gives $L\le2\beta/\sqrt n\le2\cdot\tfrac{13003}{10000}=\tfrac{26006}{10000}$,
+  which is at most the last edge $e_{281}=2.60889$. If $L\le\tfrac1{100}$ the
+  initial cell applies; otherwise $L$ lies in one of the $281$ cells, found by a
+  linear scan (\Lean{bud\_cover}). Proposition~\ref{prop:reduction},
+  the certified bounds $F,G,K$ for that cell, and
+  Lemmas~\ref{lem:gammaconstraint}--\ref{lem:budget} give
+  $\mathcal E(\mu,n,x)<\tfrac{423}{1000}$.
+\end{proof}
+
+The $281$ cells are declared in nine files \file{Uniform/Data/Chunk}$k$
+(\Lean{Chunk0}--\Lean{Chunk7} with $35$ cells each, \Lean{Chunk8} with one),
+each discharged by a single \Lean{native\_decide}; consecutive chunks share an
+edge and are glued by \Lean{cellsAccepted\_append}. A tenth
+\Lean{native\_decide}, in \file{Uniform/Data/All.lean}, discharges
+\Lean{smallCellAccepted 16 256}. The edges are geometric with ratio
+$\approx1.02$ (the generator was invoked as
+\verb|gen_uniform.py 256 102/100 35|).
+
+\begin{remark}
+  The cell widths matter: the certified $F$, $G$, $K$ are constant on a cell but
+  the true integrals vary, so a cell that is too wide is rejected, while too many
+  cells make the \Lean{native\_decide} evaluation slow. The interesting statistic
+  is the largest certified cell value, i.e.\ the left-hand side of the budget
+  inequality maximized over the cells. Evaluating the same Lean functions
+  \Lean{highTailUpper}, \Lean{normalUpper}, \Lean{lowUpper} and \Lean{bud\_val}
+  on all $281$ cells gives
+  \[
+    \max_{1\le i\le 281}\ \bigl(\text{budget value of the cell }
+      [e_{i-1},e_i]\bigr) = 0.414962\ldots,
+  \]
+  and the initial cell $(0,\tfrac1{100}]$ gives $0.412306\ldots$, so the
+  certificate clears $423/1000$ with a margin of about $0.008$. (This is an
+  auxiliary evaluation of the same definitions, reported for orientation; it is
+  not part of the formal proof, which needs only the strict cellwise inequality
+  that \Lean{native\_decide} establishes. The figure agrees with the
+  approximate value $0.4150$ recorded in \file{docs/UPPER\_0423.md}.)
+\end{remark}
+
+\section{Trust boundary}
+\label{sec:trust}
+
+\subsection{Axioms}
+
+Running
+\begin{leancode}
+#print axioms BerryEsseen.Upper0423.berryEsseenConstant_le_0423
+\end{leancode}
+reports
+\begin{itemize}[leftmargin=1.6em]
+\item the three standard axioms of Lean's type theory: \Lean{propext},
+  \Lean{Classical.choice}, \Lean{Quot.sound}; and
+\item $579$ auxiliary axioms generated by \Lean{native\_decide}, one per finite
+  certificate.
+\end{itemize}
+We verified the count $579$ independently by enumerating the \Lean{native\_decide}
+invocations in the module tree: $507$ in \file{Covers/Data/} (one per cover file:
+$253$ \file{BE} files and $254$ \file{DW} files), $62$ in \file{Small/Data/} (one
+per cover file), $9$ in \file{Uniform/Data/Chunk}$k$ and $1$ in
+\file{Uniform/Data/All.lean}; $507+62+9+1=579$.
+
+There is no \Lean{sorry} anywhere in the development and no user-declared
+axiom. The consequence of the $579$ auxiliary axioms is precise and limited: for
+each of the $579$ closed Boolean expressions, the proof asserts that the
+expression evaluates to \Lean{true}, on the evidence of Lean's compiler and
+runtime rather than of Lean's kernel. The mathematical content --- the smoothing
+inequality, all the characteristic-function estimates, the semantics of the
+interval arithmetic and the jets, the panel rule, and every soundness theorem
+relating a Boolean acceptance predicate to a real-analytic statement --- is
+kernel-checked.
+
+\subsection{What is and is not claimed}
+
+\begin{itemize}[leftmargin=1.6em]
+\item We claim that the Lean development in \file{BerryEsseen/Upper0423/} builds
+  and that its final theorem is the statement displayed in
+  Section~\ref{sec:notation}, with the axiom profile just described.
+\item We claim no independent verification. In particular, the repository's
+  trusted-comparator configuration permits only the three standard axioms and
+  targets the \emph{separate} $0.4688$ theorem; we have not run any comparator on
+  the $0.423$ theorem, and a configuration allowing only the three standard
+  axioms would reject it.
+\item We claim no peer review of this document or of the development.
+\item We make no claim about the correctness of \cite{XiaoLi2026} or of
+  \cite{IndependentBE2026}.
+\item The definition of the constant being bounded is the one displayed in
+  Section~\ref{sec:notation}. Readers who wish to audit only the statement need
+  read only \file{Challenge.lean}, which imports Mathlib alone.
+\end{itemize}
+
+\subsection{Residual risks}
+
+The honest list of things that could still be wrong is:
+\begin{enumerate}[label=(\arabic*),leftmargin=2.2em]
+\item a bug in Lean's compiler or runtime affecting the evaluation of one of the
+  $579$ Boolean expressions (mitigated by the fact that the expressions use only
+  arbitrary-precision integer and rational arithmetic, lists, arrays and
+  structural recursion);
+\item a bug in Lean's kernel or in Mathlib (the standard risk of any
+  formalization);
+\item a mismatch between the definition of \Lean{berryEsseenConstant} and the
+  informal statement of Theorem~\ref{thm:main} (mitigated by the verbatim
+  reproduction in Section~\ref{sec:notation});
+\item an error in this document's \emph{description} of the Lean proof. The Lean
+  sources, not this document, are authoritative; every lemma above carries the
+  name and file of its formal counterpart so that the two can be compared.
+\end{enumerate}
+
+\section{Reproduction}
+\label{sec:repro}
+
+The development is built with
+\begin{leancode}
+lake build BerryEsseen.Upper0423.Main
+\end{leancode}
+The default library target does not import \file{Upper0423}, so the existing
+continuous integration and the comparator setup for the separate $0.4688$
+theorem are unaffected. A full build is expensive because it evaluates all $579$
+certificates.
+
+The Lean data files are \emph{generated}, by the scripts in
+\file{scripts/upper\_0423/}:
+\begin{itemize}[leftmargin=1.6em]
+\item \file{run\_covers.sh} (with \file{make\_jobs.py}, \file{cover\_gen.py})
+  searches the covers using the research producer
+  \file{research/native\_cover.py} and its C\texttt{++} engine;
+\item \file{gen\_covers.py}, \file{gen\_all.py} write \file{Covers/Data/*.lean}
+  and \file{Covers/All.lean};
+\item \file{gen\_small\_cover.py}, \file{gen\_small\_data.py} write
+  \file{Small/Data/*.lean} from the research covers;
+\item \file{gen\_uniform.py 256 102/100 35} writes \file{Uniform/Data/*.lean}.
+\end{itemize}
+The search is entirely untrusted: it chooses the tree shapes, the smoothing
+parameters $c$ and $\tau$, the panel subdivisions and the branch choices, but
+every resulting numerical bound is recomputed from scratch by the Lean checkers,
+whose soundness is proved for all accepted inputs. In particular a faulty search
+can only produce a rejected certificate, never a false theorem.
+
+\section{Related and concurrent work}
+\label{sec:related}
+
+\paragraph{Xiao--Li.} The repository \cite{XiaoLi2026} states the bound
+$C_{\mathrm{BE}}\le 879/2000=0.4395$ with a Lean~4 formalization, also using
+\Lean{native\_decide} for its certificates. Its analytic framework is a direct
+ancestor of the present one; see Section~\ref{sec:attribution} for the itemized
+attribution. As stated there, neither its numerical result nor its certificates
+nor its Lean code are used in Theorem~\ref{thm:main}, and we make no assessment
+of its correctness. It is an unpublished repository, with an accompanying note,
+not a peer-reviewed publication.
+
+\paragraph{The independent-summand constant.} The repository
+\cite{IndependentBE2026} treats the analogous constant $C_{\mathrm{ind}}$ for
+independent, not necessarily identically distributed, summands, and states
+$C_{\mathrm{E}}\le C_{\mathrm{ind}}<0.44995$ along with several related results.
+This is a different constant (necessarily $C_{\mathrm{ind}}\ge C_{\mathrm{BE}}$),
+and nothing from that collection is used here. It is likewise an unpublished
+collection of preprints, and we make no assessment of its correctness.
+
+\paragraph{Relation to the published record.} Against
+Table~\ref{tab:history}, Theorem~\ref{thm:main} would improve the best published
+bound $0.4690$ of \cite{Shevtsova2013}. We stress again that we neither use nor
+reprove any of the entries of that table, and that the present document is not
+peer reviewed.
+
+\paragraph{The separate $0.4688$ theorem.} The same repository contains an
+independent development of the weaker bound $C_{\mathrm{BE}}\le0.4688$ which
+avoids \Lean{native\_decide} altogether and is therefore checkable with only the
+three standard axioms; the trusted comparator configuration in
+\file{comparator/} targets that theorem. The $0.423$ development described here
+is disjoint from it: it neither imports nor modifies any of its modules.
+
+\section*{Acknowledgements}
+
+The analytic framework builds on the work of Haonan Xiao and Chunlin Li
+\cite{XiaoLi2026} as detailed in Section~\ref{sec:attribution}. The
+formalization rests entirely on Mathlib \cite{Mathlib}. The historical data of
+Table~\ref{tab:history} follow the survey entry \cite{Tao2026}.
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}
