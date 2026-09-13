@@ -1,42 +1,37 @@
 # Berry–Esseen bounds in Lean
 
-This mathlib-dependent project formalizes a bound on the universal **iid** Berry–Esseen
-constant. The two targets are stated separately in `Challenge.lean`, which also contains
-the full definitions rather than importing the project’s definition module:
+This mathlib-dependent project formalizes bounds on the universal **iid** Berry–Esseen
+constant:
 
 ```lean
+theorem BerryEsseen.Upper0423.berryEsseenConstant_le_0423 :
+    BerryEsseen.berryEsseenConstant ≤ 0.423
+
 theorem berry_esseen_constant_lower_bound :
     (0.40 : ℝ≥0∞) ≤ BerryEsseen.berryEsseenConstant
-
-theorem berry_esseen_constant_upper_bound :
-    BerryEsseen.berryEsseenConstant ≤ 0.4688
 ```
 
-**Status: the complete theorem has passed Lean (`lake build Solution BerryEsseen`).
-The separate pinned, sandboxed Linux comparator check is pending.**
+**Status.**
 
-**Sharper bound.** A separate development proves `BerryEsseen.berryEsseenConstant ≤ 0.423`
-(`lake build BerryEsseen.Upper0423.Main`), using `native_decide` for its finite certificates;
-see [docs/UPPER_0423.md](docs/UPPER_0423.md). It does not modify the `0.4688` proof.
+* **Upper bound `0.423`** (`BerryEsseen/Upper0423/Main.lean`): proved in Lean. `#print axioms`
+  reports `propext`, `Classical.choice`, `Quot.sound` and 579 auxiliary axioms introduced by
+  `native_decide`, one per finite certificate. There is no `sorry` and no user-declared axiom;
+  the finite certificates additionally trust Lean's compiler. Read the
+  [proof overview](docs/UPPER_0423.md) or the [proof document](paper/upper-0423.pdf).
+* **Lower bound `0.40`** (`BerryEsseen/LowerBound.lean`, stated in `Challenge.lean` and
+  proved in `Solution.lean`): proved in Lean using only `propext`, `Classical.choice` and
+  `Quot.sound`. The explicit Bernoulli witness is explained in
+  [the short proof](docs/LOWER_BOUND.md). A separate
+  [mathematical proof of Esseen's stronger lower bound](docs/ESSEEN_LOWER_BOUND.md) is
+  included; that asymptotic argument is not formalized. The sandboxed comparator run for
+  this theorem is pending.
 
-Read the [proof overview](docs/PROOF_OVERVIEW.md) and the
-[small-fraction argument](docs/SMALL_FRACTION.md) directly on GitHub. All proof
-notes use GitHub's math blocks and protected inline math syntax.
+The `0.423` proof builds on the analytic framework of Xiao and Li's `0.4395` development
+([haonan-xiao/iid-berry-esseen](https://github.com/haonan-xiao/iid-berry-esseen)); see the
+provenance section of [docs/UPPER_0423.md](docs/UPPER_0423.md).
 
-The upper proof covers all parameter values using three checked components:
-
-- The analytic small-fraction bound `0.4575` when `β/√n ≤ 0.05`.
-- 467 certified parameter cells when `β/√n ≥ 0.05` and either `n ≥ 20` or `β ≥ 2`.
-- 174 complete finite-sample cells, together with the elementary large-fraction
-  estimate, for the remaining sample sizes and moments.
-
-All finite integral certificates have passed Lean: 1,806 high-frequency Taylor
-panels, 1,101 low-frequency Taylor panels, 669 normal-correction Taylor panels,
-458 endpoint panels, and 174 Gaussian tails. Their proofs connect exact rational
-arithmetic to the actual integrals and probability bounds over entire intervals.
-The explicit Bernoulli witness proves the lower bound `0.40`. A separate
-[complete mathematical proof of Esseen’s stronger lower bound](docs/ESSEEN_LOWER_BOUND.md)
-is included; that asymptotic argument is not yet formalized in Lean.
+An earlier standard-axiom formalization of the upper bound `0.4688` is no longer part of
+this repository; it remains available in the Git history before its removal.
 
 ## Meaning of the constant
 
@@ -48,7 +43,7 @@ over every centered, variance-one real probability law with finite third absolut
 every positive integer `n`, and every real `x`. The iid sample is represented by a finite
 product measure. The normal law is mathlib's `ProbabilityTheory.gaussianReal 0 1`.
 The definition initially permits an infinite value; proving the upper bound proves finiteness.
-There are no placeholder definitions restricting the class of distributions to numerical samples.
+`Challenge.lean` repeats these definitions using only mathlib imports.
 
 ## Build
 
@@ -56,57 +51,18 @@ The Lean version and mathlib commit are pinned in `lean-toolchain` and `lake-man
 
 ```sh
 lake exe cache get
-python3 scripts/build_certificates.py
+lake build BerryEsseen Solution Challenge
 ```
 
-`Challenge.lean` contains the comparator's two intentional proof holes. `Solution.lean`
-proves the same statement from the completed lower and upper theorems. No custom
-axiom or `sorryAx` is permitted in the solution's dependency closure.
-
-## Proof plan
-
-Start with [the proof overview](docs/PROOF_OVERVIEW.md) for the mechanisms and their
-connection to the final theorem; [docs/PROOF_PLAN.md](docs/PROOF_PLAN.md) tracks the
-formal components. The saved rational budgets have margins strong enough for `0.4688`.
-The finite certificate composition and universal theorem are checked. The final
-verification step is the sandboxed comparator.
-The completed elementary lower-bound proof uses six standardized Bernoulli variables with
-success probability `2/5`; see [the short proof](docs/LOWER_BOUND.md).
-
-The human-readable [characteristic-function argument](docs/ANCHORS.md) explains the
-completed analytic estimates and links them to their Lean proofs. It uses a single sine
-integral identity for both the real and imaginary estimates.
-The [global modulus argument](docs/GLOBAL_MODULUS.md) gives the convex minorant and
-explains how symmetrization and one supporting line produce an exponential bound.
-The [sample-size reduction](docs/SCALAR_COMPRESSION.md) explains the completed geometric
-damping argument and both scalar and vector error bounds for actual iid sums.
-The [finite-sample proof](docs/FINITE_SAMPLES.md) derives the precise integral and
-rational budget that each small-sample cell certifies.
-The [Prawitz majorant proof](docs/PRAWITZ_MAJORANT.md) derives the pointwise inequality
-from a shift recurrence and Riemann–Lebesgue, then derives the four-term Fourier smoothing
-inequality, including endpoint integrability.
-The [panel-bound proof](docs/PANEL_BOUNDS.md) explains how endpoint data control all
-four smoothing terms, including intervals crossing the decay-profile splices.
-The [certificate soundness notes](docs/CERTIFICATE_SOUNDNESS.md) identify which saved
-integer record checks now imply bounds on the actual real integrals.
-The [completed scalar covering](docs/SCALAR_CERTIFICATES.md) explains how all 467
-checked cells yield the regional probability theorems and how to reproduce the build.
-The [numerical proof notes](docs/NUMERICAL_PROOF.md) distinguish the completed
-integration and interval soundness proofs and their completed certificate assembly.
+The default target imports both theorems. Most of the build time, well under an hour on a
+ten-core machine, is spent evaluating the `native_decide` certificates of the `0.423` proof.
+The generator scripts for those certificates are in `scripts/upper_0423/`.
 
 ## Comparator
 
-The project targets [leanprover/comparator](https://github.com/leanprover/comparator), pinned
-at `2312244ac716564a61cc0bf4e107d9abf1757a61`. Configuration is in
-`comparator/config.json`. Its axiom whitelist is exactly `propext`, `Quot.sound`, and
-`Classical.choice`. It compares the full statement and dependencies with the trusted challenge.
-The challenge imports only mathlib and spells out every project definition. No
-unfinished analytic lemma is granted as an axiom.
-
-The intended final verification is a fresh Linux comparator run with its sandbox enabled.
-Any local macOS development run using the upstream development adapter will be identified
-separately and will not be reported as a sandboxed verification.
-
-See [the comparator instructions](comparator/README.md) for the pinned tools and
-Linux verification workflow. A passing ordinary Lean build is reported separately
-from the comparator's statement comparison and kernel replay.
+The lower bound targets [leanprover/comparator](https://github.com/leanprover/comparator),
+pinned at `2312244ac716564a61cc0bf4e107d9abf1757a61`, with the configuration in
+`comparator/config.json`. Its axiom whitelist is exactly `propext`, `Quot.sound` and
+`Classical.choice`, so the `native_decide`-based `0.423` theorem is not a comparator target.
+See [the comparator instructions](comparator/README.md) for the pinned tools and the Linux
+workflow. A passing ordinary Lean build is not a comparator result.

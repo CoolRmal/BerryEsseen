@@ -5,11 +5,11 @@ public import Mathlib.MeasureTheory.Measure.ProbabilityMeasure
 public import Mathlib.Probability.Distributions.Gaussian.Real
 
 /-!
-# Trusted comparator challenge: definitions and separate bounds
+# Trusted comparator challenge: definitions and the lower bound
 
 The definitions are written out in this file for inspection. This challenge imports
 only mathlib, not the project's definition or proof modules. The two intentional
-proof holes below are the separate lower- and upper-bound challenges.
+proof hole below is the lower-bound challenge.
 
 The constant is the supremum of the normalized Kolmogorov errors over all centered,
 variance-one probability laws with finite third absolute moment, all positive sample sizes,
@@ -61,12 +61,8 @@ def berryEsseenConstant : ℝ≥0∞ :=
 
 end BerryEsseen
 
-/-- The requested lower bound, checked separately from the upper bound. -/
+/-- The requested lower bound. -/
 public theorem berry_esseen_constant_lower_bound :
     (0.40 : ℝ≥0∞) ≤ BerryEsseen.berryEsseenConstant := by
   sorry
 
-/-- The improved universal iid upper bound. -/
-public theorem berry_esseen_constant_upper_bound :
-    BerryEsseen.berryEsseenConstant ≤ 0.4688 := by
-  sorry

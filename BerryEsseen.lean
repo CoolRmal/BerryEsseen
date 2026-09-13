@@ -1,74 +1,13 @@
 module
 
-public import BerryEsseen.MomentExcess
-public import BerryEsseen.Constant
-public import BerryEsseen.CertificateMargins
-public import BerryEsseen.IntegralQuadratic
-public import BerryEsseen.WeightedMoments
-public import BerryEsseen.TrigonometricAnchors
-public import BerryEsseen.ImaginaryPart
-public import BerryEsseen.RealPart
-public import BerryEsseen.PowerComparison
-public import BerryEsseen.FiniteGeometricAverage
-public import BerryEsseen.FiniteModulus
-public import BerryEsseen.FiniteSampleBounds
-public import BerryEsseen.FiniteKernels
-public import BerryEsseen.FiniteSmoothing
 public import BerryEsseen.LowerBound
-public import BerryEsseen.LargeFraction
-public import BerryEsseen.CosineMinorant
-public import BerryEsseen.Symmetrization
-public import BerryEsseen.GaussianCosine
-public import BerryEsseen.ClassicalError
-public import BerryEsseen.FullModulus
-public import BerryEsseen.GaussianPolynomial
-public import BerryEsseen.SumBounds
-public import BerryEsseen.ScalarRemainders
-public import BerryEsseen.Numerics.IntervalSoundness
-public import BerryEsseen.Numerics.InverseJet
-public import BerryEsseen.Numerics.ExponentialJet
-public import BerryEsseen.Numerics.CertifiedExponentialJet
-public import BerryEsseen.Numerics.TrigonometricJet
-public import BerryEsseen.Numerics.CertifiedTrigonometricJet
-public import BerryEsseen.Numerics.SquareRootJet
-public import BerryEsseen.Numerics.JetInputs
-public import BerryEsseen.Numerics.TaylorPanelSoundness
-public import BerryEsseen.GeometricDamping
-public import BerryEsseen.VectorCompression
-public import BerryEsseen.ParameterCaps
-public import BerryEsseen.PrawitzProbability
-public import BerryEsseen.GaussianInversion
-public import BerryEsseen.PrawitzFourier
-public import BerryEsseen.SmoothingAlgebra
-public import BerryEsseen.SmoothingSplit
-public import BerryEsseen.SmoothingMajorants
-public import BerryEsseen.ParameterCellBounds
-public import BerryEsseen.CotangentPolynomials
-public import BerryEsseen.Numerics.ScalarTables
-public import BerryEsseen.VectorSmoothingPanels
-public import BerryEsseen.PanelSums
-public import BerryEsseen.DecayWitnesses
-public import BerryEsseen.Numerics.GeometricWitness
-public import BerryEsseen.Numerics.TailCertificate
-public import BerryEsseen.Numerics.NormalCertificate
-public import BerryEsseen.Numerics.HighCertificate
-public import BerryEsseen.Numerics.CellCertificate
-public import BerryEsseen.Certificates.ScalarFullH.MomentBands
-public import BerryEsseen.Certificates.FiniteExpSeeds.Complete
-public import BerryEsseen.Certificates.FiniteTrigSeeds.Complete
-public import BerryEsseen.Certificates.FiniteDarbouxPanels.Complete
-public import BerryEsseen.Certificates.FiniteRadicandRefinements.Complete
-public import BerryEsseen.Certificates.FiniteScalarConstants.Complete
-public import BerryEsseen.Certificates.FiniteNormalPanels.Complete
-public import BerryEsseen.Certificates.FiniteNormalCells.Complete
-public import BerryEsseen.Certificates.FiniteTails.Complete
-public import BerryEsseen.Numerics.JetPanelRange
-public import BerryEsseen.Certificates.FiniteHighPanels.Panel0_2
-public import BerryEsseen.Certificates.FiniteHighPanels.Panel0_7
-public import BerryEsseen.Certificates.FiniteHighPanels.Panel166_1
-public import BerryEsseen.Certificates.FiniteHighPanels.Panel0_0
-public import BerryEsseen.Certificates.FiniteHighPanels.Panel0_1
-public import BerryEsseen.Certificates.FiniteHighPanels.Panel0_23
-public import BerryEsseen.Certificates.FiniteHighPanels.Panel173_30
-public import BerryEsseen.SmallFraction
-public import BerryEsseen.UniversalUpperBound
+public import BerryEsseen.Upper0423.Main
+
+/-!
+# Bounds on the universal iid Berry–Esseen constant
+
+* `BerryEsseen.berryEsseenConstant_lower_bound : 0.40 ≤ berryEsseenConstant`
+  (`LowerBound.lean`, standard axioms only);
+* `BerryEsseen.Upper0423.berryEsseenConstant_le_0423 : berryEsseenConstant ≤ 0.423`
+  (`Upper0423/Main.lean`, finite certificates checked with `native_decide`).
+-/

@@ -11,9 +11,10 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 360
     steps:
       - uses: actions/checkout@v4
-      - name: Make room for the certificate outputs
+      - name: Make room for the build outputs
         run: bash scripts/prepare_linux_ci.sh
       - uses: leanprover/lean-action@v1
         with:
@@ -24,5 +25,5 @@ jobs:
           path: .lake/build
           key: berry-proofs-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}
           restore-keys: berry-proofs-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
-      - name: Check certificates and supporting library
-        run: python3 scripts/build_certificates.py --batch-size 2
+      - name: Build the library, the 0.423 proof and the lower bound
+        run: lake build BerryEsseen Solution Challenge

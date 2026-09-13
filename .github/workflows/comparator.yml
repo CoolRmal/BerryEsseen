@@ -2,12 +2,6 @@ name: Final sandboxed comparator
 
 on:
   workflow_dispatch:
-    inputs:
-      proof-cache-tag:
-        description: Optional release tag with matching supporting Lean sources and dependencies
-        required: false
-        default: ""
-        type: string
 
 permissions:
   contents: read
@@ -18,7 +12,7 @@ jobs:
     timeout-minutes: 360
     steps:
       - uses: actions/checkout@v4
-      - name: Make room for the certificate outputs
+      - name: Make room for the build outputs
         run: bash scripts/prepare_linux_ci.sh
       - uses: leanprover/lean-action@v1
         with:
@@ -30,22 +24,11 @@ jobs:
           path: .lake/build
           key: berry-proofs-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}
           restore-keys: berry-proofs-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
-      - name: Restore optional compiled proof cache
-        if: inputs.proof-cache-tag != ''
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_REPO: ${{ github.repository }}
-          CACHE_TAG: ${{ inputs.proof-cache-tag }}
-        run: |
-          [[ "$CACHE_TAG" =~ ^proof-cache-[0-9a-f]{12}$ ]]
-          gh release download "$CACHE_TAG" --pattern 'proof-cache.part-*' --pattern proof-cache.json --dir "$RUNNER_TEMP/berry-proof-cache"
-          python3 scripts/proof_cache.py restore "$RUNNER_TEMP/berry-proof-cache"
-          rm -r "$RUNNER_TEMP/berry-proof-cache"
       - uses: actions/setup-go@v5
         with:
           go-version: stable
-      - name: Build supporting certificates in bounded batches
-        run: python3 scripts/build_certificates.py --batch-size 2
+      - name: Build the lower-bound solution and challenge
+        run: lake build Solution Challenge
       - name: Save checked project outputs
         if: steps.project-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v4

@@ -2,8 +2,7 @@
   "challenge_module": "Challenge",
   "solution_module": "Solution",
   "theorem_names": [
-    "berry_esseen_constant_lower_bound",
-    "berry_esseen_constant_upper_bound"
+    "berry_esseen_constant_lower_bound"
   ],
   "permitted_axioms": [
     "propext",

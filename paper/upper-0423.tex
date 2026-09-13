@@ -2154,9 +2154,9 @@ kernel-checked.
   Section~\ref{sec:notation}, with the axiom profile just described.
 \item We claim no independent verification. In particular, the repository's
   trusted-comparator configuration permits only the three standard axioms and
-  targets the \emph{separate} $0.4688$ theorem; we have not run any comparator on
-  the $0.423$ theorem, and a configuration allowing only the three standard
-  axioms would reject it.
+  targets the separate lower bound $0.40\le C_{\mathrm{BE}}$; we have not run any
+  comparator on the $0.423$ theorem, and a configuration allowing only the three
+  standard axioms would reject it.
 \item We claim no peer review of this document or of the development.
 \item We make no claim about the correctness of \cite{XiaoLi2026} or of
   \cite{IndependentBE2026}.
@@ -2190,10 +2190,9 @@ The development is built with
 \begin{leancode}
 lake build BerryEsseen.Upper0423.Main
 \end{leancode}
-The default library target does not import \file{Upper0423}, so the existing
-continuous integration and the comparator setup for the separate $0.4688$
-theorem are unaffected. A full build is expensive because it evaluates all $579$
-certificates.
+The default library target \file{BerryEsseen} imports it, so
+\texttt{lake build BerryEsseen} builds it as well. A full build is dominated by
+the evaluation of the $579$ certificates.
 
 The Lean data files are \emph{generated}, by the scripts in
 \file{scripts/upper\_0423/}:
@@ -2239,12 +2238,14 @@ bound $0.4690$ of \cite{Shevtsova2013}. We stress again that we neither use nor
 reprove any of the entries of that table, and that the present document is not
 peer reviewed.
 
-\paragraph{The separate $0.4688$ theorem.} The same repository contains an
-independent development of the weaker bound $C_{\mathrm{BE}}\le0.4688$ which
-avoids \Lean{native\_decide} altogether and is therefore checkable with only the
-three standard axioms; the trusted comparator configuration in
-\file{comparator/} targets that theorem. The $0.423$ development described here
-is disjoint from it: it neither imports nor modifies any of its modules.
+\paragraph{Relation to an earlier formalization.} The repository previously
+contained a formalization of the weaker bound $C_{\mathrm{BE}}\le0.4688$ that
+avoided \Lean{native\_decide}. That upper-bound proof has been removed; it remains
+available in the repository's Git history. The $0.423$ development reuses
+general-purpose modules originally written for it (the definitions, the Prawitz
+smoothing inequality and its integrability, kernel estimates, characteristic-function
+anchors and the Cantelli bound), which remain in the repository together with the
+formalized lower bound $0.40\le C_{\mathrm{BE}}$.
 
 \section*{Acknowledgements}
 
