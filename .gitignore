@@ -6,5 +6,3 @@ node_modules/
 *.olean
 *.ilean
 *.trace
-comparator/tools/
-comparator/results/

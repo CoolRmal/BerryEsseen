@@ -23,8 +23,7 @@ theorem berry_esseen_constant_lower_bound :
   `Quot.sound`. The explicit Bernoulli witness is explained in
   [the short proof](docs/LOWER_BOUND.md). A separate
   [mathematical proof of Esseen's stronger lower bound](docs/ESSEEN_LOWER_BOUND.md) is
-  included; that asymptotic argument is not formalized. The sandboxed comparator run for
-  this theorem is pending.
+  included; that asymptotic argument is not formalized.
 
 The `0.423` proof builds on the analytic framework of Xiao and Li's `0.4395` development
 ([haonan-xiao/iid-berry-esseen](https://github.com/haonan-xiao/iid-berry-esseen)); see the
@@ -57,12 +56,3 @@ lake build BerryEsseen Solution Challenge
 The default target imports both theorems. Most of the build time, well under an hour on a
 ten-core machine, is spent evaluating the `native_decide` certificates of the `0.423` proof.
 The generator scripts for those certificates are in `scripts/upper_0423/`.
-
-## Comparator
-
-The lower bound targets [leanprover/comparator](https://github.com/leanprover/comparator),
-pinned at `2312244ac716564a61cc0bf4e107d9abf1757a61`, with the configuration in
-`comparator/config.json`. Its axiom whitelist is exactly `propext`, `Quot.sound` and
-`Classical.choice`, so the `native_decide`-based `0.423` theorem is not a comparator target.
-See [the comparator instructions](comparator/README.md) for the pinned tools and the Linux
-workflow. A passing ordinary Lean build is not a comparator result.

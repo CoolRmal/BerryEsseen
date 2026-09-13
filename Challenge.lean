@@ -5,11 +5,11 @@ public import Mathlib.MeasureTheory.Measure.ProbabilityMeasure
 public import Mathlib.Probability.Distributions.Gaussian.Real
 
 /-!
-# Trusted comparator challenge: definitions and the lower bound
+# Self-contained statement: definitions and the lower bound
 
-The definitions are written out in this file for inspection. This challenge imports
-only mathlib, not the project's definition or proof modules. The two intentional
-proof hole below is the lower-bound challenge.
+The definitions are written out in this file for inspection. This file imports only
+mathlib, not the project's definition or proof modules. The proof hole below states the
+lower bound, which `Solution.lean` proves using the library.
 
 The constant is the supremum of the normalized Kolmogorov errors over all centered,
 variance-one probability laws with finite third absolute moment, all positive sample sizes,
